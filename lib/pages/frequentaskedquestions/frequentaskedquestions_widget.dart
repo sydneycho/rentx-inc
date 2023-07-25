@@ -192,7 +192,7 @@ class _FrequentaskedquestionsWidgetState
                                                   4.0, 0.0, 4.0, 0.0),
                                           child: Text(
                                             'Our mission is to provide a seamless and sustainable solution to the traditional car rental model. We strive to empower individuals to make the most of their vehicles by allowing them to share their cars with others in a secure and user-friendly environment',
-                                            textAlign: TextAlign.start,
+                                            textAlign: TextAlign.center,
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
@@ -201,6 +201,7 @@ class _FrequentaskedquestionsWidgetState
                                                           context)
                                                       .primaryBackground,
                                                   fontSize: 13.0,
+                                                  fontWeight: FontWeight.normal,
                                                 ),
                                           ),
                                         ),

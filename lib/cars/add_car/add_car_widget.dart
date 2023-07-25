@@ -8,6 +8,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/upload_data.dart';
+import 'package:aligned_tooltip/aligned_tooltip.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -95,30 +96,33 @@ class _AddCarWidgetState extends State<AddCarWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 16.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: MediaQuery.sizeOf(context).width * 0.9,
-                        height: MediaQuery.sizeOf(context).height * 0.3,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFDBE2E7),
-                          borderRadius: BorderRadius.circular(20.0),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20.0),
-                          child: Image.network(
-                            _model.uploadedFileUrl1,
-                            width: 300.0,
-                            height: 200.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ],
+                  padding:
+                      EdgeInsetsDirectional.fromSTEB(20.0, 16.0, 0.0, 16.0),
+                  child: Builder(
+                    builder: (context) {
+                      final carphotos = _model.uploadedFileUrls.toList();
+                      return Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children:
+                            List.generate(carphotos.length, (carphotosIndex) {
+                          final carphotosItem = carphotos[carphotosIndex];
+                          return Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                4.0, 4.0, 4.0, 4.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12.0),
+                              child: Image.network(
+                                carphotosItem,
+                                width: 350.0,
+                                height: 250.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        }),
+                      );
+                    },
                   ),
                 ),
                 Padding(
@@ -743,205 +747,121 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                         .asValidator(context),
                   ),
                 ),
-                Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 16.0),
-                  child: InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {
-                      final selectedMedia =
-                          await selectMediaWithSourceBottomSheet(
-                        context: context,
-                        allowPhoto: true,
-                        backgroundColor:
-                            FlutterFlowTheme.of(context).primaryBackground,
-                        textColor: FlutterFlowTheme.of(context).primaryText,
-                      );
-                      if (selectedMedia != null &&
-                          selectedMedia.every((m) =>
-                              validateFileFormat(m.storagePath, context))) {
-                        setState(() => _model.isDataUploading1 = true);
-                        var selectedUploadedFiles = <FFUploadedFile>[];
+                AlignedTooltip(
+                  content: Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 4.0),
+                      child: Text(
+                        'Upload atleast 6 photos of your car!',
+                        style: FlutterFlowTheme.of(context).bodyLarge,
+                      )),
+                  offset: 4.0,
+                  preferredDirection: AxisDirection.down,
+                  borderRadius: BorderRadius.circular(8.0),
+                  backgroundColor:
+                      FlutterFlowTheme.of(context).secondaryBackground,
+                  elevation: 4.0,
+                  tailBaseWidth: 24.0,
+                  tailLength: 12.0,
+                  waitDuration: Duration(milliseconds: 100),
+                  showDuration: Duration(milliseconds: 1500),
+                  triggerMode: TooltipTriggerMode.tap,
+                  child: Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 16.0),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        final selectedMedia = await selectMedia(
+                          mediaSource: MediaSource.photoGallery,
+                          multiImage: true,
+                        );
+                        if (selectedMedia != null &&
+                            selectedMedia.every((m) =>
+                                validateFileFormat(m.storagePath, context))) {
+                          setState(() => _model.isDataUploading = true);
+                          var selectedUploadedFiles = <FFUploadedFile>[];
 
-                        var downloadUrls = <String>[];
-                        try {
-                          showUploadMessage(
-                            context,
-                            'Uploading file',
-                            showLoading: true,
-                          );
-                          selectedUploadedFiles = selectedMedia
-                              .map((m) => FFUploadedFile(
-                                    name: m.storagePath.split('/').last,
-                                    bytes: m.bytes,
-                                    height: m.dimensions?.height,
-                                    width: m.dimensions?.width,
-                                    blurHash: m.blurHash,
-                                  ))
-                              .toList();
+                          var downloadUrls = <String>[];
+                          try {
+                            showUploadMessage(
+                              context,
+                              'Uploading file',
+                              showLoading: true,
+                            );
+                            selectedUploadedFiles = selectedMedia
+                                .map((m) => FFUploadedFile(
+                                      name: m.storagePath.split('/').last,
+                                      bytes: m.bytes,
+                                      height: m.dimensions?.height,
+                                      width: m.dimensions?.width,
+                                      blurHash: m.blurHash,
+                                    ))
+                                .toList();
 
-                          downloadUrls = (await Future.wait(
-                            selectedMedia.map(
-                              (m) async =>
-                                  await uploadData(m.storagePath, m.bytes),
-                            ),
-                          ))
-                              .where((u) => u != null)
-                              .map((u) => u!)
-                              .toList();
-                        } finally {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          _model.isDataUploading1 = false;
+                            downloadUrls = (await Future.wait(
+                              selectedMedia.map(
+                                (m) async =>
+                                    await uploadData(m.storagePath, m.bytes),
+                              ),
+                            ))
+                                .where((u) => u != null)
+                                .map((u) => u!)
+                                .toList();
+                          } finally {
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            _model.isDataUploading = false;
+                          }
+                          if (selectedUploadedFiles.length ==
+                                  selectedMedia.length &&
+                              downloadUrls.length == selectedMedia.length) {
+                            setState(() {
+                              _model.uploadedLocalFiles = selectedUploadedFiles;
+                              _model.uploadedFileUrls = downloadUrls;
+                            });
+                            showUploadMessage(context, 'File upload complete');
+                          } else {
+                            setState(() {});
+                            showUploadMessage(context, 'Failed to upload data');
+                            return;
+                          }
                         }
-                        if (selectedUploadedFiles.length ==
-                                selectedMedia.length &&
-                            downloadUrls.length == selectedMedia.length) {
-                          setState(() {
-                            _model.uploadedLocalFile1 =
-                                selectedUploadedFiles.first;
-                            _model.uploadedFileUrl1 = downloadUrls.first;
-                          });
-                          showUploadMessage(context, 'File upload complete');
-                        } else {
-                          setState(() {});
-                          showUploadMessage(context, 'Failed to upload data');
-                          return;
-                        }
-                      }
-                    },
-                    child: Container(
-                      width: MediaQuery.sizeOf(context).width * 0.9,
-                      height: MediaQuery.sizeOf(context).height * 0.06,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(12.0),
-                        border: Border.all(
-                          color: FlutterFlowTheme.of(context).accent3,
+                      },
+                      child: Container(
+                        width: MediaQuery.sizeOf(context).width * 0.9,
+                        height: MediaQuery.sizeOf(context).height * 0.06,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          borderRadius: BorderRadius.circular(12.0),
+                          border: Border.all(
+                            color: FlutterFlowTheme.of(context).accent3,
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'Front photo',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Open Sans',
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                ),
-                          ),
-                          Icon(
-                            Icons.cloud_upload_rounded,
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                            size: 24.0,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 16.0),
-                  child: InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {
-                      final selectedMedia =
-                          await selectMediaWithSourceBottomSheet(
-                        context: context,
-                        allowPhoto: true,
-                      );
-                      if (selectedMedia != null &&
-                          selectedMedia.every((m) =>
-                              validateFileFormat(m.storagePath, context))) {
-                        setState(() => _model.isDataUploading2 = true);
-                        var selectedUploadedFiles = <FFUploadedFile>[];
-
-                        var downloadUrls = <String>[];
-                        try {
-                          showUploadMessage(
-                            context,
-                            'Uploading file',
-                            showLoading: true,
-                          );
-                          selectedUploadedFiles = selectedMedia
-                              .map((m) => FFUploadedFile(
-                                    name: m.storagePath.split('/').last,
-                                    bytes: m.bytes,
-                                    height: m.dimensions?.height,
-                                    width: m.dimensions?.width,
-                                    blurHash: m.blurHash,
-                                  ))
-                              .toList();
-
-                          downloadUrls = (await Future.wait(
-                            selectedMedia.map(
-                              (m) async =>
-                                  await uploadData(m.storagePath, m.bytes),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              'Upload photos',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Open Sans',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                  ),
                             ),
-                          ))
-                              .where((u) => u != null)
-                              .map((u) => u!)
-                              .toList();
-                        } finally {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          _model.isDataUploading2 = false;
-                        }
-                        if (selectedUploadedFiles.length ==
-                                selectedMedia.length &&
-                            downloadUrls.length == selectedMedia.length) {
-                          setState(() {
-                            _model.uploadedLocalFile2 =
-                                selectedUploadedFiles.first;
-                            _model.uploadedFileUrl2 = downloadUrls.first;
-                          });
-                          showUploadMessage(context, 'File upload complete');
-                        } else {
-                          setState(() {});
-                          showUploadMessage(context, 'Failed to upload data');
-                          return;
-                        }
-                      }
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: MediaQuery.sizeOf(context).height * 0.06,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(12.0),
-                        border: Border.all(
-                          color: FlutterFlowTheme.of(context).accent3,
+                            Icon(
+                              Icons.cloud_upload_rounded,
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              size: 24.0,
+                            ),
+                          ],
                         ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'Backphoto',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Open Sans',
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                ),
-                          ),
-                          Icon(
-                            Icons.cloud_upload_rounded,
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                            size: 24.0,
-                          ),
-                        ],
                       ),
                     ),
                   ),
@@ -953,39 +873,37 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 34.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        await CarRecord.collection
-                            .doc()
-                            .set(createCarRecordData(
-                              availabilityStatus: 'available',
-                              bookingStatus: 'not booked',
-                              carBack: _model.uploadedFileUrl1,
-                              carFront: _model.uploadedFileUrl2,
-                              carName: _model.carNameController.text,
-                              carStatus: 'pending',
-                              costPerDay: double.tryParse(
-                                  _model.costperdayController.text),
-                              description: _model.descriptionController.text,
-                              fuelType: _model.fueltypeValue,
-                              listingStatus: 'latest',
-                              location: _model.addressController.text,
-                              transmissionType: _model.transmissionValue,
-                              vendorEmail: currentUserEmail,
-                              vendorName:
-                                  '${valueOrDefault(currentUserDocument?.firstName, '')}  ${valueOrDefault(currentUserDocument?.lastName, '')}',
-                              vendorPhoto: currentUserPhoto,
-                              plateNumber: _model.numberController.text,
-                              carColor: colorFromCssString(
-                                _model.colorController.text,
-                                defaultColor: Colors.black,
-                              ),
-                              district: _model.districtsValue,
-                              brandName: _model.lastNameController.text,
-                              profilePhoto: _model.uploadedFileUrl1,
-                              uid: currentUserReference,
-                              vendorPhoneNumber: currentPhoneNumber,
-                              vendorDescription:
-                                  valueOrDefault(currentUserDocument?.bio, ''),
-                            ));
+                        await CarRecord.collection.doc().set({
+                          ...createCarRecordData(
+                            availabilityStatus: 'available',
+                            bookingStatus: 'not booked',
+                            carName: _model.carNameController.text,
+                            carStatus: 'pending',
+                            costPerDay: double.tryParse(
+                                _model.costperdayController.text),
+                            description: _model.descriptionController.text,
+                            fuelType: _model.fueltypeValue,
+                            listingStatus: 'latest',
+                            location: _model.addressController.text,
+                            transmissionType: _model.transmissionValue,
+                            vendorEmail: currentUserEmail,
+                            vendorName:
+                                '${valueOrDefault(currentUserDocument?.firstName, '')}  ${valueOrDefault(currentUserDocument?.lastName, '')}',
+                            vendorPhoto: currentUserPhoto,
+                            plateNumber: _model.numberController.text,
+                            carColor: colorFromCssString(
+                              _model.colorController.text,
+                              defaultColor: Colors.black,
+                            ),
+                            district: _model.districtsValue,
+                            brandName: _model.lastNameController.text,
+                            uid: currentUserReference,
+                            vendorPhoneNumber: currentPhoneNumber,
+                            vendorDescription:
+                                valueOrDefault(currentUserDocument?.bio, ''),
+                          ),
+                          'car_photos': [_model.uploadedFileUrls],
+                        });
                         await showDialog(
                           context: context,
                           builder: (alertDialogContext) {

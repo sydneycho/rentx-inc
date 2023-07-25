@@ -153,6 +153,11 @@ class CarRecord extends FirestoreRecord {
   String get vendorDescription => _vendorDescription ?? '';
   bool hasVendorDescription() => _vendorDescription != null;
 
+  // "car_photos" field.
+  List<String>? _carPhotos;
+  List<String> get carPhotos => _carPhotos ?? const [];
+  bool hasCarPhotos() => _carPhotos != null;
+
   void _initializeFields() {
     _availabilityStatus = snapshotData['availability_status'] as String?;
     _carBack = snapshotData['car_back'] as String?;
@@ -181,6 +186,7 @@ class CarRecord extends FirestoreRecord {
     _enddate = snapshotData['enddate'] as DateTime?;
     _numberofdays = castToType<int>(snapshotData['numberofdays']);
     _vendorDescription = snapshotData['vendor_description'] as String?;
+    _carPhotos = getDataList(snapshotData['car_photos']);
   }
 
   static CollectionReference get collection =>
@@ -239,6 +245,9 @@ class CarRecord extends FirestoreRecord {
           ),
           'numberofdays': snapshot.data['numberofdays']?.round(),
           'vendor_description': snapshot.data['vendor_description'],
+          'car_photos': safeGet(
+            () => snapshot.data['car_photos'].toList(),
+          ),
         },
         CarRecord.collection.doc(snapshot.objectID),
       );
@@ -343,6 +352,7 @@ class CarRecordDocumentEquality implements Equality<CarRecord> {
 
   @override
   bool equals(CarRecord? e1, CarRecord? e2) {
+    const listEquality = ListEquality();
     return e1?.availabilityStatus == e2?.availabilityStatus &&
         e1?.carBack == e2?.carBack &&
         e1?.carFront == e2?.carFront &&
@@ -369,7 +379,8 @@ class CarRecordDocumentEquality implements Equality<CarRecord> {
         e1?.vendorPhoneNumber == e2?.vendorPhoneNumber &&
         e1?.enddate == e2?.enddate &&
         e1?.numberofdays == e2?.numberofdays &&
-        e1?.vendorDescription == e2?.vendorDescription;
+        e1?.vendorDescription == e2?.vendorDescription &&
+        listEquality.equals(e1?.carPhotos, e2?.carPhotos);
   }
 
   @override
@@ -400,7 +411,8 @@ class CarRecordDocumentEquality implements Equality<CarRecord> {
         e?.vendorPhoneNumber,
         e?.enddate,
         e?.numberofdays,
-        e?.vendorDescription
+        e?.vendorDescription,
+        e?.carPhotos
       ]);
 
   @override

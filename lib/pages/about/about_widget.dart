@@ -153,6 +153,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
                                               fontSize: 13.0,
+                                              fontWeight: FontWeight.normal,
                                             ),
                                       ),
                                     ),

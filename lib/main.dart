@@ -140,8 +140,8 @@ class _NavBarPageState extends State<NavBarPage> {
       'Home': HomeWidget(),
       'Favorite': FavoriteWidget(),
       'Wallet': WalletWidget(),
-      'Profile': ProfileWidget(),
       'AllChatsPage': AllChatsPageWidget(),
+      'Profile': ProfileWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -189,14 +189,6 @@ class _NavBarPageState extends State<NavBarPage> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.solidUser,
-              size: 20.0,
-            ),
-            label: 'Profile',
-            tooltip: '',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(
               Icons.chat_bubble_outline,
               size: 24.0,
@@ -205,7 +197,15 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.chat_bubble_rounded,
               size: 24.0,
             ),
-            label: '',
+            label: 'chat',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(
+              FontAwesomeIcons.solidUser,
+              size: 20.0,
+            ),
+            label: 'Profile',
             tooltip: '',
           )
         ],

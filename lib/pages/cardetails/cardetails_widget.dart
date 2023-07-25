@@ -8,6 +8,7 @@ import '/components/vendor/vendor_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
@@ -232,20 +233,41 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Flexible(
-                          child: Image.network(
-                            cardetailsCarRecord.profilePhoto,
-                            width: MediaQuery.sizeOf(context).width * 1.0,
-                            height: MediaQuery.sizeOf(context).height * 0.4,
-                            fit: BoxFit.cover,
+                    Builder(
+                      builder: (context) {
+                        final carphotos =
+                            cardetailsCarRecord.carPhotos.toList();
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: List.generate(carphotos.length,
+                                (carphotosIndex) {
+                              final carphotosItem = carphotos[carphotosIndex];
+                              return Flexible(
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      4.0, 4.0, 4.0, 4.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    child: Image.network(
+                                      carphotosItem,
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.98,
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              0.4,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
                           ),
-                        ),
-                      ],
-                    ).animateOnPageLoad(
-                        animationsMap['rowOnPageLoadAnimation1']!),
+                        ).animateOnPageLoad(
+                            animationsMap['rowOnPageLoadAnimation1']!);
+                      },
+                    ),
                     Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
@@ -282,12 +304,11 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                             fontSize: 18.0,
                                           ),
                                     ),
-                                    InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () async {
+                                    ToggleIcon(
+                                      onPressed: () async {
+                                        setState(() =>
+                                            FFAppState().favoriteswitch =
+                                                !FFAppState().favoriteswitch);
                                         setState(() {
                                           FFAppState().addToFavorite(
                                               widget.productref!);
@@ -331,10 +352,17 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                           ),
                                         );
                                       },
-                                      child: Icon(
-                                        Icons.favorite_border,
+                                      value: FFAppState().favoriteswitch,
+                                      onIcon: Icon(
+                                        Icons.favorite_sharp,
                                         color: FlutterFlowTheme.of(context)
                                             .primary,
+                                        size: 24.0,
+                                      ),
+                                      offIcon: Icon(
+                                        Icons.favorite_border,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
                                         size: 24.0,
                                       ),
                                     ),

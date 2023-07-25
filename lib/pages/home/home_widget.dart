@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/permissions_util.dart';
@@ -2068,7 +2069,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   0.0, 0.0, 0.0, 4.0),
                               child: Container(
                                 width: double.infinity,
-                                height: 270.0,
+                                height: 350.0,
                                 decoration: BoxDecoration(),
                                 child: StreamBuilder<List<CarRecord>>(
                                   stream: FFAppState().cars(
@@ -2132,8 +2133,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               );
                                             },
                                             child: Container(
-                                              width: 300.0,
-                                              height: 100.0,
+                                              width: 350.0,
+                                              height: 150.0,
                                               decoration: BoxDecoration(
                                                 color:
                                                     FlutterFlowTheme.of(context)
@@ -2192,29 +2193,28 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                   MainAxisAlignment
                                                                       .end,
                                                               children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
+                                                                Card(
+                                                                  clipBehavior:
+                                                                      Clip.antiAliasWithSaveLayer,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryBackground,
+                                                                  elevation:
+                                                                      4.0,
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            8.0),
+                                                                  ),
                                                                   child:
-                                                                      InkWell(
-                                                                    splashColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    focusColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    hoverColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    highlightColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    onTap:
+                                                                      ToggleIcon(
+                                                                    onPressed:
                                                                         () async {
+                                                                      setState(() => FFAppState()
+                                                                              .favoriteswitch =
+                                                                          !FFAppState()
+                                                                              .favoriteswitch);
                                                                       setState(
                                                                           () {
                                                                         FFAppState()
@@ -2247,20 +2247,22 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                         SnackBar(
                                                                           content:
                                                                               Text(
-                                                                            'Your car is added to favorite list',
+                                                                            'Car added to the favorite list',
                                                                             style:
                                                                                 TextStyle(
-                                                                              color: FlutterFlowTheme.of(context).primaryText,
+                                                                              color: FlutterFlowTheme.of(context).secondaryText,
                                                                             ),
                                                                           ),
                                                                           duration:
                                                                               Duration(milliseconds: 4000),
                                                                           backgroundColor:
-                                                                              FlutterFlowTheme.of(context).secondary,
+                                                                              FlutterFlowTheme.of(context).primaryBackground,
                                                                           action:
                                                                               SnackBarAction(
                                                                             label:
-                                                                                'Check it ',
+                                                                                'Check',
+                                                                            textColor:
+                                                                                FlutterFlowTheme.of(context).primaryText,
                                                                             onPressed:
                                                                                 () async {
                                                                               context.pushNamed('Favorite');
@@ -2269,47 +2271,27 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                         ),
                                                                       );
                                                                     },
-                                                                    child:
-                                                                        Container(
-                                                                      width:
-                                                                          30.0,
-                                                                      height:
-                                                                          30.0,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .accent4,
-                                                                        shape: BoxShape
-                                                                            .circle,
-                                                                        border:
-                                                                            Border.all(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).alternate,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                      ),
-                                                                      alignment:
-                                                                          AlignmentDirectional(
-                                                                              0.0,
-                                                                              0.0),
-                                                                      child:
-                                                                          Padding(
-                                                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                                                            2.0,
-                                                                            2.0,
-                                                                            2.0,
-                                                                            2.0),
-                                                                        child:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .favorite_border,
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primaryText,
-                                                                          size:
-                                                                              20.0,
-                                                                        ),
-                                                                      ),
+                                                                    value: FFAppState()
+                                                                        .favoriteswitch,
+                                                                    onIcon:
+                                                                        Icon(
+                                                                      Icons
+                                                                          .favorite_sharp,
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary,
+                                                                      size:
+                                                                          24.0,
+                                                                    ),
+                                                                    offIcon:
+                                                                        Icon(
+                                                                      Icons
+                                                                          .favorite_border,
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .secondaryText,
+                                                                      size:
+                                                                          24.0,
                                                                     ),
                                                                   ),
                                                                 ),
@@ -2519,8 +2501,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                         wrapIndex];
                                                 return Padding(
                                                   padding: EdgeInsetsDirectional
-                                                      .fromSTEB(16.0, 10.0,
-                                                          16.0, 10.0),
+                                                      .fromSTEB(14.0, 10.0, 0.0,
+                                                          10.0),
                                                   child: InkWell(
                                                     splashColor:
                                                         Colors.transparent,
@@ -2548,8 +2530,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                       width: MediaQuery.sizeOf(
                                                                   context)
                                                               .width *
-                                                          0.45,
-                                                      height: 250.0,
+                                                          0.48,
+                                                      height: 350.0,
                                                       decoration: BoxDecoration(
                                                         color: FlutterFlowTheme
                                                                 .of(context)
