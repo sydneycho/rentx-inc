@@ -163,6 +163,7 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                                                           context)
                                                       .primaryBackground,
                                                   fontSize: 13.0,
+                                                  fontWeight: FontWeight.normal,
                                                 ),
                                           ),
                                         ),

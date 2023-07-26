@@ -117,7 +117,7 @@ class _EditcarWidgetState extends State<EditcarWidget> {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(25.0, 16.0, 0.0, 16.0),
+                          EdgeInsetsDirectional.fromSTEB(4.0, 16.0, 4.0, 16.0),
                       child: Builder(
                         builder: (context) {
                           final carphotos = _model.uploadedFileUrls.toList();
@@ -127,17 +127,13 @@ class _EditcarWidgetState extends State<EditcarWidget> {
                             children: List.generate(carphotos.length,
                                 (carphotosIndex) {
                               final carphotosItem = carphotos[carphotosIndex];
-                              return Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    4.0, 4.0, 4.0, 4.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  child: Image.network(
-                                    carphotosItem,
-                                    width: 350.0,
-                                    height: 250.0,
-                                    fit: BoxFit.cover,
-                                  ),
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(20.0),
+                                child: Image.network(
+                                  carphotosItem,
+                                  width: 350.0,
+                                  height: 250.0,
+                                  fit: BoxFit.cover,
                                 ),
                               );
                             }),
@@ -167,7 +163,7 @@ class _EditcarWidgetState extends State<EditcarWidget> {
                               ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).accent4,
+                              color: FlutterFlowTheme.of(context).accent3,
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
@@ -231,7 +227,7 @@ class _EditcarWidgetState extends State<EditcarWidget> {
                               ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).accent4,
+                              color: FlutterFlowTheme.of(context).accent3,
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
@@ -299,7 +295,7 @@ class _EditcarWidgetState extends State<EditcarWidget> {
                                   ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).accent4,
+                              color: FlutterFlowTheme.of(context).accent3,
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
@@ -362,29 +358,29 @@ class _EditcarWidgetState extends State<EditcarWidget> {
                               ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).accent4,
-                              width: 2.0,
+                              color: FlutterFlowTheme.of(context).accent3,
+                              width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: FlutterFlowTheme.of(context).accent3,
-                              width: 2.0,
+                              width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: FlutterFlowTheme.of(context).error,
-                              width: 2.0,
+                              width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: FlutterFlowTheme.of(context).error,
-                              width: 2.0,
+                              width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
@@ -422,7 +418,7 @@ class _EditcarWidgetState extends State<EditcarWidget> {
                               ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).accent4,
+                              color: FlutterFlowTheme.of(context).accent3,
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
@@ -479,7 +475,7 @@ class _EditcarWidgetState extends State<EditcarWidget> {
                               ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).accent4,
+                              color: FlutterFlowTheme.of(context).accent3,
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
@@ -825,6 +821,71 @@ class _EditcarWidgetState extends State<EditcarWidget> {
                         minLines: 3,
                         validator: _model.descriptionControllerValidator
                             .asValidator(context),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 12.0),
+                      child: TextFormField(
+                        controller: _model.noteController ??=
+                            TextEditingController(
+                          text: editcarCarRecord.note,
+                        ),
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          labelText: 'Note',
+                          labelStyle: FlutterFlowTheme.of(context).bodySmall,
+                          hintText: 'Describe your car....',
+                          hintStyle:
+                              FlutterFlowTheme.of(context).bodySmall.override(
+                                    fontFamily: 'Open Sans',
+                                    color: FlutterFlowTheme.of(context).accent3,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: FlutterFlowTheme.of(context).accent3,
+                              width: 2.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: FlutterFlowTheme.of(context).accent3,
+                              width: 2.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: FlutterFlowTheme.of(context).error,
+                              width: 2.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: FlutterFlowTheme.of(context).error,
+                              width: 2.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          filled: true,
+                          fillColor:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          contentPadding: EdgeInsetsDirectional.fromSTEB(
+                              20.0, 24.0, 0.0, 24.0),
+                        ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Open Sans',
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              fontWeight: FontWeight.normal,
+                            ),
+                        textAlign: TextAlign.start,
+                        maxLines: 10,
+                        minLines: 3,
+                        validator:
+                            _model.noteControllerValidator.asValidator(context),
                       ),
                     ),
                     Padding(

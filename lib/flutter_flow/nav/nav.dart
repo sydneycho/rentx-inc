@@ -275,6 +275,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => params.isEmpty
                   ? NavBarPage(initialPage: 'AllChatsPage')
                   : AllChatsPageWidget(),
+            ),
+            FFRoute(
+              name: 'search',
+              path: 'search',
+              requireAuth: true,
+              builder: (context, params) => SearchWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),

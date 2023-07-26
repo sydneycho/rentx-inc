@@ -194,7 +194,7 @@ class _HostWidgetState extends State<HostWidget> {
                                     FlutterFlowTheme.of(context).secondaryText,
                                 size: 24.0,
                               ),
-                              if (_model.isDataUploading1)
+                              if (!_model.isDataUploading1)
                                 Icon(
                                   Icons.verified_outlined,
                                   color: FlutterFlowTheme.of(context).success,
@@ -305,7 +305,7 @@ class _HostWidgetState extends State<HostWidget> {
                                     FlutterFlowTheme.of(context).secondaryText,
                                 size: 24.0,
                               ),
-                              if (_model.isDataUploading2)
+                              if (!_model.isDataUploading2)
                                 Icon(
                                   Icons.verified_outlined,
                                   color: FlutterFlowTheme.of(context).success,
@@ -416,7 +416,7 @@ class _HostWidgetState extends State<HostWidget> {
                                     FlutterFlowTheme.of(context).secondaryText,
                                 size: 24.0,
                               ),
-                              if (_model.isDataUploading3)
+                              if (!_model.isDataUploading3)
                                 Icon(
                                   Icons.verified_outlined,
                                   color: FlutterFlowTheme.of(context).success,
@@ -527,7 +527,7 @@ class _HostWidgetState extends State<HostWidget> {
                                     FlutterFlowTheme.of(context).secondaryText,
                                 size: 24.0,
                               ),
-                              if (_model.isDataUploading4)
+                              if (!_model.isDataUploading4)
                                 Icon(
                                   Icons.verified_outlined,
                                   color: FlutterFlowTheme.of(context).success,

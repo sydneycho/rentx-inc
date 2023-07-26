@@ -160,9 +160,9 @@ class _SignupWidgetState extends State<SignupWidget>
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              16.0, 16.0, 16.0, 16.0),
+                              0.0, 16.0, 0.0, 16.0),
                           child: Container(
-                            width: double.infinity,
+                            width: MediaQuery.sizeOf(context).width * 0.9,
                             constraints: BoxConstraints(
                               maxWidth: 570.0,
                             ),
@@ -243,7 +243,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                               borderSide: BorderSide(
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .primary,
+                                                        .accent3,
                                                 width: 2.0,
                                               ),
                                               borderRadius:
@@ -253,7 +253,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                               borderSide: BorderSide(
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .alternate,
+                                                        .error,
                                                 width: 2.0,
                                               ),
                                               borderRadius:
@@ -264,7 +264,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                               borderSide: BorderSide(
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .alternate,
+                                                        .error,
                                                 width: 2.0,
                                               ),
                                               borderRadius:
@@ -317,7 +317,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                               borderSide: BorderSide(
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .primary,
+                                                        .accent3,
                                                 width: 2.0,
                                               ),
                                               borderRadius:
@@ -409,7 +409,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                               borderSide: BorderSide(
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .primary,
+                                                        .accent3,
                                                 width: 2.0,
                                               ),
                                               borderRadius:
@@ -679,7 +679,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                     // You will have to add an action on this rich text to go to your login page.
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 12.0, 0.0, 12.0),
+                                          12.0, 12.0, 12.0, 12.0),
                                       child: InkWell(
                                         splashColor: Colors.transparent,
                                         focusColor: Colors.transparent,
@@ -697,7 +697,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                                 style: TextStyle(),
                                               ),
                                               TextSpan(
-                                                text: 'Sign in  here',
+                                                text: 'Sign in  ',
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodyMedium

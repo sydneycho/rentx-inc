@@ -153,12 +153,18 @@ class _NotificationdetailWidgetState extends State<NotificationdetailWidget>
                           ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
-                                16.0, 16.0, 16.0, 0.0),
+                                16.0, 16.0, 16.0, 16.0),
                             child: Text(
                               notificationdetailNotificationRecord
                                   .notificationMessage,
                               textAlign: TextAlign.start,
-                              style: FlutterFlowTheme.of(context).labelMedium,
+                              style: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .override(
+                                    fontFamily: 'Open Sans',
+                                    fontSize: 13.0,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                             ).animateOnPageLoad(
                                 animationsMap['textOnPageLoadAnimation']!),
                           ),

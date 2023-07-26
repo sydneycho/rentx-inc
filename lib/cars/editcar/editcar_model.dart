@@ -147,6 +147,9 @@ class EditcarModel extends FlutterFlowModel {
     return null;
   }
 
+  // State field(s) for Note widget.
+  TextEditingController? noteController;
+  String? Function(BuildContext, String?)? noteControllerValidator;
   DateTime? datePicked;
   bool isDataUploading = false;
   List<FFUploadedFile> uploadedLocalFiles = [];
@@ -172,6 +175,7 @@ class EditcarModel extends FlutterFlowModel {
     colorController?.dispose();
     addressController?.dispose();
     descriptionController?.dispose();
+    noteController?.dispose();
   }
 
   /// Action blocks are added here.

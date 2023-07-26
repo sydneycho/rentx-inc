@@ -158,6 +158,11 @@ class CarRecord extends FirestoreRecord {
   List<String> get carPhotos => _carPhotos ?? const [];
   bool hasCarPhotos() => _carPhotos != null;
 
+  // "note" field.
+  String? _note;
+  String get note => _note ?? '';
+  bool hasNote() => _note != null;
+
   void _initializeFields() {
     _availabilityStatus = snapshotData['availability_status'] as String?;
     _carBack = snapshotData['car_back'] as String?;
@@ -187,6 +192,7 @@ class CarRecord extends FirestoreRecord {
     _numberofdays = castToType<int>(snapshotData['numberofdays']);
     _vendorDescription = snapshotData['vendor_description'] as String?;
     _carPhotos = getDataList(snapshotData['car_photos']);
+    _note = snapshotData['note'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -248,6 +254,7 @@ class CarRecord extends FirestoreRecord {
           'car_photos': safeGet(
             () => snapshot.data['car_photos'].toList(),
           ),
+          'note': snapshot.data['note'],
         },
         CarRecord.collection.doc(snapshot.objectID),
       );
@@ -311,6 +318,7 @@ Map<String, dynamic> createCarRecordData({
   DateTime? enddate,
   int? numberofdays,
   String? vendorDescription,
+  String? note,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -341,6 +349,7 @@ Map<String, dynamic> createCarRecordData({
       'enddate': enddate,
       'numberofdays': numberofdays,
       'vendor_description': vendorDescription,
+      'note': note,
     }.withoutNulls,
   );
 
@@ -380,7 +389,8 @@ class CarRecordDocumentEquality implements Equality<CarRecord> {
         e1?.enddate == e2?.enddate &&
         e1?.numberofdays == e2?.numberofdays &&
         e1?.vendorDescription == e2?.vendorDescription &&
-        listEquality.equals(e1?.carPhotos, e2?.carPhotos);
+        listEquality.equals(e1?.carPhotos, e2?.carPhotos) &&
+        e1?.note == e2?.note;
   }
 
   @override
@@ -412,7 +422,8 @@ class CarRecordDocumentEquality implements Equality<CarRecord> {
         e?.enddate,
         e?.numberofdays,
         e?.vendorDescription,
-        e?.carPhotos
+        e?.carPhotos,
+        e?.note
       ]);
 
   @override

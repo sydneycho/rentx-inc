@@ -2,7 +2,6 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/empty/empty_widget.dart';
 import '/components/notification/notification_widget.dart';
-import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -20,7 +19,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
-import 'package:text_search/text_search.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'home_model.dart';
 export 'home_model.dart';
@@ -76,11 +74,6 @@ class _HomeWidgetState extends State<HomeWidget> {
         }
       }
     });
-
-    _model.searchController ??= TextEditingController();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-          _model.searchController?.text = '.';
-        }));
   }
 
   @override
@@ -794,83 +787,93 @@ class _HomeWidgetState extends State<HomeWidget> {
               actions: [
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 20.0, 0.0),
-                  child: FutureBuilder<int>(
-                    future: queryNotificationRecordCount(
-                      queryBuilder: (notificationRecord) => notificationRecord
-                          .where('notification_status', isEqualTo: 'new'),
-                    ),
-                    builder: (context, snapshot) {
-                      // Customize what your widget looks like when it's loading.
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: SizedBox(
-                            width: 100.0,
-                            height: 100.0,
-                            child: SpinKitDualRing(
-                              color: FlutterFlowTheme.of(context).primary,
-                              size: 100.0,
+                  child: AuthUserStreamWidget(
+                    builder: (context) => FutureBuilder<int>(
+                      future: _model.notification(
+                        requestFn: () => queryNotificationRecordCount(
+                          queryBuilder: (notificationRecord) =>
+                              notificationRecord
+                                  .where('notification_status',
+                                      isEqualTo: 'new')
+                                  .where('created_at',
+                                      isLessThanOrEqualTo:
+                                          currentUserDocument?.time),
+                        ),
+                      ),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 10.0,
+                              height: 10.0,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                        int badgeCount = snapshot.data!;
+                        return InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            await showModalBottomSheet(
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              enableDrag: false,
+                              context: context,
+                              builder: (context) {
+                                return GestureDetector(
+                                  onTap: () => FocusScope.of(context)
+                                      .requestFocus(_model.unfocusNode),
+                                  child: Padding(
+                                    padding: MediaQuery.viewInsetsOf(context),
+                                    child: NotificationWidget(),
+                                  ),
+                                );
+                              },
+                            ).then((value) => setState(() {}));
+                          },
+                          child: badges.Badge(
+                            badgeContent: Text(
+                              '${formatNumber(
+                                badgeCount,
+                                formatType: FormatType.custom,
+                                format: '00',
+                                locale: '',
+                              )}',
+                              style: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    fontFamily: 'Open Sans',
+                                    color: Colors.white,
+                                    fontSize: 10.0,
+                                  ),
+                            ),
+                            showBadge: true,
+                            shape: badges.BadgeShape.circle,
+                            badgeColor: FlutterFlowTheme.of(context).secondary,
+                            elevation: 4.0,
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                6.0, 6.0, 6.0, 6.0),
+                            position: badges.BadgePosition.topStart(),
+                            animationType: badges.BadgeAnimationType.scale,
+                            toAnimate: true,
+                            child: Icon(
+                              Icons.notifications_active,
+                              color: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              size: 24.0,
                             ),
                           ),
                         );
-                      }
-                      int badgeCount = snapshot.data!;
-                      return InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          await showModalBottomSheet(
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            enableDrag: false,
-                            context: context,
-                            builder: (context) {
-                              return GestureDetector(
-                                onTap: () => FocusScope.of(context)
-                                    .requestFocus(_model.unfocusNode),
-                                child: Padding(
-                                  padding: MediaQuery.viewInsetsOf(context),
-                                  child: NotificationWidget(),
-                                ),
-                              );
-                            },
-                          ).then((value) => setState(() {}));
-                        },
-                        child: badges.Badge(
-                          badgeContent: Text(
-                            '${formatNumber(
-                              badgeCount,
-                              formatType: FormatType.custom,
-                              format: '00',
-                              locale: '',
-                            )}',
-                            style: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                                  fontFamily: 'Open Sans',
-                                  color: Colors.white,
-                                  fontSize: 10.0,
-                                ),
-                          ),
-                          showBadge: true,
-                          shape: badges.BadgeShape.circle,
-                          badgeColor: FlutterFlowTheme.of(context).secondary,
-                          elevation: 4.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              6.0, 6.0, 6.0, 6.0),
-                          position: badges.BadgePosition.topStart(),
-                          animationType: badges.BadgeAnimationType.scale,
-                          toAnimate: true,
-                          child: Icon(
-                            Icons.notifications_active,
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            size: 24.0,
-                          ),
-                        ),
-                      );
-                    },
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -934,6 +937,37 @@ class _HomeWidgetState extends State<HomeWidget> {
                               ),
                             ),
                           ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                8.0, 8.0, 8.0, 8.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Stack(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          4.0, 0.0, 4.0, 0.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          context.pushNamed('search');
+                                        },
+                                        child: Icon(
+                                          Icons.search_rounded,
+                                          color: Color(0xFFACB9C4),
+                                          size: 24.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -942,782 +976,14 @@ class _HomeWidgetState extends State<HomeWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
                       child: StickyHeader(
                         overlapHeaders: false,
-                        header: Container(
-                          width: MediaQuery.sizeOf(context).width * 1.0,
-                          height: 100.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                8.0, 8.0, 8.0, 8.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 8.0, 0.0),
-                                    child: Autocomplete<String>(
-                                      initialValue: TextEditingValue(text: '.'),
-                                      optionsBuilder: (textEditingValue) {
-                                        if (textEditingValue.text == '') {
-                                          return const Iterable<String>.empty();
-                                        }
-                                        return homeCarRecordList
-                                            .map((e) => e.carName)
-                                            .toList()
-                                            .where((option) {
-                                          final lowercaseOption =
-                                              option.toLowerCase();
-                                          return lowercaseOption.contains(
-                                              textEditingValue.text
-                                                  .toLowerCase());
-                                        });
-                                      },
-                                      optionsViewBuilder:
-                                          (context, onSelected, options) {
-                                        return AutocompleteOptionsList(
-                                          textFieldKey: _model.searchKey,
-                                          textController:
-                                              _model.searchController!,
-                                          options: options.toList(),
-                                          onSelected: onSelected,
-                                          textStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium,
-                                          textHighlightStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .override(
-                                                    fontFamily: 'Open Sans',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                  ),
-                                          elevation: 4.0,
-                                          optionBackgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryBackground,
-                                          optionHighlightColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                          maxHeight: 200.0,
-                                        );
-                                      },
-                                      onSelected: (String selection) {
-                                        setState(() => _model
-                                            .searchSelectedOption = selection);
-                                        FocusScope.of(context).unfocus();
-                                      },
-                                      fieldViewBuilder: (
-                                        context,
-                                        textEditingController,
-                                        focusNode,
-                                        onEditingComplete,
-                                      ) {
-                                        _model.searchController =
-                                            textEditingController;
-                                        return TextFormField(
-                                          key: _model.searchKey,
-                                          controller: textEditingController,
-                                          focusNode: focusNode,
-                                          onEditingComplete: onEditingComplete,
-                                          textCapitalization:
-                                              TextCapitalization.none,
-                                          obscureText: false,
-                                          decoration: InputDecoration(
-                                            labelText: 'Search',
-                                            labelStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .override(
-                                                      fontFamily: 'Open Sans',
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .accent2,
-                                                      letterSpacing: 2.0,
-                                                    ),
-                                            hintText: 'Search here...',
-                                            hintStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium,
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent3,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent3,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
-                                            errorBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent3,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
-                                            focusedErrorBorder:
-                                                OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent3,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
-                                            contentPadding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    12.0, 0.0, 0.0, 0.0),
-                                            prefixIcon: Icon(
-                                              Icons.directions_car,
-                                              size: 18.0,
-                                            ),
-                                          ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelMedium
-                                              .override(
-                                                fontFamily: 'Open Sans',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryText,
-                                              ),
-                                          maxLines: 3,
-                                          minLines: 1,
-                                          validator: _model
-                                              .searchControllerValidator
-                                              .asValidator(context),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Stack(
-                                  children: [
-                                    if (FFAppState().searchonof)
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            4.0, 0.0, 4.0, 0.0),
-                                        child: InkWell(
-                                          splashColor: Colors.transparent,
-                                          focusColor: Colors.transparent,
-                                          hoverColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-                                          onTap: () async {
-                                            setState(() {
-                                              FFAppState().searchonof = false;
-                                            });
-                                            setState(() {
-                                              _model.searchController?.clear();
-                                            });
-                                          },
-                                          child: Icon(
-                                            Icons.cancel_outlined,
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            size: 24.0,
-                                          ),
-                                        ),
-                                      ),
-                                    if (!FFAppState().searchonof)
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            4.0, 0.0, 4.0, 0.0),
-                                        child: InkWell(
-                                          splashColor: Colors.transparent,
-                                          focusColor: Colors.transparent,
-                                          hoverColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-                                          onTap: () async {
-                                            await queryCarRecordOnce()
-                                                .then(
-                                                  (records) => _model
-                                                          .simpleSearchResults =
-                                                      TextSearch(
-                                                    records
-                                                        .map(
-                                                          (record) =>
-                                                              TextSearchItem(
-                                                                  record, [
-                                                            record.carName!,
-                                                            record.description!,
-                                                            record.fuelType!,
-                                                            record
-                                                                .listingStatus!,
-                                                            record.location!,
-                                                            record
-                                                                .transmissionType!,
-                                                            record.brandName!,
-                                                            record.vendorName!,
-                                                            record.district!,
-                                                            record
-                                                                .bookingStatus!,
-                                                            record
-                                                                .availabilityStatus!
-                                                          ]),
-                                                        )
-                                                        .toList(),
-                                                  )
-                                                          .search(_model
-                                                              .searchController
-                                                              .text)
-                                                          .map((r) => r.object)
-                                                          .toList(),
-                                                )
-                                                .onError((_, __) => _model
-                                                    .simpleSearchResults = [])
-                                                .whenComplete(
-                                                    () => setState(() {}));
-
-                                            setState(() {
-                                              FFAppState().searchonof = true;
-                                            });
-                                          },
-                                          child: Icon(
-                                            Icons.search_rounded,
-                                            color: Color(0xFFACB9C4),
-                                            size: 24.0,
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                        header: Opacity(
+                          opacity: 0.0,
+                          child: Container(),
                         ),
                         content: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (FFAppState().searchonof)
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 10.0),
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            20.0, 10.0, 20.0, 10.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      16.0, 10.0, 0.0, 10.0),
-                                              child: Text(
-                                                'Search results',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              'Open Sans',
-                                                          fontSize: 12.0,
-                                                        ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      if (responsiveVisibility(
-                                        context: context,
-                                        phone: false,
-                                      ))
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 44.0),
-                                          child: Builder(
-                                            builder: (context) {
-                                              final search = _model
-                                                  .simpleSearchResults
-                                                  .toList();
-                                              if (search.isEmpty) {
-                                                return EmptyWidget();
-                                              }
-                                              return Wrap(
-                                                spacing: 0.0,
-                                                runSpacing: 0.0,
-                                                alignment: WrapAlignment.start,
-                                                crossAxisAlignment:
-                                                    WrapCrossAlignment.start,
-                                                direction: Axis.horizontal,
-                                                runAlignment:
-                                                    WrapAlignment.start,
-                                                verticalDirection:
-                                                    VerticalDirection.down,
-                                                clipBehavior: Clip.none,
-                                                children:
-                                                    List.generate(search.length,
-                                                        (searchIndex) {
-                                                  final searchItem =
-                                                      search[searchIndex];
-                                                  return Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                16.0,
-                                                                10.0,
-                                                                16.0,
-                                                                10.0),
-                                                    child: InkWell(
-                                                      splashColor:
-                                                          Colors.transparent,
-                                                      focusColor:
-                                                          Colors.transparent,
-                                                      hoverColor:
-                                                          Colors.transparent,
-                                                      highlightColor:
-                                                          Colors.transparent,
-                                                      onTap: () async {
-                                                        context.pushNamed(
-                                                          'Cardetails',
-                                                          queryParameters: {
-                                                            'productref':
-                                                                serializeParam(
-                                                              searchItem
-                                                                  .reference,
-                                                              ParamType
-                                                                  .DocumentReference,
-                                                            ),
-                                                          }.withoutNulls,
-                                                        );
-                                                      },
-                                                      child: Container(
-                                                        width:
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .width *
-                                                                0.45,
-                                                        height:
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .height *
-                                                                0.25,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryBackground,
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              blurRadius: 4.0,
-                                                              color: Color(
-                                                                  0x33000000),
-                                                              offset: Offset(
-                                                                  0.0, 2.0),
-                                                            )
-                                                          ],
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      12.0),
-                                                          border: Border.all(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .accent3,
-                                                            width: 1.0,
-                                                          ),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      8.0,
-                                                                      8.0,
-                                                                      8.0,
-                                                                      8.0),
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Expanded(
-                                                                child: Stack(
-                                                                  children: [
-                                                                    ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                      child: Image
-                                                                          .network(
-                                                                        searchItem
-                                                                            .profilePhoto,
-                                                                        width: double
-                                                                            .infinity,
-                                                                        height:
-                                                                            double.infinity,
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            8.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                child: Text(
-                                                                  searchItem
-                                                                      .carName,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleLarge,
-                                                                ),
-                                                              ),
-                                                              Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            4.0,
-                                                                            0.0,
-                                                                            8.0),
-                                                                    child:
-                                                                        RichText(
-                                                                      text:
-                                                                          TextSpan(
-                                                                        children: [
-                                                                          TextSpan(
-                                                                            text:
-                                                                                formatNumber(
-                                                                              searchItem.costPerDay,
-                                                                              formatType: FormatType.custom,
-                                                                              currency: 'K',
-                                                                              format: '00.00',
-                                                                              locale: '',
-                                                                            ),
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: FlutterFlowTheme.of(context).primary,
-                                                                            ),
-                                                                          ),
-                                                                          TextSpan(
-                                                                            text:
-                                                                                ' /night',
-                                                                            style:
-                                                                                FlutterFlowTheme.of(context).labelSmall,
-                                                                          )
-                                                                        ],
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .labelMedium,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            4.0,
-                                                                            0.0,
-                                                                            8.0),
-                                                                    child:
-                                                                        RichText(
-                                                                      text:
-                                                                          TextSpan(
-                                                                        children: [
-                                                                          TextSpan(
-                                                                            text:
-                                                                                searchItem.district,
-                                                                            style:
-                                                                                TextStyle(),
-                                                                          )
-                                                                        ],
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .labelMedium,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                }),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      if (responsiveVisibility(
-                                        context: context,
-                                        tablet: false,
-                                        tabletLandscape: false,
-                                        desktop: false,
-                                      ))
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 44.0),
-                                          child: Builder(
-                                            builder: (context) {
-                                              final carsearc = _model
-                                                  .simpleSearchResults
-                                                  .toList();
-                                              return ListView.separated(
-                                                padding: EdgeInsets.zero,
-                                                primary: false,
-                                                shrinkWrap: true,
-                                                scrollDirection: Axis.vertical,
-                                                itemCount: carsearc.length,
-                                                separatorBuilder: (_, __) =>
-                                                    SizedBox(height: 12.0),
-                                                itemBuilder:
-                                                    (context, carsearcIndex) {
-                                                  final carsearcItem =
-                                                      carsearc[carsearcIndex];
-                                                  return Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(16.0, 0.0,
-                                                                16.0, 0.0),
-                                                    child: InkWell(
-                                                      splashColor:
-                                                          Colors.transparent,
-                                                      focusColor:
-                                                          Colors.transparent,
-                                                      hoverColor:
-                                                          Colors.transparent,
-                                                      highlightColor:
-                                                          Colors.transparent,
-                                                      onTap: () async {
-                                                        context.pushNamed(
-                                                          'Cardetails',
-                                                          queryParameters: {
-                                                            'productref':
-                                                                serializeParam(
-                                                              carsearcItem
-                                                                  .reference,
-                                                              ParamType
-                                                                  .DocumentReference,
-                                                            ),
-                                                          }.withoutNulls,
-                                                        );
-                                                      },
-                                                      child: Container(
-                                                        width: 220.0,
-                                                        height: 240.0,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryBackground,
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              blurRadius: 4.0,
-                                                              color: Color(
-                                                                  0x33000000),
-                                                              offset: Offset(
-                                                                  0.0, 2.0),
-                                                            )
-                                                          ],
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      12.0),
-                                                          border: Border.all(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .accent3,
-                                                            width: 1.0,
-                                                          ),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      8.0,
-                                                                      8.0,
-                                                                      8.0,
-                                                                      8.0),
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Expanded(
-                                                                child: Stack(
-                                                                  children: [
-                                                                    ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                      child: Image
-                                                                          .network(
-                                                                        carsearcItem
-                                                                            .profilePhoto,
-                                                                        width: double
-                                                                            .infinity,
-                                                                        height:
-                                                                            double.infinity,
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            8.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                child: Text(
-                                                                  carsearcItem
-                                                                      .carName,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleLarge
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Open Sans',
-                                                                        fontSize:
-                                                                            18.0,
-                                                                      ),
-                                                                ),
-                                                              ),
-                                                              Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            4.0,
-                                                                            0.0,
-                                                                            8.0),
-                                                                    child:
-                                                                        RichText(
-                                                                      text:
-                                                                          TextSpan(
-                                                                        children: [
-                                                                          TextSpan(
-                                                                            text:
-                                                                                formatNumber(
-                                                                              carsearcItem.costPerDay,
-                                                                              formatType: FormatType.custom,
-                                                                              currency: 'K',
-                                                                              format: '00',
-                                                                              locale: '',
-                                                                            ),
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: FlutterFlowTheme.of(context).primary,
-                                                                            ),
-                                                                          ),
-                                                                          TextSpan(
-                                                                            text:
-                                                                                ' /Day',
-                                                                            style:
-                                                                                FlutterFlowTheme.of(context).labelSmall,
-                                                                          )
-                                                                        ],
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .labelMedium,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            4.0,
-                                                                            10.0,
-                                                                            8.0),
-                                                                    child:
-                                                                        RichText(
-                                                                      text:
-                                                                          TextSpan(
-                                                                        children: [
-                                                                          TextSpan(
-                                                                            text:
-                                                                                carsearcItem.district,
-                                                                            style:
-                                                                                TextStyle(),
-                                                                          )
-                                                                        ],
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .labelMedium,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 10.0, 0.0, 0.0),
@@ -2215,61 +1481,108 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                               .favoriteswitch =
                                                                           !FFAppState()
                                                                               .favoriteswitch);
-                                                                      setState(
-                                                                          () {
-                                                                        FFAppState()
-                                                                            .addToFavorite(listViewCarRecord.reference);
-                                                                      });
-                                                                      _model.soundPlayer ??=
-                                                                          AudioPlayer();
-                                                                      if (_model
-                                                                          .soundPlayer!
-                                                                          .playing) {
-                                                                        await _model
-                                                                            .soundPlayer!
-                                                                            .stop();
-                                                                      }
-                                                                      _model
-                                                                          .soundPlayer!
-                                                                          .setVolume(
-                                                                              1.0);
-                                                                      _model
-                                                                          .soundPlayer!
-                                                                          .setAsset(
-                                                                              'assets/audios/QKTA234-pop.mp3')
-                                                                          .then((_) => _model
-                                                                              .soundPlayer!
-                                                                              .play());
+                                                                      if (FFAppState()
+                                                                          .favoriteswitch) {
+                                                                        setState(
+                                                                            () {
+                                                                          FFAppState()
+                                                                              .addToFavorite(listViewCarRecord.reference);
+                                                                        });
+                                                                        _model.soundPlayer1 ??=
+                                                                            AudioPlayer();
+                                                                        if (_model
+                                                                            .soundPlayer1!
+                                                                            .playing) {
+                                                                          await _model
+                                                                              .soundPlayer1!
+                                                                              .stop();
+                                                                        }
+                                                                        _model
+                                                                            .soundPlayer1!
+                                                                            .setVolume(1.0);
+                                                                        _model
+                                                                            .soundPlayer1!
+                                                                            .setAsset(
+                                                                                'assets/audios/QKTA234-pop.mp3')
+                                                                            .then((_) =>
+                                                                                _model.soundPlayer1!.play());
 
-                                                                      ScaffoldMessenger.of(
-                                                                              context)
-                                                                          .showSnackBar(
-                                                                        SnackBar(
-                                                                          content:
-                                                                              Text(
-                                                                            'Car added to the favorite list',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: FlutterFlowTheme.of(context).secondaryText,
+                                                                        setState(
+                                                                            () {
+                                                                          FFAppState().favoriteswitch =
+                                                                              true;
+                                                                        });
+                                                                        ScaffoldMessenger.of(context)
+                                                                            .showSnackBar(
+                                                                          SnackBar(
+                                                                            content:
+                                                                                Text(
+                                                                              'Car added to the favorite list',
+                                                                              style: TextStyle(
+                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                              ),
+                                                                            ),
+                                                                            duration:
+                                                                                Duration(milliseconds: 4000),
+                                                                            backgroundColor:
+                                                                                FlutterFlowTheme.of(context).primaryBackground,
+                                                                            action:
+                                                                                SnackBarAction(
+                                                                              label: 'Check',
+                                                                              textColor: FlutterFlowTheme.of(context).secondaryText,
+                                                                              onPressed: () async {
+                                                                                context.pushNamed('Favorite');
+                                                                              },
                                                                             ),
                                                                           ),
-                                                                          duration:
-                                                                              Duration(milliseconds: 4000),
-                                                                          backgroundColor:
-                                                                              FlutterFlowTheme.of(context).primaryBackground,
-                                                                          action:
-                                                                              SnackBarAction(
-                                                                            label:
-                                                                                'Check',
-                                                                            textColor:
-                                                                                FlutterFlowTheme.of(context).primaryText,
-                                                                            onPressed:
-                                                                                () async {
-                                                                              context.pushNamed('Favorite');
-                                                                            },
+                                                                        );
+                                                                      } else {
+                                                                        setState(
+                                                                            () {
+                                                                          FFAppState()
+                                                                              .removeFromFavorite(listViewCarRecord.reference);
+                                                                        });
+                                                                        _model.soundPlayer2 ??=
+                                                                            AudioPlayer();
+                                                                        if (_model
+                                                                            .soundPlayer2!
+                                                                            .playing) {
+                                                                          await _model
+                                                                              .soundPlayer2!
+                                                                              .stop();
+                                                                        }
+                                                                        _model
+                                                                            .soundPlayer2!
+                                                                            .setVolume(1.0);
+                                                                        _model
+                                                                            .soundPlayer2!
+                                                                            .setAsset(
+                                                                                'assets/audios/QKTA234-pop.mp3')
+                                                                            .then((_) =>
+                                                                                _model.soundPlayer2!.play());
+
+                                                                        setState(
+                                                                            () {
+                                                                          FFAppState().favoriteswitch =
+                                                                              false;
+                                                                        });
+                                                                        ScaffoldMessenger.of(context)
+                                                                            .showSnackBar(
+                                                                          SnackBar(
+                                                                            content:
+                                                                                Text(
+                                                                              'Car removed from the favorite list',
+                                                                              style: TextStyle(
+                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                              ),
+                                                                            ),
+                                                                            duration:
+                                                                                Duration(milliseconds: 4000),
+                                                                            backgroundColor:
+                                                                                FlutterFlowTheme.of(context).primaryBackground,
                                                                           ),
-                                                                        ),
-                                                                      );
+                                                                        );
+                                                                      }
                                                                     },
                                                                     value: FFAppState()
                                                                         .favoriteswitch,
@@ -2589,84 +1902,86 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                           .cover,
                                                                     ),
                                                                   ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            2.0,
-                                                                            4.0,
-                                                                            4.0,
-                                                                            0.0),
-                                                                    child: Row(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .min,
-                                                                      children: [
-                                                                        Expanded(
-                                                                          child:
-                                                                              Padding(
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                4.0,
-                                                                                0.0,
-                                                                                0.0,
-                                                                                0.0),
+                                                                  Align(
+                                                                    alignment:
+                                                                        AlignmentDirectional(
+                                                                            0.0,
+                                                                            -1.0),
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                                                          2.0,
+                                                                          4.0,
+                                                                          4.0,
+                                                                          0.0),
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
+                                                                        children: [
+                                                                          Expanded(
                                                                             child:
-                                                                                Text(
-                                                                              wrapCarRecord.availabilityStatus,
-                                                                              style: FlutterFlowTheme.of(context).bodyMedium,
+                                                                                Padding(
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
+                                                                              child: Text(
+                                                                                wrapCarRecord.availabilityStatus,
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium,
+                                                                              ),
                                                                             ),
                                                                           ),
-                                                                        ),
-                                                                        FutureBuilder<
-                                                                            int>(
-                                                                          future:
-                                                                              queryBookingRecordCount(
-                                                                            parent:
-                                                                                wrapCarRecord.reference,
-                                                                          ),
-                                                                          builder:
-                                                                              (context, snapshot) {
-                                                                            // Customize what your widget looks like when it's loading.
-                                                                            if (!snapshot.hasData) {
-                                                                              return Center(
-                                                                                child: SizedBox(
-                                                                                  width: 100.0,
-                                                                                  height: 100.0,
-                                                                                  child: SpinKitDualRing(
-                                                                                    color: FlutterFlowTheme.of(context).primary,
-                                                                                    size: 100.0,
+                                                                          FutureBuilder<
+                                                                              int>(
+                                                                            future:
+                                                                                _model.trips(
+                                                                              requestFn: () => queryBookingRecordCount(
+                                                                                parent: wrapCarRecord.reference,
+                                                                              ),
+                                                                            ),
+                                                                            builder:
+                                                                                (context, snapshot) {
+                                                                              // Customize what your widget looks like when it's loading.
+                                                                              if (!snapshot.hasData) {
+                                                                                return Center(
+                                                                                  child: SizedBox(
+                                                                                    width: 15.0,
+                                                                                    height: 15.0,
+                                                                                    child: CircularProgressIndicator(
+                                                                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                        FlutterFlowTheme.of(context).primary,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              }
+                                                                              int containerCount = snapshot.data!;
+                                                                              return Container(
+                                                                                height: 23.0,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(6.0),
+                                                                                  border: Border.all(
+                                                                                    color: FlutterFlowTheme.of(context).accent3,
+                                                                                    width: 1.0,
+                                                                                  ),
+                                                                                ),
+                                                                                alignment: AlignmentDirectional(0.0, 0.0),
+                                                                                child: Padding(
+                                                                                  padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+                                                                                  child: Text(
+                                                                                    '${formatNumber(
+                                                                                      containerCount,
+                                                                                      formatType: FormatType.custom,
+                                                                                      currency: 'K',
+                                                                                      format: '00',
+                                                                                      locale: '',
+                                                                                    )}  /trips made',
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium,
                                                                                   ),
                                                                                 ),
                                                                               );
-                                                                            }
-                                                                            int containerCount =
-                                                                                snapshot.data!;
-                                                                            return Container(
-                                                                              height: 23.0,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(6.0),
-                                                                                border: Border.all(
-                                                                                  color: FlutterFlowTheme.of(context).accent3,
-                                                                                  width: 1.0,
-                                                                                ),
-                                                                              ),
-                                                                              alignment: AlignmentDirectional(0.0, 0.0),
-                                                                              child: Padding(
-                                                                                padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
-                                                                                child: Text(
-                                                                                  '${formatNumber(
-                                                                                    containerCount,
-                                                                                    formatType: FormatType.custom,
-                                                                                    currency: 'K',
-                                                                                    format: '00',
-                                                                                    locale: '',
-                                                                                  )}  /trips made',
-                                                                                  style: FlutterFlowTheme.of(context).bodyMedium,
-                                                                                ),
-                                                                              ),
-                                                                            );
-                                                                          },
-                                                                        ),
-                                                                      ],
+                                                                            },
+                                                                          ),
+                                                                        ],
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ],
@@ -2821,12 +2136,14 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 listViewCarRecordList =
                                                 snapshot.data!;
                                             if (listViewCarRecordList.isEmpty) {
-                                              return Container(
-                                                height:
-                                                    MediaQuery.sizeOf(context)
-                                                            .height *
-                                                        0.3,
-                                                child: EmptyWidget(),
+                                              return Center(
+                                                child: Container(
+                                                  height:
+                                                      MediaQuery.sizeOf(context)
+                                                              .height *
+                                                          0.5,
+                                                  child: EmptyWidget(),
+                                                ),
                                               );
                                             }
                                             return ListView.separated(
@@ -2875,7 +2192,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                       height: MediaQuery.sizeOf(
                                                                   context)
                                                               .height *
-                                                          0.28,
+                                                          0.32,
                                                       decoration: BoxDecoration(
                                                         color: FlutterFlowTheme
                                                                 .of(context)
@@ -2929,7 +2246,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                           .infinity,
                                                                       height: MediaQuery.sizeOf(context)
                                                                               .height *
-                                                                          0.25,
+                                                                          0.28,
                                                                       fit: BoxFit
                                                                           .cover,
                                                                     ),
@@ -2937,7 +2254,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                   Padding(
                                                                     padding: EdgeInsetsDirectional
                                                                         .fromSTEB(
-                                                                            0.0,
+                                                                            4.0,
                                                                             6.0,
                                                                             4.0,
                                                                             0.0),
@@ -2990,19 +2307,22 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                                 0.0),
                                                                             child:
                                                                                 FutureBuilder<int>(
-                                                                              future: queryBookingRecordCount(
-                                                                                parent: listViewCarRecord.reference,
+                                                                              future: _model.trips(
+                                                                                requestFn: () => queryBookingRecordCount(
+                                                                                  parent: listViewCarRecord.reference,
+                                                                                ),
                                                                               ),
                                                                               builder: (context, snapshot) {
                                                                                 // Customize what your widget looks like when it's loading.
                                                                                 if (!snapshot.hasData) {
                                                                                   return Center(
                                                                                     child: SizedBox(
-                                                                                      width: 100.0,
-                                                                                      height: 100.0,
-                                                                                      child: SpinKitDualRing(
-                                                                                        color: FlutterFlowTheme.of(context).primary,
-                                                                                        size: 100.0,
+                                                                                      width: 15.0,
+                                                                                      height: 15.0,
+                                                                                      child: CircularProgressIndicator(
+                                                                                        valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                          FlutterFlowTheme.of(context).primary,
+                                                                                        ),
                                                                                       ),
                                                                                     ),
                                                                                   );

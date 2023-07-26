@@ -101,40 +101,22 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                 children: [
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 16.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: MediaQuery.sizeOf(context).width * 0.35,
-                          height: MediaQuery.sizeOf(context).width * 0.35,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFDBE2E7),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                2.0, 2.0, 2.0, 2.0),
-                            child: AuthUserStreamWidget(
-                              builder: (context) => Container(
-                                width: MediaQuery.sizeOf(context).width * 0.4,
-                                height: MediaQuery.sizeOf(context).width * 0.4,
-                                clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: CachedNetworkImage(
-                                  fadeInDuration: Duration(milliseconds: 500),
-                                  fadeOutDuration: Duration(milliseconds: 500),
-                                  imageUrl: currentUserPhoto,
-                                  fit: BoxFit.fitWidth,
-                                ),
-                              ),
-                            ),
-                          ),
+                        EdgeInsetsDirectional.fromSTEB(2.0, 20.0, 2.0, 20.0),
+                    child: AuthUserStreamWidget(
+                      builder: (context) => Container(
+                        width: MediaQuery.sizeOf(context).width * 0.35,
+                        height: MediaQuery.sizeOf(context).width * 0.35,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
                         ),
-                      ],
+                        child: CachedNetworkImage(
+                          fadeInDuration: Duration(milliseconds: 500),
+                          fadeOutDuration: Duration(milliseconds: 500),
+                          imageUrl: currentUserPhoto,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
                     ),
                   ),
                   Padding(

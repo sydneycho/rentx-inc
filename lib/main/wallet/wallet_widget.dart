@@ -345,7 +345,7 @@ class _WalletWidgetState extends State<WalletWidget>
                                                                 0.0),
                                                         bottomRight:
                                                             Radius.circular(
-                                                                12.0),
+                                                                0.0),
                                                         topLeft:
                                                             Radius.circular(
                                                                 0.0),
@@ -397,15 +397,15 @@ class _WalletWidgetState extends State<WalletWidget>
                                                         padding:
                                                             EdgeInsetsDirectional
                                                                 .fromSTEB(
-                                                                    8.0,
-                                                                    8.0,
-                                                                    8.0,
-                                                                    8.0),
+                                                                    4.0,
+                                                                    4.0,
+                                                                    4.0,
+                                                                    4.0),
                                                         child: Icon(
-                                                          Icons
-                                                              .access_time_rounded,
-                                                          color:
-                                                              Color(0xFF57636C),
+                                                          Icons.car_rental,
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
                                                           size: 20.0,
                                                         ),
                                                       ),

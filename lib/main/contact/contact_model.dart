@@ -20,23 +20,12 @@ class ContactModel extends FlutterFlowModel {
   // State field(s) for yourName widget.
   TextEditingController? yourNameController;
   String? Function(BuildContext, String?)? yourNameControllerValidator;
-  // State field(s) for city widget.
-  TextEditingController? cityController;
-  String? Function(BuildContext, String?)? cityControllerValidator;
-  String? _cityControllerValidator(BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Field is required';
-    }
-
-    return null;
-  }
-
+  // State field(s) for user widget.
+  String? userValue;
+  FormFieldController<String>? userValueController;
   // State field(s) for state widget.
-  String? stateValue1;
-  FormFieldController<String>? stateValueController1;
-  // State field(s) for state widget.
-  String? stateValue2;
-  FormFieldController<String>? stateValueController2;
+  String? stateValue;
+  FormFieldController<String>? stateValueController;
   // State field(s) for Description widget.
   TextEditingController? descriptionController;
   String? Function(BuildContext, String?)? descriptionControllerValidator;
@@ -51,13 +40,11 @@ class ContactModel extends FlutterFlowModel {
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {
-    cityControllerValidator = _cityControllerValidator;
     descriptionControllerValidator = _descriptionControllerValidator;
   }
 
   void dispose() {
     yourNameController?.dispose();
-    cityController?.dispose();
     descriptionController?.dispose();
   }
 

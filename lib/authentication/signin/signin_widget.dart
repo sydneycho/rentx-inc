@@ -125,7 +125,7 @@ class _SigninWidgetState extends State<SigninWidget>
                 children: [
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 20.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 20.0),
                     child: Container(
                       width: 200.0,
                       height: 70.0,
@@ -217,7 +217,7 @@ class _SigninWidgetState extends State<SigninWidget>
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .primary,
+                                              .accent3,
                                           width: 2.0,
                                         ),
                                         borderRadius:
@@ -280,7 +280,7 @@ class _SigninWidgetState extends State<SigninWidget>
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .primary,
+                                              .accent3,
                                           width: 2.0,
                                         ),
                                         borderRadius:
@@ -289,7 +289,7 @@ class _SigninWidgetState extends State<SigninWidget>
                                       errorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .alternate,
+                                              .error,
                                           width: 2.0,
                                         ),
                                         borderRadius:
@@ -298,7 +298,7 @@ class _SigninWidgetState extends State<SigninWidget>
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .alternate,
+                                              .error,
                                           width: 2.0,
                                         ),
                                         borderRadius:
@@ -320,7 +320,7 @@ class _SigninWidgetState extends State<SigninWidget>
                                               : Icons.visibility_off_outlined,
                                           color: FlutterFlowTheme.of(context)
                                               .secondaryText,
-                                          size: 24.0,
+                                          size: 22.0,
                                         ),
                                       ),
                                     ),
@@ -343,13 +343,23 @@ class _SigninWidgetState extends State<SigninWidget>
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
-                                    context.pushNamed('passwordreset');
+                                    context.pushNamed(
+                                      'passwordreset',
+                                      extra: <String, dynamic>{
+                                        kTransitionInfoKey: TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.fade,
+                                          duration: Duration(milliseconds: 0),
+                                        ),
+                                      },
+                                    );
                                   },
                                   child: RichText(
                                     text: TextSpan(
                                       children: [
                                         TextSpan(
-                                          text: 'Forgot password ?',
+                                          text: 'Forgot password ? ',
                                           style: TextStyle(),
                                         ),
                                         TextSpan(
@@ -540,7 +550,7 @@ class _SigninWidgetState extends State<SigninWidget>
                               // You will have to add an action on this rich text to go to your login page.
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 12.0, 0.0, 12.0),
+                                    12.0, 12.0, 12.0, 12.0),
                                 child: InkWell(
                                   splashColor: Colors.transparent,
                                   focusColor: Colors.transparent,
@@ -565,7 +575,7 @@ class _SigninWidgetState extends State<SigninWidget>
                                           style: TextStyle(),
                                         ),
                                         TextSpan(
-                                          text: 'Sign Up here',
+                                          text: 'Sign Up ',
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(

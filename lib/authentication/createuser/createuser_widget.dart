@@ -44,7 +44,7 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
           return AlertDialog(
             title: Text('Email verification'),
             content: Text(
-                'make sure you verify email address after creating your profile.'),
+                'Make sure you verify email address after creating your profile.'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(alertDialogContext),
@@ -123,44 +123,22 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                     children: [
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
-                            0.0, 20.0, 0.0, 16.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: MediaQuery.sizeOf(context).width * 0.35,
-                              height: MediaQuery.sizeOf(context).width * 0.35,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFDBE2E7),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    2.0, 2.0, 2.0, 2.0),
-                                child: AuthUserStreamWidget(
-                                  builder: (context) => Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 1.0,
-                                    height:
-                                        MediaQuery.sizeOf(context).width * 1.0,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: CachedNetworkImage(
-                                      fadeInDuration:
-                                          Duration(milliseconds: 500),
-                                      fadeOutDuration:
-                                          Duration(milliseconds: 500),
-                                      imageUrl: currentUserPhoto,
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            2.0, 20.0, 2.0, 20.0),
+                        child: AuthUserStreamWidget(
+                          builder: (context) => Container(
+                            width: MediaQuery.sizeOf(context).width * 0.3,
+                            height: MediaQuery.sizeOf(context).width * 0.3,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
                             ),
-                          ],
+                            child: CachedNetworkImage(
+                              fadeInDuration: Duration(milliseconds: 500),
+                              fadeOutDuration: Duration(milliseconds: 500),
+                              imageUrl: currentUserPhoto,
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
                         ),
                       ),
                       Padding(

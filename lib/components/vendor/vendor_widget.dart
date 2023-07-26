@@ -48,109 +48,98 @@ class _VendorWidgetState extends State<VendorWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
-    return StreamBuilder<CarRecord>(
-      stream: CarRecord.getDocument(widget.vendorDetails!),
-      builder: (context, snapshot) {
-        // Customize what your widget looks like when it's loading.
-        if (!snapshot.hasData) {
-          return Center(
-            child: SizedBox(
-              width: 100.0,
-              height: 100.0,
-              child: SpinKitDualRing(
-                color: FlutterFlowTheme.of(context).primary,
-                size: 100.0,
+    return Align(
+      alignment: AlignmentDirectional(0.0, 0.0),
+      child: StreamBuilder<CarRecord>(
+        stream: CarRecord.getDocument(widget.vendorDetails!),
+        builder: (context, snapshot) {
+          // Customize what your widget looks like when it's loading.
+          if (!snapshot.hasData) {
+            return Center(
+              child: SizedBox(
+                width: 100.0,
+                height: 100.0,
+                child: SpinKitDualRing(
+                  color: FlutterFlowTheme.of(context).primary,
+                  size: 100.0,
+                ),
               ),
+            );
+          }
+          final containerCarRecord = snapshot.data!;
+          return Container(
+            width: MediaQuery.sizeOf(context).width * 0.8,
+            decoration: BoxDecoration(
+              color: FlutterFlowTheme.of(context).secondaryBackground,
+              borderRadius: BorderRadius.circular(12.0),
             ),
-          );
-        }
-        final containerCarRecord = snapshot.data!;
-        return Container(
-          width: MediaQuery.sizeOf(context).width * 1.0,
-          decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
-          ),
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+                        EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 10.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12.0),
                       child: Image.network(
                         containerCarRecord.vendorPhoto,
-                        width: double.infinity,
-                        height: 330.0,
+                        width: MediaQuery.sizeOf(context).width * 0.8,
+                        height: MediaQuery.sizeOf(context).height * 0.3,
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 8.0),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            12.0, 12.0, 12.0, 12.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text(
-                              'Vendor',
-                              style: FlutterFlowTheme.of(context).labelMedium,
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 8.0, 0.0, 8.0),
-                              child: Text(
-                                containerCarRecord.vendorName,
-                                style: FlutterFlowTheme.of(context)
-                                    .headlineMedium
-                                    .override(
-                                      fontFamily: 'Open Sans',
-                                      fontSize: 20.0,
-                                    ),
-                              ),
-                            ),
-                            Text(
-                              'Location : ${containerCarRecord.district}',
-                              style: FlutterFlowTheme.of(context).bodyMedium,
-                            ),
-                            Align(
-                              alignment: AlignmentDirectional(-1.0, 0.0),
-                              child: Text(
-                                'Description',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodySmall
-                                    .override(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 12.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          'Vendor',
+                          style: FlutterFlowTheme.of(context).labelMedium,
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 8.0, 0.0, 8.0),
+                          child: Text(
+                            containerCarRecord.vendorName,
+                            style: FlutterFlowTheme.of(context)
+                                .headlineMedium
+                                .override(
+                                  fontFamily: 'Open Sans',
+                                  fontSize: 20.0,
+                                ),
+                          ),
+                        ),
+                        Text(
+                          'Location : ${containerCarRecord.district}',
+                          style: FlutterFlowTheme.of(context).bodyMedium,
+                        ),
+                        Align(
+                          alignment: AlignmentDirectional(-1.0, 0.0),
+                          child: Text(
+                            'Description',
+                            style:
+                                FlutterFlowTheme.of(context).bodySmall.override(
                                       fontFamily: 'Open Sans',
                                       fontWeight: FontWeight.bold,
                                     ),
-                              ),
-                            ),
-                            Align(
-                              alignment: AlignmentDirectional(-1.0, 0.0),
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 8.0, 0.0, 12.0),
-                                child: Text(
-                                  containerCarRecord.vendorDescription,
-                                  style:
-                                      FlutterFlowTheme.of(context).labelMedium,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
+                        Align(
+                          alignment: AlignmentDirectional(-1.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 8.0, 0.0, 12.0),
+                            child: Text(
+                              containerCarRecord.vendorDescription,
+                              style: FlutterFlowTheme.of(context).labelMedium,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Padding(
@@ -185,9 +174,9 @@ class _VendorWidgetState extends State<VendorWidget> {
                 ],
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

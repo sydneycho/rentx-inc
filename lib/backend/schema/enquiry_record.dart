@@ -41,12 +41,24 @@ class EnquiryRecord extends FirestoreRecord {
   String get status => _status ?? '';
   bool hasStatus() => _status != null;
 
+  // "user_type" field.
+  String? _userType;
+  String get userType => _userType ?? '';
+  bool hasUserType() => _userType != null;
+
+  // "user_ref" field.
+  DocumentReference? _userRef;
+  DocumentReference? get userRef => _userRef;
+  bool hasUserRef() => _userRef != null;
+
   void _initializeFields() {
     _date = snapshotData['date'] as DateTime?;
     _description = snapshotData['description'] as String?;
     _name = snapshotData['name'] as String?;
     _serviceType = snapshotData['service_type'] as String?;
     _status = snapshotData['status'] as String?;
+    _userType = snapshotData['user_type'] as String?;
+    _userRef = snapshotData['user_ref'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -89,6 +101,8 @@ Map<String, dynamic> createEnquiryRecordData({
   String? name,
   String? serviceType,
   String? status,
+  String? userType,
+  DocumentReference? userRef,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -97,6 +111,8 @@ Map<String, dynamic> createEnquiryRecordData({
       'name': name,
       'service_type': serviceType,
       'status': status,
+      'user_type': userType,
+      'user_ref': userRef,
     }.withoutNulls,
   );
 
@@ -112,12 +128,21 @@ class EnquiryRecordDocumentEquality implements Equality<EnquiryRecord> {
         e1?.description == e2?.description &&
         e1?.name == e2?.name &&
         e1?.serviceType == e2?.serviceType &&
-        e1?.status == e2?.status;
+        e1?.status == e2?.status &&
+        e1?.userType == e2?.userType &&
+        e1?.userRef == e2?.userRef;
   }
 
   @override
-  int hash(EnquiryRecord? e) => const ListEquality()
-      .hash([e?.date, e?.description, e?.name, e?.serviceType, e?.status]);
+  int hash(EnquiryRecord? e) => const ListEquality().hash([
+        e?.date,
+        e?.description,
+        e?.name,
+        e?.serviceType,
+        e?.status,
+        e?.userType,
+        e?.userRef
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is EnquiryRecord;

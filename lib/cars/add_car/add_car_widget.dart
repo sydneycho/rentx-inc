@@ -41,6 +41,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
     _model.colorController ??= TextEditingController();
     _model.addressController ??= TextEditingController();
     _model.descriptionController ??= TextEditingController();
+    _model.noteController ??= TextEditingController();
   }
 
   @override
@@ -142,7 +143,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).accent4,
+                          color: FlutterFlowTheme.of(context).accent3,
                           width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
@@ -197,7 +198,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).accent4,
+                          color: FlutterFlowTheme.of(context).accent3,
                           width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
@@ -252,14 +253,14 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).accent4,
+                          color: FlutterFlowTheme.of(context).accent3,
                           width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: FlutterFlowTheme.of(context).accent3,
                           width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
@@ -307,7 +308,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).accent4,
+                          color: FlutterFlowTheme.of(context).accent3,
                           width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
@@ -362,7 +363,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).accent4,
+                          color: FlutterFlowTheme.of(context).accent3,
                           width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
@@ -417,7 +418,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).accent4,
+                          color: FlutterFlowTheme.of(context).accent3,
                           width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
@@ -707,7 +708,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).accent4,
+                          color: FlutterFlowTheme.of(context).accent3,
                           width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
@@ -745,6 +746,63 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                     minLines: 3,
                     validator: _model.descriptionControllerValidator
                         .asValidator(context),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 12.0),
+                  child: TextFormField(
+                    controller: _model.noteController,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      labelText: 'Notes',
+                      labelStyle: FlutterFlowTheme.of(context).bodySmall,
+                      hintText: 'Write notee about  your car and conditions',
+                      hintStyle:
+                          FlutterFlowTheme.of(context).bodySmall.override(
+                                fontFamily: 'Open Sans',
+                                color: FlutterFlowTheme.of(context).accent3,
+                              ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).accent3,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).accent3,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).error,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).error,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      filled: true,
+                      fillColor:
+                          FlutterFlowTheme.of(context).secondaryBackground,
+                      contentPadding:
+                          EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 0.0, 24.0),
+                    ),
+                    style: FlutterFlowTheme.of(context).bodyMedium,
+                    textAlign: TextAlign.start,
+                    maxLines: 10,
+                    minLines: 3,
+                    validator:
+                        _model.noteControllerValidator.asValidator(context),
                   ),
                 ),
                 AlignedTooltip(
@@ -875,7 +933,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                       onPressed: () async {
                         await CarRecord.collection.doc().set({
                           ...createCarRecordData(
-                            availabilityStatus: 'available',
+                            availabilityStatus: 'Available',
                             bookingStatus: 'not booked',
                             carName: _model.carNameController.text,
                             carStatus: 'pending',
@@ -910,7 +968,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                             return AlertDialog(
                               title: Text('Car registration'),
                               content: Text(
-                                  'Your car details have been sent to our customer care for verification.Once the car is verified it will appear in the car listing marketplace'),
+                                  'Your car details have been sent to our customer care for verification.Once the car is verified,you will be notifiedd throught email  and  your car will appear in the car listing marketplace.'),
                               actions: [
                                 TextButton(
                                   onPressed: () =>

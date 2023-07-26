@@ -2,7 +2,6 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/empty/empty_widget.dart';
 import '/components/notification/notification_widget.dart';
-import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -22,7 +21,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
-import 'package:text_search/text_search.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeModel extends FlutterFlowModel {
@@ -37,16 +35,11 @@ class HomeModel extends FlutterFlowModel {
   bool mouseRegionHovered3 = false;
   // State field(s) for MouseRegion widget.
   bool mouseRegionHovered4 = false;
-  // State field(s) for Search widget.
-  final searchKey = GlobalKey();
-  TextEditingController? searchController;
-  String? searchSelectedOption;
-  String? Function(BuildContext, String?)? searchControllerValidator;
-  List<CarRecord> simpleSearchResults = [];
   // State field(s) for ChoiceChips widget.
   String? choiceChipsValue;
   FormFieldController<List<String>>? choiceChipsValueController;
-  AudioPlayer? soundPlayer;
+  AudioPlayer? soundPlayer1;
+  AudioPlayer? soundPlayer2;
 
   /// Query cache managers for this widget.
 
@@ -65,6 +58,36 @@ class HomeModel extends FlutterFlowModel {
   void clearCarCacheKey(String? uniqueKey) =>
       _carManager.clearRequest(uniqueKey);
 
+  final _notificationManager = FutureRequestManager<int>();
+  Future<int> notification({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<int> Function() requestFn,
+  }) =>
+      _notificationManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearNotificationCache() => _notificationManager.clear();
+  void clearNotificationCacheKey(String? uniqueKey) =>
+      _notificationManager.clearRequest(uniqueKey);
+
+  final _tripsManager = FutureRequestManager<int>();
+  Future<int> trips({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<int> Function() requestFn,
+  }) =>
+      _tripsManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearTripsCache() => _tripsManager.clear();
+  void clearTripsCacheKey(String? uniqueKey) =>
+      _tripsManager.clearRequest(uniqueKey);
+
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {}
@@ -75,6 +98,10 @@ class HomeModel extends FlutterFlowModel {
     /// Dispose query cache managers for this widget.
 
     clearCarCache();
+
+    clearNotificationCache();
+
+    clearTripsCache();
   }
 
   /// Action blocks are added here.

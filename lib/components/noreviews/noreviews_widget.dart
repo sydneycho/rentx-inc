@@ -40,33 +40,36 @@ class _NoreviewsWidgetState extends State<NoreviewsWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
-    return Container(
-      width: 450.0,
-      height: 300.0,
-      decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.car_crash,
-            color: FlutterFlowTheme.of(context).secondaryText,
-            size: 50.0,
-          ),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
-            child: Text(
-              'Opps ! you have no Reviews',
-              textAlign: TextAlign.center,
-              style: FlutterFlowTheme.of(context).headlineSmall.override(
-                    fontFamily: 'Open Sans',
-                    color: FlutterFlowTheme.of(context).primaryText,
-                  ),
+    return Align(
+      alignment: AlignmentDirectional(0.0, 0.0),
+      child: Container(
+        width: MediaQuery.sizeOf(context).width * 0.9,
+        height: 300.0,
+        decoration: BoxDecoration(
+          color: FlutterFlowTheme.of(context).secondaryBackground,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.car_crash,
+              color: FlutterFlowTheme.of(context).secondaryText,
+              size: 50.0,
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+              child: Text(
+                'Opps ! you have no Reviews',
+                textAlign: TextAlign.center,
+                style: FlutterFlowTheme.of(context).headlineSmall.override(
+                      fontFamily: 'Open Sans',
+                      color: FlutterFlowTheme.of(context).primaryText,
+                    ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -81,7 +81,7 @@ class _ReferralWidgetState extends State<ReferralWidget> {
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 20.0),
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 10.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -135,7 +135,7 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 6.0, 0.0, 0.0),
+                              0.0, 10.0, 0.0, 10.0),
                           child: FFButtonWidget(
                             onPressed: () async {
                               await Clipboard.setData(ClipboardData(
@@ -195,19 +195,24 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Expanded(
-                                      child: AuthUserStreamWidget(
-                                        builder: (context) => Text(
-                                          valueOrDefault(
-                                              currentUserDocument?.referralLink,
-                                              ''),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Open Sans',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                              ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            1.0, 0.0, 0.0, 0.0),
+                                        child: AuthUserStreamWidget(
+                                          builder: (context) => Text(
+                                            valueOrDefault(
+                                                currentUserDocument
+                                                    ?.referralLink,
+                                                ''),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Open Sans',
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                ),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -308,7 +313,7 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              8.0, 0.0, 16.0, 0.0),
+                              8.0, 5.0, 8.0, 5.0),
                           child: AuthUserStreamWidget(
                             builder: (context) => Text(
                               'There are ${formatNumber(

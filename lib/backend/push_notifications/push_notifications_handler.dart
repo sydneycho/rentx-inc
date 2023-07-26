@@ -159,6 +159,7 @@ final parametersBuilderMap =
         },
       ),
   'AllChatsPage': ParameterData.none(),
+  'search': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

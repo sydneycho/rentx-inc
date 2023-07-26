@@ -12,8 +12,6 @@ import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:smooth_page_indicator/smooth_page_indicator.dart'
-    as smooth_page_indicator;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -309,48 +307,99 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                         setState(() =>
                                             FFAppState().favoriteswitch =
                                                 !FFAppState().favoriteswitch);
-                                        setState(() {
-                                          FFAppState().addToFavorite(
-                                              widget.productref!);
-                                        });
-                                        _model.soundPlayer ??= AudioPlayer();
-                                        if (_model.soundPlayer!.playing) {
-                                          await _model.soundPlayer!.stop();
-                                        }
-                                        _model.soundPlayer!.setVolume(1.0);
-                                        _model.soundPlayer!
-                                            .setAsset(
-                                                'assets/audios/QKTA234-pop.mp3')
-                                            .then((_) =>
-                                                _model.soundPlayer!.play());
+                                        if (FFAppState().favoriteswitch) {
+                                          setState(() {
+                                            FFAppState().addToFavorite(
+                                                widget.productref!);
+                                          });
+                                          _model.soundPlayer1 ??= AudioPlayer();
+                                          if (_model.soundPlayer1!.playing) {
+                                            await _model.soundPlayer1!.stop();
+                                          }
+                                          _model.soundPlayer1!.setVolume(1.0);
+                                          _model.soundPlayer1!
+                                              .setAsset(
+                                                  'assets/audios/QKTA234-pop.mp3')
+                                              .then((_) =>
+                                                  _model.soundPlayer1!.play());
 
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Car added to the favorite list',
-                                              style: TextStyle(
-                                                color:
+                                          setState(() {
+                                            FFAppState().favoriteswitch = true;
+                                          });
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Car added to the favorite list',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                              action: SnackBarAction(
+                                                label: 'Check',
+                                                textColor:
                                                     FlutterFlowTheme.of(context)
-                                                        .secondaryText,
+                                                        .primaryText,
+                                                onPressed: () async {
+                                                  context.pushNamed('Favorite');
+                                                },
                                               ),
                                             ),
-                                            duration:
-                                                Duration(milliseconds: 4000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primaryBackground,
-                                            action: SnackBarAction(
-                                              label: 'Check',
-                                              textColor:
+                                          );
+                                        } else {
+                                          setState(() {
+                                            FFAppState().removeFromFavorite(
+                                                widget.productref!);
+                                          });
+                                          _model.soundPlayer2 ??= AudioPlayer();
+                                          if (_model.soundPlayer2!.playing) {
+                                            await _model.soundPlayer2!.stop();
+                                          }
+                                          _model.soundPlayer2!.setVolume(1.0);
+                                          _model.soundPlayer2!
+                                              .setAsset(
+                                                  'assets/audios/QKTA234-pop.mp3')
+                                              .then((_) =>
+                                                  _model.soundPlayer2!.play());
+
+                                          setState(() {
+                                            FFAppState().favoriteswitch = false;
+                                          });
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Car removed  from the favorite list',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
                                                   FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              onPressed: () async {
-                                                context.pushNamed('Favorite');
-                                              },
+                                                      .primaryBackground,
+                                              action: SnackBarAction(
+                                                label: 'Check',
+                                                textColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                onPressed: () async {
+                                                  context.pushNamed('Favorite');
+                                                },
+                                              ),
                                             ),
-                                          ),
-                                        );
+                                          );
+                                        }
                                       },
                                       value: FFAppState().favoriteswitch,
                                       onIcon: Icon(
@@ -1113,6 +1162,37 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                               },
                             ),
                           ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                20.0, 0.0, 0.0, 0.0),
+                            child: FutureBuilder<int>(
+                              future: queryBookingRecordCount(
+                                parent: widget.productref,
+                              ),
+                              builder: (context, snapshot) {
+                                // Customize what your widget looks like when it's loading.
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: SizedBox(
+                                      width: 100.0,
+                                      height: 100.0,
+                                      child: SpinKitDualRing(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        size: 100.0,
+                                      ),
+                                    ),
+                                  );
+                                }
+                                int textCount = snapshot.data!;
+                                return Text(
+                                  'Plate No :${cardetailsCarRecord.plateNumber}',
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                );
+                              },
+                            ),
+                          ),
                         ],
                       ).animateOnPageLoad(
                           animationsMap['rowOnPageLoadAnimation3']!),
@@ -1127,101 +1207,59 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                             child: Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 1.0),
-                              child: Container(
-                                width: double.infinity,
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.35,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0xFFF1F4F8),
-                                      offset: Offset(0.0, 1.0),
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 0.0,
-                                  ),
+                              child: Material(
+                                color: Colors.transparent,
+                                elevation: 2.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
                                 ),
                                 child: Container(
-                                  width: double.infinity,
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 1.0,
-                                  child: Stack(
-                                    children: [
-                                      PageView(
-                                        controller:
-                                            _model.pageViewController ??=
-                                                PageController(initialPage: 0),
-                                        scrollDirection: Axis.horizontal,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            child: Image.network(
-                                              cardetailsCarRecord.carFront,
-                                              width: 300.0,
-                                              height: 200.0,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            child: Image.network(
-                                              cardetailsCarRecord.carBack,
-                                              width: 300.0,
-                                              height: 200.0,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Align(
-                                        alignment:
-                                            AlignmentDirectional(0.0, 1.0),
-                                        child: Padding(
+                                  width: MediaQuery.sizeOf(context).width * 0.9,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color(0xFFF1F4F8),
+                                        offset: Offset(0.0, 1.0),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 0.0,
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10.0, 5.0, 10.0, 5.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Note',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium,
+                                        ),
+                                        Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  16.0, 0.0, 0.0, 16.0),
-                                          child: smooth_page_indicator
-                                              .SmoothPageIndicator(
-                                            controller: _model
-                                                    .pageViewController ??=
-                                                PageController(initialPage: 0),
-                                            count: 2,
-                                            axisDirection: Axis.horizontal,
-                                            onDotClicked: (i) async {
-                                              await _model.pageViewController!
-                                                  .animateToPage(
-                                                i,
-                                                duration:
-                                                    Duration(milliseconds: 500),
-                                                curve: Curves.ease,
-                                              );
-                                            },
-                                            effect: smooth_page_indicator
-                                                .ExpandingDotsEffect(
-                                              expansionFactor: 3.0,
-                                              spacing: 8.0,
-                                              radius: 16.0,
-                                              dotWidth: 8.0,
-                                              dotHeight: 6.0,
-                                              dotColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .accent3,
-                                              activeDotColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              paintStyle: PaintingStyle.fill,
-                                            ),
+                                                  0.0, 10.0, 0.0, 0.0),
+                                          child: Text(
+                                            cardetailsCarRecord.note,
+                                            textAlign: TextAlign.start,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Open Sans',
+                                                  fontWeight: FontWeight.normal,
+                                                ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ).animateOnPageLoad(animationsMap[

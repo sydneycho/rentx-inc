@@ -163,6 +163,8 @@ class _TermsWidgetState extends State<TermsWidget> {
                                                           context)
                                                       .primaryBackground,
                                                   fontSize: 13.0,
+                                                  letterSpacing: 1.0,
+                                                  fontWeight: FontWeight.normal,
                                                 ),
                                           ),
                                         ),

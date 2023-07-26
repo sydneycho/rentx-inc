@@ -169,7 +169,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                   notificationRecord
                                       .where('post_status', isEqualTo: 'Posted')
                                       .where('created_at',
-                                          isGreaterThanOrEqualTo:
+                                          isLessThanOrEqualTo:
                                               currentUserDocument?.time)
                                       .orderBy('created_at', descending: true),
                             ),
@@ -230,7 +230,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                     ),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 2.0),
+                                          0.0, 2.0, 0.0, 2.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
@@ -242,7 +242,9 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                               width: 4.0,
                                               height: 100.0,
                                               decoration: BoxDecoration(
-                                                color: Color(0xFF4B39EF),
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
                                                 borderRadius:
                                                     BorderRadius.circular(4.0),
                                               ),
@@ -283,6 +285,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                                   Text(
                                                     listViewNotificationRecord
                                                         .notificationMessage,
+                                                    maxLines: 3,
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelMedium
@@ -391,8 +394,10 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                                               shape: badges
                                                                   .BadgeShape
                                                                   .circle,
-                                                              badgeColor: Color(
-                                                                  0xFF4B39EF),
+                                                              badgeColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
                                                               elevation: 4.0,
                                                               padding:
                                                                   EdgeInsetsDirectional

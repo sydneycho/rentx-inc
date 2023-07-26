@@ -78,13 +78,13 @@ class _VerificationWidgetState extends State<VerificationWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                 child: Text(
-                  'Your profile is till under verification.You will be notified when the account is approved',
+                  'Your profile is\n till under verification.You will be notified when the account is approved',
                   textAlign: TextAlign.center,
                   style: FlutterFlowTheme.of(context).titleSmall.override(
                         fontFamily: 'Open Sans',
                         color: FlutterFlowTheme.of(context).primaryBtnText,
                         fontSize: 16.0,
-                        fontWeight: FontWeight.w300,
+                        fontWeight: FontWeight.normal,
                       ),
                 ),
               ),
