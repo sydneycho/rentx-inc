@@ -163,6 +163,11 @@ class CarRecord extends FirestoreRecord {
   String get note => _note ?? '';
   bool hasNote() => _note != null;
 
+  // "created_time" field.
+  DateTime? _createdTime;
+  DateTime? get createdTime => _createdTime;
+  bool hasCreatedTime() => _createdTime != null;
+
   void _initializeFields() {
     _availabilityStatus = snapshotData['availability_status'] as String?;
     _carBack = snapshotData['car_back'] as String?;
@@ -193,6 +198,7 @@ class CarRecord extends FirestoreRecord {
     _vendorDescription = snapshotData['vendor_description'] as String?;
     _carPhotos = getDataList(snapshotData['car_photos']);
     _note = snapshotData['note'] as String?;
+    _createdTime = snapshotData['created_time'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -255,6 +261,10 @@ class CarRecord extends FirestoreRecord {
             () => snapshot.data['car_photos'].toList(),
           ),
           'note': snapshot.data['note'],
+          'created_time': safeGet(
+            () => DateTime.fromMillisecondsSinceEpoch(
+                snapshot.data['created_time']),
+          ),
         },
         CarRecord.collection.doc(snapshot.objectID),
       );
@@ -319,6 +329,7 @@ Map<String, dynamic> createCarRecordData({
   int? numberofdays,
   String? vendorDescription,
   String? note,
+  DateTime? createdTime,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -350,6 +361,7 @@ Map<String, dynamic> createCarRecordData({
       'numberofdays': numberofdays,
       'vendor_description': vendorDescription,
       'note': note,
+      'created_time': createdTime,
     }.withoutNulls,
   );
 
@@ -390,7 +402,8 @@ class CarRecordDocumentEquality implements Equality<CarRecord> {
         e1?.numberofdays == e2?.numberofdays &&
         e1?.vendorDescription == e2?.vendorDescription &&
         listEquality.equals(e1?.carPhotos, e2?.carPhotos) &&
-        e1?.note == e2?.note;
+        e1?.note == e2?.note &&
+        e1?.createdTime == e2?.createdTime;
   }
 
   @override
@@ -423,7 +436,8 @@ class CarRecordDocumentEquality implements Equality<CarRecord> {
         e?.numberofdays,
         e?.vendorDescription,
         e?.carPhotos,
-        e?.note
+        e?.note,
+        e?.createdTime
       ]);
 
   @override

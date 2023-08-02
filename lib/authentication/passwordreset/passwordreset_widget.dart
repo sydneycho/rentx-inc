@@ -206,7 +206,16 @@ class _PasswordresetWidgetState extends State<PasswordresetWidget> {
                             },
                           );
 
-                          context.goNamed('signin');
+                          context.goNamed(
+                            'signin',
+                            extra: <String, dynamic>{
+                              kTransitionInfoKey: TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.leftToRight,
+                                duration: Duration(milliseconds: 250),
+                              ),
+                            },
+                          );
                         },
                         text: 'Reset',
                         options: FFButtonOptions(

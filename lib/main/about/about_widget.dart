@@ -110,8 +110,12 @@ class _AboutWidgetState extends State<AboutWidget> {
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 300.0, 0.0, 0.0),
                               child: Container(
-                                width: MediaQuery.sizeOf(context).width * 0.7,
-                                height: 200.0,
+                                width: 350.0,
+                                height: 180.0,
+                                constraints: BoxConstraints(
+                                  minWidth: 350.0,
+                                  maxWidth: 700.0,
+                                ),
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context).primary,
                                   borderRadius: BorderRadius.circular(12.0),

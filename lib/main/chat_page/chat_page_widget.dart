@@ -72,7 +72,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: FlutterFlowTheme.of(context).primary,
         automaticallyImplyLeading: false,
         leading: FlutterFlowIconButton(
           borderColor: Colors.transparent,
@@ -81,7 +81,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
           buttonSize: 60.0,
           icon: Icon(
             Icons.arrow_back_rounded,
-            color: Colors.black,
+            color: FlutterFlowTheme.of(context).primaryBackground,
             size: 24.0,
           ),
           onPressed: () async {
@@ -94,14 +94,49 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
               '${widget.chatUser?.firstName}',
               style: FlutterFlowTheme.of(context).bodyMedium.override(
                     fontFamily: 'Lexend Deca',
-                    color: Colors.black,
+                    color: FlutterFlowTheme.of(context).primaryBackground,
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                   ),
             ),
           ],
         ),
-        actions: [],
+        actions: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 15.0, 0.0),
+            child: InkWell(
+              splashColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: () async {
+                await widget.chatUser!.reference.delete();
+                await showDialog(
+                  context: context,
+                  builder: (alertDialogContext) {
+                    return AlertDialog(
+                      title: Text('Chat deleted'),
+                      content: Text('The chat is deleted successfully.'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(alertDialogContext),
+                          child: Text('Ok'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+
+                context.pushNamed('AllChatsPage');
+              },
+              child: Icon(
+                Icons.delete_sweep,
+                color: FlutterFlowTheme.of(context).primaryBackground,
+                size: 28.0,
+              ),
+            ),
+          ),
+        ],
         centerTitle: false,
         elevation: 2.0,
       ),

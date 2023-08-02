@@ -349,8 +349,8 @@ class _SigninWidgetState extends State<SigninWidget>
                                         kTransitionInfoKey: TransitionInfo(
                                           hasTransition: true,
                                           transitionType:
-                                              PageTransitionType.fade,
-                                          duration: Duration(milliseconds: 0),
+                                              PageTransitionType.rightToLeft,
+                                          duration: Duration(milliseconds: 250),
                                         ),
                                       },
                                     );
@@ -448,7 +448,18 @@ class _SigninWidgetState extends State<SigninWidget>
                                     }
 
                                     context.goNamedAuth(
-                                        'Home', context.mounted);
+                                      'Home',
+                                      context.mounted,
+                                      extra: <String, dynamic>{
+                                        kTransitionInfoKey: TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.scale,
+                                          alignment: Alignment.bottomCenter,
+                                          duration: Duration(milliseconds: 250),
+                                        ),
+                                      },
+                                    );
                                   },
                                   text: 'Continue with Google',
                                   icon: FaIcon(
@@ -565,6 +576,14 @@ class _SigninWidgetState extends State<SigninWidget>
                                           ParamType.DocumentReference,
                                         ),
                                       }.withoutNulls,
+                                      extra: <String, dynamic>{
+                                        kTransitionInfoKey: TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.rightToLeft,
+                                          duration: Duration(milliseconds: 250),
+                                        ),
+                                      },
                                     );
                                   },
                                   child: RichText(

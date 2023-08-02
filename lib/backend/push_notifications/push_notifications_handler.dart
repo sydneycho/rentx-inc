@@ -119,7 +119,6 @@ final parametersBuilderMap =
   'passwordreset': ParameterData.none(),
   'createuser': ParameterData.none(),
   'Editprofile': ParameterData.none(),
-  'addCar': ParameterData.none(),
   'editcar': (data) async => ParameterData(
         allParams: {
           'caredit': getParameter<DocumentReference>(data, 'caredit'),
@@ -160,6 +159,7 @@ final parametersBuilderMap =
       ),
   'AllChatsPage': ParameterData.none(),
   'search': ParameterData.none(),
+  'AddCar': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

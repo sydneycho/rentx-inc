@@ -132,7 +132,11 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'Title',
-                            labelStyle: FlutterFlowTheme.of(context).bodySmall,
+                            labelStyle:
+                                FlutterFlowTheme.of(context).bodySmall.override(
+                                      fontFamily: 'Open Sans',
+                                      fontSize: 16.0,
+                                    ),
                             hintText: 'Enterthe title',
                             hintStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
@@ -176,7 +180,11 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                             contentPadding: EdgeInsetsDirectional.fromSTEB(
                                 24.0, 24.0, 20.0, 24.0),
                           ),
-                          style: FlutterFlowTheme.of(context).bodyMedium,
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Open Sans',
+                                    fontSize: 16.0,
+                                  ),
                           maxLines: null,
                           validator: _model.nameControllerValidator
                               .asValidator(context),
@@ -193,7 +201,11 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'seller name',
-                            labelStyle: FlutterFlowTheme.of(context).bodySmall,
+                            labelStyle:
+                                FlutterFlowTheme.of(context).bodySmall.override(
+                                      fontFamily: 'Open Sans',
+                                      fontSize: 16.0,
+                                    ),
                             hintText: 'Enter the name of advertiser',
                             hintStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
@@ -254,7 +266,11 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'Seller phone number',
-                            labelStyle: FlutterFlowTheme.of(context).bodySmall,
+                            labelStyle:
+                                FlutterFlowTheme.of(context).bodySmall.override(
+                                      fontFamily: 'Open Sans',
+                                      fontSize: 16.0,
+                                    ),
                             hintText: 'Enter the phone number of advertiser',
                             hintStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
@@ -315,7 +331,11 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'Seller email',
-                            labelStyle: FlutterFlowTheme.of(context).bodySmall,
+                            labelStyle:
+                                FlutterFlowTheme.of(context).bodySmall.override(
+                                      fontFamily: 'Open Sans',
+                                      fontSize: 16.0,
+                                    ),
                             hintText: 'Enter the email of advertiser',
                             hintStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
@@ -376,7 +396,11 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'Price',
-                            labelStyle: FlutterFlowTheme.of(context).bodySmall,
+                            labelStyle:
+                                FlutterFlowTheme.of(context).bodySmall.override(
+                                      fontFamily: 'Open Sans',
+                                      fontSize: 16.0,
+                                    ),
                             hintText: 'Enter the price',
                             hintStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium

@@ -31,11 +31,6 @@ class PaymentRecord extends FirestoreRecord {
   DateTime? get createdAt => _createdAt;
   bool hasCreatedAt() => _createdAt != null;
 
-  // "profile_photo" field.
-  DocumentReference? _profilePhoto;
-  DocumentReference? get profilePhoto => _profilePhoto;
-  bool hasProfilePhoto() => _profilePhoto != null;
-
   // "rentee_phone_number" field.
   String? _renteePhoneNumber;
   String get renteePhoneNumber => _renteePhoneNumber ?? '';
@@ -76,11 +71,15 @@ class PaymentRecord extends FirestoreRecord {
   String get reenteeName => _reenteeName ?? '';
   bool hasReenteeName() => _reenteeName != null;
 
+  // "profile_photo" field.
+  String? _profilePhoto;
+  String get profilePhoto => _profilePhoto ?? '';
+  bool hasProfilePhoto() => _profilePhoto != null;
+
   void _initializeFields() {
     _amount = castToType<double>(snapshotData['amount']);
     _carName = snapshotData['car_name'] as String?;
     _createdAt = snapshotData['created_at'] as DateTime?;
-    _profilePhoto = snapshotData['profile_photo'] as DocumentReference?;
     _renteePhoneNumber = snapshotData['rentee_phone_number'] as String?;
     _status = snapshotData['status'] as String?;
     _vendorEmail = snapshotData['vendor_email'] as String?;
@@ -89,6 +88,7 @@ class PaymentRecord extends FirestoreRecord {
     _vendorPhoto = snapshotData['vendor_photo'] as String?;
     _renteePhoto = snapshotData['rentee_photo'] as String?;
     _reenteeName = snapshotData['reentee_name'] as String?;
+    _profilePhoto = snapshotData['profile_photo'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -129,7 +129,6 @@ Map<String, dynamic> createPaymentRecordData({
   double? amount,
   String? carName,
   DateTime? createdAt,
-  DocumentReference? profilePhoto,
   String? renteePhoneNumber,
   String? status,
   String? vendorEmail,
@@ -138,13 +137,13 @@ Map<String, dynamic> createPaymentRecordData({
   String? vendorPhoto,
   String? renteePhoto,
   String? reenteeName,
+  String? profilePhoto,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'amount': amount,
       'car_name': carName,
       'created_at': createdAt,
-      'profile_photo': profilePhoto,
       'rentee_phone_number': renteePhoneNumber,
       'status': status,
       'vendor_email': vendorEmail,
@@ -153,6 +152,7 @@ Map<String, dynamic> createPaymentRecordData({
       'vendor_photo': vendorPhoto,
       'rentee_photo': renteePhoto,
       'reentee_name': reenteeName,
+      'profile_photo': profilePhoto,
     }.withoutNulls,
   );
 
@@ -167,7 +167,6 @@ class PaymentRecordDocumentEquality implements Equality<PaymentRecord> {
     return e1?.amount == e2?.amount &&
         e1?.carName == e2?.carName &&
         e1?.createdAt == e2?.createdAt &&
-        e1?.profilePhoto == e2?.profilePhoto &&
         e1?.renteePhoneNumber == e2?.renteePhoneNumber &&
         e1?.status == e2?.status &&
         e1?.vendorEmail == e2?.vendorEmail &&
@@ -175,7 +174,8 @@ class PaymentRecordDocumentEquality implements Equality<PaymentRecord> {
         e1?.vendorPhoneNumber == e2?.vendorPhoneNumber &&
         e1?.vendorPhoto == e2?.vendorPhoto &&
         e1?.renteePhoto == e2?.renteePhoto &&
-        e1?.reenteeName == e2?.reenteeName;
+        e1?.reenteeName == e2?.reenteeName &&
+        e1?.profilePhoto == e2?.profilePhoto;
   }
 
   @override
@@ -183,7 +183,6 @@ class PaymentRecordDocumentEquality implements Equality<PaymentRecord> {
         e?.amount,
         e?.carName,
         e?.createdAt,
-        e?.profilePhoto,
         e?.renteePhoneNumber,
         e?.status,
         e?.vendorEmail,
@@ -191,7 +190,8 @@ class PaymentRecordDocumentEquality implements Equality<PaymentRecord> {
         e?.vendorPhoneNumber,
         e?.vendorPhoto,
         e?.renteePhoto,
-        e?.reenteeName
+        e?.reenteeName,
+        e?.profilePhoto
       ]);
 
   @override

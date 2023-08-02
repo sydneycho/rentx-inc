@@ -167,7 +167,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                             requestFn: () => queryNotificationRecord(
                               queryBuilder: (notificationRecord) =>
                                   notificationRecord
-                                      .where('post_status', isEqualTo: 'Posted')
+                                      .where('post_status', isEqualTo: 'posted')
                                       .where('created_at',
                                           isLessThanOrEqualTo:
                                               currentUserDocument?.time)

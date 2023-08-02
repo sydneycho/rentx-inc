@@ -12,7 +12,6 @@ import '/flutter_flow/permissions_util.dart';
 import '/flutter_flow/request_manager.dart';
 
 import 'package:badges/badges.dart' as badges;
-import 'package:sticky_headers/sticky_headers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

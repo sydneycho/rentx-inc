@@ -474,9 +474,6 @@ class _SignupWidgetState extends State<SignupWidget>
                                           0.0, 0.0, 0.0, 16.0),
                                       child: FFButtonWidget(
                                         onPressed: () async {
-                                          context.goNamedAuth(
-                                              'createuser', context.mounted);
-
                                           GoRouter.of(context)
                                               .prepareAuthEvent();
                                           if (_model.passwordController.text !=
@@ -517,6 +514,22 @@ class _SignupWidgetState extends State<SignupWidget>
                                           });
                                           await authManager
                                               .sendEmailVerification();
+
+                                          context.goNamedAuth(
+                                            'createuser',
+                                            context.mounted,
+                                            extra: <String, dynamic>{
+                                              kTransitionInfoKey:
+                                                  TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType
+                                                        .rightToLeft,
+                                                duration:
+                                                    Duration(milliseconds: 250),
+                                              ),
+                                            },
+                                          );
                                         },
                                         text: 'Create Account',
                                         options: FFButtonOptions(
@@ -686,7 +699,20 @@ class _SignupWidgetState extends State<SignupWidget>
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
-                                          context.pushNamed('signin');
+                                          context.pushNamed(
+                                            'signin',
+                                            extra: <String, dynamic>{
+                                              kTransitionInfoKey:
+                                                  TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType
+                                                        .leftToRight,
+                                                duration:
+                                                    Duration(milliseconds: 250),
+                                              ),
+                                            },
+                                          );
                                         },
                                         child: RichText(
                                           text: TextSpan(

@@ -8,7 +8,6 @@ export '/authentication/createuser/createuser_widget.dart'
     show CreateuserWidget;
 export '/authentication/editprofile/editprofile_widget.dart'
     show EditprofileWidget;
-export '/cars/add_car/add_car_widget.dart' show AddCarWidget;
 export '/cars/editcar/editcar_widget.dart' show EditcarWidget;
 export '/main/wallet/wallet_widget.dart' show WalletWidget;
 export '/cars/hostinventory/hostinventory_widget.dart' show HostinventoryWidget;
@@ -33,3 +32,4 @@ export '/main/chat_page/chat_page_widget.dart' show ChatPageWidget;
 export '/main/all_chats_page/all_chats_page_widget.dart'
     show AllChatsPageWidget;
 export '/main/search/search_widget.dart' show SearchWidget;
+export '/cars/add_car/add_car_widget.dart' show AddCarWidget;

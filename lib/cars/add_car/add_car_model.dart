@@ -9,6 +9,8 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:aligned_tooltip/aligned_tooltip.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart'
+    as smooth_page_indicator;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -19,19 +21,20 @@ class AddCarModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
+  // State field(s) for PageView widget.
+  PageController? pageViewController;
+
+  int get pageViewCurrentIndex => pageViewController != null &&
+          pageViewController!.hasClients &&
+          pageViewController!.page != null
+      ? pageViewController!.page!.round()
+      : 0;
   // State field(s) for Car_name widget.
   TextEditingController? carNameController;
   String? Function(BuildContext, String?)? carNameControllerValidator;
   String? _carNameControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return ' Car name field is required';
-    }
-
-    if (val.length < 3) {
-      return 'Requires at least 3 characters.';
-    }
-    if (val.length > 20) {
-      return 'Maximum 20 characters allowed, currently ${val.length}.';
+      return 'Field is required';
     }
 
     return null;
@@ -42,14 +45,7 @@ class AddCarModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? lastNameControllerValidator;
   String? _lastNameControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Brand name field is required';
-    }
-
-    if (val.length < 3) {
-      return 'Requires at least 3 characters.';
-    }
-    if (val.length > 20) {
-      return 'Maximum 20 characters allowed, currently ${val.length}.';
+      return 'Field is required';
     }
 
     return null;
@@ -60,14 +56,7 @@ class AddCarModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? costperdayControllerValidator;
   String? _costperdayControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Cost per day field is required';
-    }
-
-    if (val.length < 1) {
-      return 'Requires at least 1 characters.';
-    }
-    if (val.length > 20) {
-      return 'Maximum 20 characters allowed, currently ${val.length}.';
+      return 'Field is required';
     }
 
     return null;
@@ -78,7 +67,7 @@ class AddCarModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? numberControllerValidator;
   String? _numberControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Plate number field is required';
+      return 'Field is required';
     }
 
     return null;
@@ -89,14 +78,7 @@ class AddCarModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? colorControllerValidator;
   String? _colorControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Color field is required';
-    }
-
-    if (val.length < 3) {
-      return 'Requires at least 3 characters.';
-    }
-    if (val.length > 8) {
-      return 'Maximum 8 characters allowed, currently ${val.length}.';
+      return 'Field is required';
     }
 
     return null;
@@ -107,14 +89,7 @@ class AddCarModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? addressControllerValidator;
   String? _addressControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Address field is required';
-    }
-
-    if (val.length < 5) {
-      return 'Requires at least 5 characters.';
-    }
-    if (val.length > 50) {
-      return 'Maximum 50 characters allowed, currently ${val.length}.';
+      return 'Field is required';
     }
 
     return null;
@@ -137,19 +112,20 @@ class AddCarModel extends FlutterFlowModel {
       return 'Field is required';
     }
 
-    if (val.length < 10) {
-      return 'Requires at least 10 characters.';
-    }
-    if (val.length > 300) {
-      return 'Maximum 300 characters allowed, currently ${val.length}.';
-    }
-
     return null;
   }
 
   // State field(s) for Note widget.
   TextEditingController? noteController;
   String? Function(BuildContext, String?)? noteControllerValidator;
+  String? _noteControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Field is required';
+    }
+
+    return null;
+  }
+
   bool isDataUploading = false;
   List<FFUploadedFile> uploadedLocalFiles = [];
   List<String> uploadedFileUrls = [];
@@ -164,6 +140,7 @@ class AddCarModel extends FlutterFlowModel {
     colorControllerValidator = _colorControllerValidator;
     addressControllerValidator = _addressControllerValidator;
     descriptionControllerValidator = _descriptionControllerValidator;
+    noteControllerValidator = _noteControllerValidator;
   }
 
   void dispose() {

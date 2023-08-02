@@ -214,6 +214,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                         'Account',
                         'Host program',
                         'Theft',
+                        'Information deletion',
                         'Other'
                       ],
                       onChanged: (val) =>

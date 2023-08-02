@@ -717,7 +717,16 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                             ),
                           );
 
-                          context.goNamed('Profile');
+                          context.goNamed(
+                            'Profile',
+                            extra: <String, dynamic>{
+                              kTransitionInfoKey: TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.leftToRight,
+                                duration: Duration(milliseconds: 250),
+                              ),
+                            },
+                          );
                         },
                         text: 'Save Changes',
                         options: FFButtonOptions(

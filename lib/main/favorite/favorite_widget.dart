@@ -103,7 +103,22 @@ class _FavoriteWidgetState extends State<FavoriteWidget>
                                 .bodyMedium
                                 .override(
                                   fontFamily: 'Open Sans',
-                                  fontSize: 18.0,
+                                  fontSize: () {
+                                    if (MediaQuery.sizeOf(context).width <
+                                        kBreakpointSmall) {
+                                      return 18.0;
+                                    } else if (MediaQuery.sizeOf(context)
+                                            .width <
+                                        kBreakpointMedium) {
+                                      return 20.0;
+                                    } else if (MediaQuery.sizeOf(context)
+                                            .width <
+                                        kBreakpointLarge) {
+                                      return 28.0;
+                                    } else {
+                                      return 28.0;
+                                    }
+                                  }(),
                                   fontWeight: FontWeight.bold,
                                 ),
                           ).animateOnPageLoad(

@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/stripe/payment_manager.dart';
+import '/components/empty/empty_widget.dart';
 import '/components/noreviews/noreviews_widget.dart';
 import '/components/payok/payok_widget.dart';
 import '/components/ratingbar/ratingbar_widget.dart';
@@ -12,6 +13,8 @@ import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:smooth_page_indicator/smooth_page_indicator.dart'
+    as smooth_page_indicator;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -19,7 +22,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
@@ -151,6 +153,25 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
         ),
       ],
     ),
+    'containerOnPageLoadAnimation5': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      effects: [
+        FadeEffect(
+          curve: Curves.easeInOut,
+          delay: 0.ms,
+          duration: 600.ms,
+          begin: 0.0,
+          end: 1.0,
+        ),
+        MoveEffect(
+          curve: Curves.easeInOut,
+          delay: 0.ms,
+          duration: 600.ms,
+          begin: Offset(0.0, 50.0),
+          end: Offset(0.0, 0.0),
+        ),
+      ],
+    ),
   };
 
   @override
@@ -212,14 +233,6 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                   context.pop();
                 },
               ),
-              title: Text(
-                'Car details',
-                style: FlutterFlowTheme.of(context).headlineMedium.override(
-                      fontFamily: 'Open Sans',
-                      color: Colors.white,
-                      fontSize: 18.0,
-                    ),
-              ),
               actions: [],
               centerTitle: true,
               elevation: 0.0,
@@ -231,40 +244,113 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Builder(
-                      builder: (context) {
-                        final carphotos =
-                            cardetailsCarRecord.carPhotos.toList();
-                        return SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: List.generate(carphotos.length,
-                                (carphotosIndex) {
-                              final carphotosItem = carphotos[carphotosIndex];
-                              return Flexible(
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      4.0, 4.0, 4.0, 4.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    child: Image.network(
-                                      carphotosItem,
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.98,
-                                      height:
-                                          MediaQuery.sizeOf(context).height *
-                                              0.4,
-                                      fit: BoxFit.cover,
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 12.0, 0.0, 12.0),
+                            child: Container(
+                              width: MediaQuery.sizeOf(context).width * 0.95,
+                              height: MediaQuery.sizeOf(context).height * 0.3,
+                              child: Stack(
+                                children: [
+                                  PageView(
+                                    controller: _model.pageViewController ??=
+                                        PageController(initialPage: 0),
+                                    scrollDirection: Axis.horizontal,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.network(
+                                          cardetailsCarRecord.carPhotos.first,
+                                          width: 300.0,
+                                          height: 200.0,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.network(
+                                          cardetailsCarRecord.carPhotos[1],
+                                          width: 300.0,
+                                          height: 200.0,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.network(
+                                          cardetailsCarRecord.carPhotos[2],
+                                          width: 300.0,
+                                          height: 200.0,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.network(
+                                          cardetailsCarRecord.carPhotos[3],
+                                          width: 300.0,
+                                          height: 200.0,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Align(
+                                    alignment: AlignmentDirectional(0.0, 1.0),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 0.0, 0.0, 16.0),
+                                      child: smooth_page_indicator
+                                          .SmoothPageIndicator(
+                                        controller:
+                                            _model.pageViewController ??=
+                                                PageController(initialPage: 0),
+                                        count: 4,
+                                        axisDirection: Axis.horizontal,
+                                        onDotClicked: (i) async {
+                                          await _model.pageViewController!
+                                              .animateToPage(
+                                            i,
+                                            duration:
+                                                Duration(milliseconds: 500),
+                                            curve: Curves.ease,
+                                          );
+                                        },
+                                        effect: smooth_page_indicator
+                                            .ExpandingDotsEffect(
+                                          expansionFactor: 3.0,
+                                          spacing: 8.0,
+                                          radius: 16.0,
+                                          dotWidth: 8.0,
+                                          dotHeight: 6.0,
+                                          dotColor: FlutterFlowTheme.of(context)
+                                              .accent1,
+                                          activeDotColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                          paintStyle: PaintingStyle.fill,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }),
+                                ],
+                              ),
+                            ),
                           ),
-                        ).animateOnPageLoad(
-                            animationsMap['rowOnPageLoadAnimation1']!);
-                      },
+                        ],
+                      ).animateOnPageLoad(
+                          animationsMap['rowOnPageLoadAnimation1']!),
                     ),
                     Padding(
                       padding:
@@ -299,6 +385,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                           .bodyMedium
                                           .override(
                                             fontFamily: 'Open Sans',
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
                                             fontSize: 18.0,
                                           ),
                                     ),
@@ -458,6 +546,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                   .bodyMedium
                                   .override(
                                     fontFamily: 'Open Sans',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
                                     fontSize: 16.0,
                                   ),
                             ),
@@ -497,8 +587,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         10.0, 8.0, 10.0, 8.0),
-                                    child: FaIcon(
-                                      FontAwesomeIcons.faucet,
+                                    child: Icon(
+                                      Icons.room_preferences_rounded,
                                       color:
                                           FlutterFlowTheme.of(context).primary,
                                       size: 25.0,
@@ -1156,8 +1246,13 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                     format: '00',
                                     locale: '',
                                   )}/ trips made',
-                                  style:
-                                      FlutterFlowTheme.of(context).bodyMedium,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                      ),
                                 );
                               },
                             ),
@@ -1187,8 +1282,13 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                 int textCount = snapshot.data!;
                                 return Text(
                                   'Plate No :${cardetailsCarRecord.plateNumber}',
-                                  style:
-                                      FlutterFlowTheme.of(context).bodyMedium,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                      ),
                                 );
                               },
                             ),
@@ -1282,6 +1382,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                 .bodyMedium
                                 .override(
                                   fontFamily: 'Open Sans',
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
                                   fontSize: 16.0,
                                 ),
                           ),
@@ -1498,7 +1600,7 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                                           fontFamily:
                                                                               'Outfit',
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primaryText,
+                                                                              FlutterFlowTheme.of(context).secondaryText,
                                                                           fontSize:
                                                                               20.0,
                                                                           fontWeight:
@@ -1672,6 +1774,270 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                       ),
                     ),
                     Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(10.0, 15.0, 10.0, 0.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 4.0, 0.0, 12.0),
+                              child: Container(
+                                width: double.infinity,
+                                height: MediaQuery.sizeOf(context).height * 0.4,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(0.0),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 12.0, 0.0, 12.0),
+                                      child: Text(
+                                        'Recommedations',
+                                        style: FlutterFlowTheme.of(context)
+                                            .headlineMedium
+                                            .override(
+                                              fontFamily: 'Outfit',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryText,
+                                              fontSize: 24.0,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: FutureBuilder<List<CarRecord>>(
+                                        future: _model.recommedations(
+                                          requestFn: () => queryCarRecordOnce(
+                                            queryBuilder: (carRecord) => carRecord
+                                                .where('car_status',
+                                                    isEqualTo: 'approved')
+                                                .where('district',
+                                                    isEqualTo:
+                                                        cardetailsCarRecord
+                                                                    .district !=
+                                                                ''
+                                                            ? cardetailsCarRecord
+                                                                .district
+                                                            : null),
+                                          ),
+                                        ),
+                                        builder: (context, snapshot) {
+                                          // Customize what your widget looks like when it's loading.
+                                          if (!snapshot.hasData) {
+                                            return Center(
+                                              child: SizedBox(
+                                                width: 100.0,
+                                                height: 100.0,
+                                                child: SpinKitDualRing(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primary,
+                                                  size: 100.0,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          List<CarRecord>
+                                              listViewCarRecordList =
+                                              snapshot.data!;
+                                          if (listViewCarRecordList.isEmpty) {
+                                            return EmptyWidget();
+                                          }
+                                          return ListView.builder(
+                                            padding: EdgeInsets.zero,
+                                            primary: false,
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount:
+                                                listViewCarRecordList.length,
+                                            itemBuilder:
+                                                (context, listViewIndex) {
+                                              final listViewCarRecord =
+                                                  listViewCarRecordList[
+                                                      listViewIndex];
+                                              return Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        10.0, 0.0, 0.0, 0.0),
+                                                child: Container(
+                                                  width: 380.0,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        blurRadius: 2.0,
+                                                        color:
+                                                            Color(0x520E151B),
+                                                        offset:
+                                                            Offset(0.0, 1.0),
+                                                      )
+                                                    ],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12.0),
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  0.0),
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  0.0),
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  12.0),
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  12.0),
+                                                        ),
+                                                        child: Image.network(
+                                                          cardetailsCarRecord
+                                                              .carPhotos.first,
+                                                          width:
+                                                              double.infinity,
+                                                          height:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .height *
+                                                                  0.28,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    16.0,
+                                                                    12.0,
+                                                                    16.0,
+                                                                    0.0),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 7,
+                                                              child: Text(
+                                                                cardetailsCarRecord
+                                                                    .carName,
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyLarge
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Plus Jakarta Sans',
+                                                                      color: Color(
+                                                                          0xFF14181B),
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              flex: 3,
+                                                              child: Text(
+                                                                formatNumber(
+                                                                  cardetailsCarRecord
+                                                                      .costPerDay,
+                                                                  formatType:
+                                                                      FormatType
+                                                                          .custom,
+                                                                  currency: 'K',
+                                                                  format:
+                                                                      '00.00',
+                                                                  locale: '',
+                                                                ),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .end,
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .headlineSmall
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Outfit',
+                                                                      color: Color(
+                                                                          0xFF14181B),
+                                                                      fontSize:
+                                                                          18.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    16.0,
+                                                                    4.0,
+                                                                    0.0,
+                                                                    12.0),
+                                                        child: Text(
+                                                          cardetailsCarRecord
+                                                              .district,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .labelMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Plus Jakarta Sans',
+                                                                color: Color(
+                                                                    0xFF57636C),
+                                                                fontSize: 14.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ).animateOnPageLoad(animationsMap[
+                                                    'containerOnPageLoadAnimation5']!),
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(
                           10.0, 15.0, 10.0, 30.0),
                       child: Row(
@@ -1693,7 +2059,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                     topRight: Radius.circular(12.0),
                                   ),
                                   border: Border.all(
-                                    color: FlutterFlowTheme.of(context).accent3,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
                                   ),
                                 ),
                                 child: Padding(
@@ -1807,7 +2174,7 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                         height: 24.0,
                                         thickness: 2.0,
                                         color: FlutterFlowTheme.of(context)
-                                            .accent3,
+                                            .accent4,
                                       ),
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
@@ -1927,7 +2294,7 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                         ),
                                                   ),
                                                   Text(
-                                                    '1.8',
+                                                    '3%',
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .titleLarge
@@ -2473,91 +2840,6 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                               BorderSide(
                                                             color: Colors
                                                                 .transparent,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      50.0),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  12.0,
-                                                                  0.0,
-                                                                  12.0),
-                                                      child: FFButtonWidget(
-                                                        onPressed: () async {
-                                                          await showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (alertDialogContext) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    'Airtel pay'),
-                                                                content: Text(
-                                                                    'This feature is currently unavailable. Airtel payment scheme will come very soon'),
-                                                                actions: [
-                                                                  TextButton(
-                                                                    onPressed: () =>
-                                                                        Navigator.pop(
-                                                                            alertDialogContext),
-                                                                    child: Text(
-                                                                        'Ok'),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            },
-                                                          );
-                                                        },
-                                                        text: 'Airtel pay',
-                                                        options:
-                                                            FFButtonOptions(
-                                                          width: 120.0,
-                                                          height: 30.0,
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          iconPadding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          textStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Outfit',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .secondaryText,
-                                                                    fontSize:
-                                                                        14.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal,
-                                                                  ),
-                                                          elevation: 2.0,
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primary,
                                                             width: 1.0,
                                                           ),
                                                           borderRadius:

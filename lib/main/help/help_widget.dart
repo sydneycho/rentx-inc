@@ -107,14 +107,29 @@ class _HelpWidgetState extends State<HelpWidget> {
                                   .titleLarge
                                   .override(
                                     fontFamily: 'Open Sans',
-                                    fontSize: 18.0,
+                                    fontSize: () {
+                                      if (MediaQuery.sizeOf(context).width <
+                                          kBreakpointSmall) {
+                                        return 18.0;
+                                      } else if (MediaQuery.sizeOf(context)
+                                              .width <
+                                          kBreakpointMedium) {
+                                        return 20.0;
+                                      } else if (MediaQuery.sizeOf(context)
+                                              .width <
+                                          kBreakpointLarge) {
+                                        return 24.0;
+                                      } else {
+                                        return 24.0;
+                                      }
+                                    }(),
                                   ),
                             ),
                           ),
                         ),
                       ),
                       content: Container(
-                        width: double.infinity,
+                        width: MediaQuery.sizeOf(context).width * 0.95,
                         constraints: BoxConstraints(
                           maxWidth: 430.0,
                         ),
@@ -143,7 +158,8 @@ class _HelpWidgetState extends State<HelpWidget> {
                                     context.pushNamed('About');
                                   },
                                   child: Container(
-                                    width: double.infinity,
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.9,
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
@@ -491,7 +507,22 @@ class _HelpWidgetState extends State<HelpWidget> {
                                   .titleLarge
                                   .override(
                                     fontFamily: 'Open Sans',
-                                    fontSize: 18.0,
+                                    fontSize: () {
+                                      if (MediaQuery.sizeOf(context).width <
+                                          kBreakpointSmall) {
+                                        return 18.0;
+                                      } else if (MediaQuery.sizeOf(context)
+                                              .width <
+                                          kBreakpointMedium) {
+                                        return 20.0;
+                                      } else if (MediaQuery.sizeOf(context)
+                                              .width <
+                                          kBreakpointLarge) {
+                                        return 24.0;
+                                      } else {
+                                        return 24.0;
+                                      }
+                                    }(),
                                   ),
                             ),
                           ),

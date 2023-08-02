@@ -1,4 +1,4 @@
-# Rentx
+# RentZ
 
 A new Flutter project.
 

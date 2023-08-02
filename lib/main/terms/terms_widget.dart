@@ -114,9 +114,12 @@ class _TermsWidgetState extends State<TermsWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 300.0, 0.0, 0.0),
                                   child: Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 0.7,
+                                    width: 350.0,
                                     height: 200.0,
+                                    constraints: BoxConstraints(
+                                      minWidth: 350.0,
+                                      maxWidth: 600.0,
+                                    ),
                                     decoration: BoxDecoration(
                                       color:
                                           FlutterFlowTheme.of(context).primary,

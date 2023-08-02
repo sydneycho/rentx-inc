@@ -1,16 +1,15 @@
 import '/backend/backend.dart';
 import '/components/empty/empty_widget.dart';
-import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:text_search/text_search.dart';
 import 'search_model.dart';
 export 'search_model.dart';
 
@@ -31,7 +30,7 @@ class _SearchWidgetState extends State<SearchWidget> {
     super.initState();
     _model = createModel(context, () => SearchModel());
 
-    _model.searchbarController ??= TextEditingController();
+    _model.textController ??= TextEditingController();
   }
 
   @override
@@ -81,147 +80,115 @@ class _SearchWidgetState extends State<SearchWidget> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 0.0),
-                child: Autocomplete<String>(
-                  initialValue: TextEditingValue(),
-                  optionsBuilder: (textEditingValue) {
-                    if (textEditingValue.text == '') {
-                      return const Iterable<String>.empty();
-                    }
-                    return _model.simpleSearchResults
-                        .map((e) => e.carName)
-                        .toList()
-                        .where((option) {
-                      final lowercaseOption = option.toLowerCase();
-                      return lowercaseOption
-                          .contains(textEditingValue.text.toLowerCase());
-                    });
-                  },
-                  optionsViewBuilder: (context, onSelected, options) {
-                    return AutocompleteOptionsList(
-                      textFieldKey: _model.searchbarKey,
-                      textController: _model.searchbarController!,
-                      options: options.toList(),
-                      onSelected: onSelected,
-                      textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                      textHighlightStyle: TextStyle(),
-                      elevation: 4.0,
-                      optionBackgroundColor:
-                          FlutterFlowTheme.of(context).primaryBackground,
-                      optionHighlightColor:
-                          FlutterFlowTheme.of(context).secondaryBackground,
-                      maxHeight: 200.0,
-                    );
-                  },
-                  onSelected: (String selection) {
-                    setState(() => _model.searchbarSelectedOption = selection);
-                    FocusScope.of(context).unfocus();
-                  },
-                  fieldViewBuilder: (
-                    context,
-                    textEditingController,
-                    focusNode,
-                    onEditingComplete,
-                  ) {
-                    _model.searchbarController = textEditingController;
-                    return TextFormField(
-                      key: _model.searchbarKey,
-                      controller: textEditingController,
-                      focusNode: focusNode,
-                      onEditingComplete: onEditingComplete,
-                      onChanged: (_) => EasyDebounce.debounce(
-                        '_model.searchbarController',
-                        Duration(milliseconds: 1000),
-                        () => setState(() {}),
+              Container(
+                width: MediaQuery.sizeOf(context).width * 1.0,
+                height: 100.0,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0),
+                        child: TextFormField(
+                          controller: _model.textController,
+                          onChanged: (_) => EasyDebounce.debounce(
+                            '_model.textController',
+                            Duration(milliseconds: 2000),
+                            () => setState(() {}),
+                          ),
+                          autofocus: true,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            labelText: 'Search here  ....',
+                            labelStyle:
+                                FlutterFlowTheme.of(context).labelMedium,
+                            hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                width: 2.0,
+                              ),
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).primary,
+                                width: 2.0,
+                              ),
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 2.0,
+                              ),
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 2.0,
+                              ),
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
+                            suffixIcon: _model.textController!.text.isNotEmpty
+                                ? InkWell(
+                                    onTap: () async {
+                                      _model.textController?.clear();
+                                      setState(() {});
+                                    },
+                                    child: Icon(
+                                      Icons.clear,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      size: 20.0,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                          style: FlutterFlowTheme.of(context).bodyMedium,
+                          validator: _model.textControllerValidator
+                              .asValidator(context),
+                        ),
                       ),
-                      onFieldSubmitted: (_) async {
-                        await queryCarRecordOnce()
-                            .then(
-                              (records) => _model.simpleSearchResults =
-                                  TextSearch(
-                                records
-                                    .map(
-                                      (record) => TextSearchItem(record, [
-                                        record.carName!,
-                                        record.description!,
-                                        record.fuelType!,
-                                        record.location!,
-                                        record.transmissionType!,
-                                        record.vendorName!,
-                                        record.brandName!,
-                                        record.district!,
-                                        record.availabilityStatus!
-                                      ]),
-                                    )
-                                    .toList(),
-                              )
-                                      .search(_model.searchbarController.text)
-                                      .map((r) => r.object)
-                                      .toList(),
-                            )
-                            .onError((_, __) => _model.simpleSearchResults = [])
-                            .whenComplete(() => setState(() {}));
-                      },
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        labelText: 'Search  here...',
-                        labelStyle: FlutterFlowTheme.of(context).bodySmall,
-                        enabledBorder: OutlineInputBorder(
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                      child: FFButtonWidget(
+                        onPressed: () {
+                          print('Button pressed ...');
+                        },
+                        text: 'Search',
+                        options: FFButtonOptions(
+                          width: 60.0,
+                          height: 30.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).primary,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                                    fontFamily: 'Open Sans',
+                                    color: Colors.white,
+                                    fontSize: 12.0,
+                                  ),
+                          elevation: 3.0,
                           borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).accent3,
+                            color: Colors.transparent,
                             width: 1.0,
                           ),
-                          borderRadius: BorderRadius.circular(30.0),
+                          borderRadius: BorderRadius.circular(50.0),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).accent3,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).accent3,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).accent3,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        filled: true,
-                        fillColor:
-                            FlutterFlowTheme.of(context).primaryBackground,
-                        prefixIcon: Icon(
-                          Icons.search_outlined,
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                        ),
-                        suffixIcon: _model.searchbarController!.text.isNotEmpty
-                            ? InkWell(
-                                onTap: () async {
-                                  _model.searchbarController?.clear();
-                                  setState(() {});
-                                },
-                                child: Icon(
-                                  Icons.clear,
-                                  color: Color(0xFF757575),
-                                  size: 22.0,
-                                ),
-                              )
-                            : null,
                       ),
-                      style: FlutterFlowTheme.of(context).bodyMedium,
-                      maxLines: null,
-                      validator: _model.searchbarControllerValidator
-                          .asValidator(context),
-                    );
-                  },
+                    ),
+                  ],
                 ),
               ),
               Padding(
@@ -245,7 +212,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                         future: queryCarRecordCount(
                           queryBuilder: (carRecord) => carRecord
                               .where('car_name',
-                                  isEqualTo: _model.searchbarController.text)
+                                  isEqualTo: _model.textController.text)
                               .where('car_status', isEqualTo: 'approved'),
                         ),
                         builder: (context, snapshot) {
@@ -278,14 +245,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                   ],
                 ),
               ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (responsiveVisibility(
-                    context: context,
-                    phone: false,
-                  ))
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
                     Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 44.0),
@@ -294,7 +258,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                           queryBuilder: (carRecord) => carRecord
                               .where('car_status', isEqualTo: 'approved')
                               .where('car_name',
-                                  isEqualTo: _model.searchbarController.text),
+                                  isEqualTo: _model.textController.text),
                         ),
                         builder: (context, snapshot) {
                           // Customize what your widget looks like when it's loading.
@@ -347,8 +311,26 @@ class _SearchWidgetState extends State<SearchWidget> {
                                     );
                                   },
                                   child: Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 0.48,
+                                    width: () {
+                                      if (MediaQuery.sizeOf(context).width <
+                                          kBreakpointSmall) {
+                                        return 380.0;
+                                      } else if (MediaQuery.sizeOf(context)
+                                              .width <
+                                          800.0) {
+                                        return 390.0;
+                                      } else if (MediaQuery.sizeOf(context)
+                                              .width >
+                                          1100.0) {
+                                        return 450.0;
+                                      } else if (MediaQuery.sizeOf(context)
+                                              .width <=
+                                          1100.0) {
+                                        return 400.0;
+                                      } else {
+                                        return 380.0;
+                                      }
+                                    }(),
                                     height: MediaQuery.sizeOf(context).height *
                                         0.28,
                                     decoration: BoxDecoration(
@@ -479,203 +461,8 @@ class _SearchWidgetState extends State<SearchWidget> {
                         },
                       ),
                     ),
-                  if (responsiveVisibility(
-                    context: context,
-                    tablet: false,
-                    tabletLandscape: false,
-                    desktop: false,
-                  ))
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 44.0),
-                      child: StreamBuilder<List<CarRecord>>(
-                        stream: queryCarRecord(
-                          queryBuilder: (carRecord) => carRecord
-                              .where('car_status', isEqualTo: 'approved')
-                              .where('car_name',
-                                  isEqualTo: _model.searchbarController.text),
-                        ),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 100.0,
-                                height: 100.0,
-                                child: SpinKitDualRing(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  size: 100.0,
-                                ),
-                              ),
-                            );
-                          }
-                          List<CarRecord> listViewCarRecordList =
-                              snapshot.data!;
-                          return ListView.separated(
-                            padding: EdgeInsets.zero,
-                            primary: false,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: listViewCarRecordList.length,
-                            separatorBuilder: (_, __) => SizedBox(height: 12.0),
-                            itemBuilder: (context, listViewIndex) {
-                              final listViewCarRecord =
-                                  listViewCarRecordList[listViewIndex];
-                              return Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 0.0, 16.0, 0.0),
-                                child: InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    context.pushNamed(
-                                      'Cardetails',
-                                      queryParameters: {
-                                        'productref': serializeParam(
-                                          listViewCarRecord.reference,
-                                          ParamType.DocumentReference,
-                                        ),
-                                      }.withoutNulls,
-                                    );
-                                  },
-                                  child: Container(
-                                    width: 220.0,
-                                    height: 240.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 4.0,
-                                          color: Color(0x33000000),
-                                          offset: Offset(0.0, 2.0),
-                                        )
-                                      ],
-                                      borderRadius: BorderRadius.circular(12.0),
-                                      border: Border.all(
-                                        color: FlutterFlowTheme.of(context)
-                                            .accent3,
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 8.0, 8.0, 8.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Stack(
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                  child: Image.network(
-                                                    listViewCarRecord
-                                                        .carPhotos.first,
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 8.0, 0.0, 0.0),
-                                            child: Text(
-                                              listViewCarRecord.carName,
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleLarge
-                                                      .override(
-                                                        fontFamily: 'Open Sans',
-                                                        fontSize: 18.0,
-                                                      ),
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 4.0, 0.0, 8.0),
-                                                child: RichText(
-                                                  text: TextSpan(
-                                                    children: [
-                                                      TextSpan(
-                                                        text: formatNumber(
-                                                          listViewCarRecord
-                                                              .costPerDay,
-                                                          formatType:
-                                                              FormatType.custom,
-                                                          currency: 'K',
-                                                          format: '00.00',
-                                                          locale: '',
-                                                        ),
-                                                        style: TextStyle(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                        ),
-                                                      ),
-                                                      TextSpan(
-                                                        text: ' /Day',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .labelSmall,
-                                                      )
-                                                    ],
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .labelMedium,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 4.0, 10.0, 8.0),
-                                                child: RichText(
-                                                  text: TextSpan(
-                                                    children: [
-                                                      TextSpan(
-                                                        text: listViewCarRecord
-                                                            .district,
-                                                        style: TextStyle(),
-                                                      )
-                                                    ],
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .labelMedium,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

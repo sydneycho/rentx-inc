@@ -66,6 +66,11 @@ class PaidAdvertsRecord extends FirestoreRecord {
   bool get onSale => _onSale ?? false;
   bool hasOnSale() => _onSale != null;
 
+  // "advert_status" field.
+  String? _advertStatus;
+  String get advertStatus => _advertStatus ?? '';
+  bool hasAdvertStatus() => _advertStatus != null;
+
   void _initializeFields() {
     _createdAt = snapshotData['created_at'] as DateTime?;
     _modifiedAt = snapshotData['modified_at'] as DateTime?;
@@ -77,6 +82,7 @@ class PaidAdvertsRecord extends FirestoreRecord {
     _sellerPhoto = snapshotData['seller_photo'] as String?;
     _thumb = snapshotData['thumb'] as String?;
     _onSale = snapshotData['on_sale'] as bool?;
+    _advertStatus = snapshotData['advert_status'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -124,6 +130,7 @@ Map<String, dynamic> createPaidAdvertsRecordData({
   String? sellerPhoto,
   String? thumb,
   bool? onSale,
+  String? advertStatus,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -137,6 +144,7 @@ Map<String, dynamic> createPaidAdvertsRecordData({
       'seller_photo': sellerPhoto,
       'thumb': thumb,
       'on_sale': onSale,
+      'advert_status': advertStatus,
     }.withoutNulls,
   );
 
@@ -157,7 +165,8 @@ class PaidAdvertsRecordDocumentEquality implements Equality<PaidAdvertsRecord> {
         e1?.sellerPhoneNumber == e2?.sellerPhoneNumber &&
         e1?.sellerPhoto == e2?.sellerPhoto &&
         e1?.thumb == e2?.thumb &&
-        e1?.onSale == e2?.onSale;
+        e1?.onSale == e2?.onSale &&
+        e1?.advertStatus == e2?.advertStatus;
   }
 
   @override
@@ -171,7 +180,8 @@ class PaidAdvertsRecordDocumentEquality implements Equality<PaidAdvertsRecord> {
         e?.sellerPhoneNumber,
         e?.sellerPhoto,
         e?.thumb,
-        e?.onSale
+        e?.onSale,
+        e?.advertStatus
       ]);
 
   @override

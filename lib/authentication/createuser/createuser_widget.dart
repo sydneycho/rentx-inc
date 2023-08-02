@@ -634,122 +634,126 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                               0.0, 24.0, 0.0, 24.0),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              final firestoreBatch =
-                                  FirebaseFirestore.instance.batch();
-                              try {
-                                if (_model.formKey.currentState == null ||
-                                    !_model.formKey.currentState!.validate()) {
-                                  return;
-                                }
-                                if (_model.datePicked == null) {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                        title: Text('Date of birth'),
-                                        content: Text('Pick the date of birth'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                alertDialogContext),
-                                            child: Text('Ok'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                  return;
-                                }
-                                if (_model.districtModel.stateValue == null) {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                        title: Text('District'),
-                                        content: Text(
-                                            'Pick your district from the list given.'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                alertDialogContext),
-                                            child: Text('Ok'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                  return;
-                                }
-                                if (_model.switchValue == true) {
-                                  context.goNamed('Host');
+                              if (_model.formKey.currentState == null ||
+                                  !_model.formKey.currentState!.validate()) {
+                                return;
+                              }
+                              if (_model.datePicked == null) {
+                                await showDialog(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text('Date of birth'),
+                                      content: Text('Pick the date of birth'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                                return;
+                              }
+                              if (_model.districtModel.stateValue == null) {
+                                await showDialog(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text('District'),
+                                      content: Text(
+                                          'Pick your district from the list given.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                                return;
+                              }
+                              if (_model.switchValue == true) {
+                                await currentUserReference!
+                                    .update(createUserRecordData(
+                                  displayName:
+                                      '${_model.firstnameController.text} ${_model.lastNameController.text}',
+                                  phoneNumber: _model.numberController.text,
+                                  address: _model.addressController.text,
+                                  bio: _model.myBioController.text,
+                                  district: _model.districtModel.stateValue,
+                                  firstName: _model.firstnameController.text,
+                                  lastName: _model.lastNameController.text,
+                                  isAdmin: false,
+                                  isHost: _model.switchValue,
+                                  userRef: currentUserReference,
+                                  userStatus: 'pending',
+                                  dob: _model.datePicked,
+                                  time: getCurrentTimestamp,
+                                ));
 
-                                  firestoreBatch.update(
-                                      currentUserReference!,
-                                      createUserRecordData(
-                                        displayName:
-                                            '${_model.firstnameController.text} ${_model.lastNameController.text}',
-                                        phoneNumber:
-                                            _model.numberController.text,
-                                        address: _model.addressController.text,
-                                        bio: _model.myBioController.text,
-                                        district:
-                                            _model.districtModel.stateValue,
-                                        firstName:
-                                            _model.firstnameController.text,
-                                        lastName:
-                                            _model.lastNameController.text,
-                                        isAdmin: false,
-                                        isHost: _model.switchValue,
-                                        userRef: currentUserReference,
-                                        userStatus: 'pending',
-                                        dob: _model.datePicked,
-                                        time: getCurrentTimestamp,
-                                      ));
-                                } else {
-                                  firestoreBatch.update(
-                                      currentUserReference!,
-                                      createUserRecordData(
-                                        displayName:
-                                            '${_model.firstnameController.text} ${_model.lastNameController.text}',
-                                        phoneNumber:
-                                            _model.numberController.text,
-                                        address: _model.addressController.text,
-                                        bio: _model.myBioController.text,
-                                        district:
-                                            _model.districtModel.stateValue,
-                                        firstName:
-                                            _model.firstnameController.text,
-                                        lastName:
-                                            _model.lastNameController.text,
-                                        isAdmin: false,
-                                        isHost: _model.switchValue,
-                                        userRef: currentUserReference,
-                                        userStatus: 'approved',
-                                        dob: _model.datePicked,
-                                        time: getCurrentTimestamp,
-                                      ));
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                        title: Text('Created successfully'),
-                                        content: Text(
-                                            'Your  account has been created succeffully.Navigate to the home page now'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                alertDialogContext),
-                                            child: Text('Ok'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
+                                context.goNamed(
+                                  'Host',
+                                  extra: <String, dynamic>{
+                                    kTransitionInfoKey: TransitionInfo(
+                                      hasTransition: true,
+                                      transitionType:
+                                          PageTransitionType.rightToLeft,
+                                      duration: Duration(milliseconds: 250),
+                                    ),
+                                  },
+                                );
+                              } else {
+                                await currentUserReference!
+                                    .update(createUserRecordData(
+                                  displayName:
+                                      '${_model.firstnameController.text} ${_model.lastNameController.text}',
+                                  phoneNumber: _model.numberController.text,
+                                  address: _model.addressController.text,
+                                  bio: _model.myBioController.text,
+                                  district: _model.districtModel.stateValue,
+                                  firstName: _model.firstnameController.text,
+                                  lastName: _model.lastNameController.text,
+                                  isAdmin: false,
+                                  isHost: _model.switchValue,
+                                  userRef: currentUserReference,
+                                  userStatus: 'approved',
+                                  dob: _model.datePicked,
+                                  time: getCurrentTimestamp,
+                                ));
+                                await showDialog(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text('Created successfully'),
+                                      content: Text(
+                                          'Your  account has been created succeffully.Navigate to the home page now'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
 
-                                  context.goNamed('Home');
-                                }
-                              } finally {
-                                await firestoreBatch.commit();
+                                context.goNamed(
+                                  'Home',
+                                  extra: <String, dynamic>{
+                                    kTransitionInfoKey: TransitionInfo(
+                                      hasTransition: true,
+                                      transitionType: PageTransitionType.scale,
+                                      alignment: Alignment.bottomCenter,
+                                      duration: Duration(milliseconds: 250),
+                                    ),
+                                  },
+                                );
                               }
                             },
                             text: 'Save Changes',

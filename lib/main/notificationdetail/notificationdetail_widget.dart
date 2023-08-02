@@ -148,6 +148,7 @@ class _NotificationdetailWidgetState extends State<NotificationdetailWidget>
                                     fontFamily: 'Open Sans',
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryText,
+                                    fontSize: 20.0,
                                   ),
                             ),
                           ),
