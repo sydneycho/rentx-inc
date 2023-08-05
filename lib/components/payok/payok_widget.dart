@@ -92,6 +92,9 @@ class _PayokWidgetState extends State<PayokWidget> {
               children: [
                 FFButtonWidget(
                   onPressed: () async {
+                    logFirebaseEvent('PAYOK_COMP_OK_BTN_ON_TAP');
+                    logFirebaseEvent('Button_navigate_to');
+
                     context.goNamed('Home');
                   },
                   text: 'Ok',

@@ -36,8 +36,11 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
     super.initState();
     _model = createModel(context, () => CreateuserModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'createuser'});
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      logFirebaseEvent('CREATEUSER_PAGE_createuser_ON_INIT_STATE');
+      logFirebaseEvent('createuser_alert_dialog');
       await showDialog(
         context: context,
         builder: (alertDialogContext) {
@@ -95,6 +98,8 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                 size: 24.0,
               ),
               onPressed: () async {
+                logFirebaseEvent('CREATEUSER_arrow_back_rounded_ICN_ON_TAP');
+                logFirebaseEvent('IconButton_navigate_back');
                 context.pop();
               },
             ),
@@ -146,6 +151,9 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 15.0),
                         child: FFButtonWidget(
                           onPressed: () async {
+                            logFirebaseEvent(
+                                'CREATEUSER_PAGE_UPLOAD_BTN_ON_TAP');
+                            logFirebaseEvent('Button_bottom_sheet');
                             await showModalBottomSheet(
                               isScrollControlled: true,
                               backgroundColor: Colors.transparent,
@@ -455,6 +463,9 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    logFirebaseEvent(
+                                        'CREATEUSER_PAGE_Icon_cvs9o2s0_ON_TAP');
+                                    logFirebaseEvent('Icon_date_time_picker');
                                     final _datePickedDate =
                                         await showDatePicker(
                                       context: context,
@@ -599,6 +610,9 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                     setState(
                                         () => _model.switchValue = newValue!);
                                     if (newValue!) {
+                                      logFirebaseEvent(
+                                          'CREATEUSER_Switch_ijf0qrkg_ON_TOGGLE_ON');
+                                      logFirebaseEvent('Switch_play_sound');
                                       _model.soundPlayer ??= AudioPlayer();
                                       if (_model.soundPlayer!.playing) {
                                         await _model.soundPlayer!.stop();
@@ -634,6 +648,9 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                               0.0, 24.0, 0.0, 24.0),
                           child: FFButtonWidget(
                             onPressed: () async {
+                              logFirebaseEvent(
+                                  'CREATEUSER_PAGE_SAVE_CHANGES_BTN_ON_TAP');
+                              logFirebaseEvent('Button_validate_form');
                               if (_model.formKey.currentState == null ||
                                   !_model.formKey.currentState!.validate()) {
                                 return;
@@ -678,6 +695,8 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                 return;
                               }
                               if (_model.switchValue == true) {
+                                logFirebaseEvent('Button_backend_call');
+
                                 await currentUserReference!
                                     .update(createUserRecordData(
                                   displayName:
@@ -695,6 +714,7 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                   dob: _model.datePicked,
                                   time: getCurrentTimestamp,
                                 ));
+                                logFirebaseEvent('Button_navigate_to');
 
                                 context.goNamed(
                                   'Host',
@@ -708,6 +728,8 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                   },
                                 );
                               } else {
+                                logFirebaseEvent('Button_backend_call');
+
                                 await currentUserReference!
                                     .update(createUserRecordData(
                                   displayName:
@@ -725,6 +747,7 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                   dob: _model.datePicked,
                                   time: getCurrentTimestamp,
                                 ));
+                                logFirebaseEvent('Button_alert_dialog');
                                 await showDialog(
                                   context: context,
                                   builder: (alertDialogContext) {
@@ -742,6 +765,7 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                     );
                                   },
                                 );
+                                logFirebaseEvent('Button_navigate_to');
 
                                 context.goNamed(
                                   'Home',

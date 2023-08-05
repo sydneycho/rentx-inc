@@ -27,6 +27,8 @@ class _PasswordresetWidgetState extends State<PasswordresetWidget> {
     super.initState();
     _model = createModel(context, () => PasswordresetModel());
 
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'passwordreset'});
     _model.emailController ??= TextEditingController();
   }
 
@@ -60,6 +62,8 @@ class _PasswordresetWidgetState extends State<PasswordresetWidget> {
               size: 24.0,
             ),
             onPressed: () async {
+              logFirebaseEvent('PASSWORDRESET_PAGE_arrow_back_ICN_ON_TAP');
+              logFirebaseEvent('IconButton_navigate_back');
               context.pop();
             },
           ),
@@ -174,6 +178,9 @@ class _PasswordresetWidgetState extends State<PasswordresetWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 32.0),
                       child: FFButtonWidget(
                         onPressed: () async {
+                          logFirebaseEvent(
+                              'PASSWORDRESET_PAGE_RESET_BTN_ON_TAP');
+                          logFirebaseEvent('Button_auth');
                           if (_model.emailController.text.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -188,6 +195,7 @@ class _PasswordresetWidgetState extends State<PasswordresetWidget> {
                             email: _model.emailController.text,
                             context: context,
                           );
+                          logFirebaseEvent('Button_alert_dialog');
                           await showDialog(
                             context: context,
                             builder: (alertDialogContext) {
@@ -205,17 +213,8 @@ class _PasswordresetWidgetState extends State<PasswordresetWidget> {
                               );
                             },
                           );
-
-                          context.goNamed(
-                            'signin',
-                            extra: <String, dynamic>{
-                              kTransitionInfoKey: TransitionInfo(
-                                hasTransition: true,
-                                transitionType: PageTransitionType.leftToRight,
-                                duration: Duration(milliseconds: 250),
-                              ),
-                            },
-                          );
+                          logFirebaseEvent('Button_navigate_back');
+                          context.safePop();
                         },
                         text: 'Reset',
                         options: FFButtonOptions(

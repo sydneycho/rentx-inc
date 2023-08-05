@@ -31,6 +31,8 @@ class _ReferralWidgetState extends State<ReferralWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ReferralModel());
+
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Referral'});
   }
 
   @override
@@ -63,7 +65,19 @@ class _ReferralWidgetState extends State<ReferralWidget> {
               size: 24.0,
             ),
             onPressed: () async {
-              context.pop();
+              logFirebaseEvent('REFERRAL_PAGE_arrow_back_ICN_ON_TAP');
+              logFirebaseEvent('IconButton_navigate_to');
+
+              context.pushNamed(
+                'Profile',
+                extra: <String, dynamic>{
+                  kTransitionInfoKey: TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.leftToRight,
+                    duration: Duration(milliseconds: 300),
+                  ),
+                },
+              );
             },
           ),
           title: Text(
@@ -138,9 +152,13 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                               0.0, 10.0, 0.0, 10.0),
                           child: FFButtonWidget(
                             onPressed: () async {
+                              logFirebaseEvent(
+                                  'REFERRAL_PAGE_GENERATE_LINK_BTN_ON_TAP');
+                              logFirebaseEvent('Button_copy_to_clipboard');
                               await Clipboard.setData(ClipboardData(
                                   text:
                                       'https://rentx-client-tyq9i9.flutterflow.app?userRef=${currentUserUid}'));
+                              logFirebaseEvent('Button_backend_call');
 
                               await currentUserReference!
                                   .update(createUserRecordData(
@@ -226,6 +244,10 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                                         size: 24.0,
                                       ),
                                       onPressed: () async {
+                                        logFirebaseEvent(
+                                            'REFERRAL_PAGE_content_copy_ICN_ON_TAP');
+                                        logFirebaseEvent(
+                                            'IconButton_copy_to_clipboard');
                                         await Clipboard.setData(ClipboardData(
                                             text: valueOrDefault(
                                                 currentUserDocument

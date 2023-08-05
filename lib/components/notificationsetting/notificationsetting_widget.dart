@@ -78,6 +78,9 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
+                          logFirebaseEvent(
+                              'NOTIFICATIONSETTING_Icon_lmabb2jc_ON_TAP');
+                          logFirebaseEvent('Icon_bottom_sheet');
                           Navigator.pop(context);
                         },
                         child: Icon(
@@ -149,6 +152,9 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                           onChanged: (newValue) async {
                             setState(() => _model.switchValue1 = newValue!);
                             if (newValue!) {
+                              logFirebaseEvent(
+                                  'NOTIFICATIONSETTING_Switch_42x6c7np_ON_T');
+                              logFirebaseEvent('Switch_play_sound');
                               _model.soundPlayer1 ??= AudioPlayer();
                               if (_model.soundPlayer1!.playing) {
                                 await _model.soundPlayer1!.stop();
@@ -158,6 +164,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                                   .setAsset('assets/audios/QKTA234-pop.mp3')
                                   .then((_) => _model.soundPlayer1!.play());
 
+                              logFirebaseEvent('Switch_request_permissions');
                               await requestPermission(notificationsPermission);
                             }
                           },
@@ -217,7 +224,11 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                           onChanged: (newValue) async {
                             setState(() => _model.switchValue2 = newValue!);
                             if (newValue!) {
+                              logFirebaseEvent(
+                                  'NOTIFICATIONSETTING_Switch_4lysop9e_ON_T');
+                              logFirebaseEvent('Switch_request_permissions');
                               await requestPermission(locationPermission);
+                              logFirebaseEvent('Switch_play_sound');
                               _model.soundPlayer2 ??= AudioPlayer();
                               if (_model.soundPlayer2!.playing) {
                                 await _model.soundPlayer2!.stop();
@@ -284,7 +295,11 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                           onChanged: (newValue) async {
                             setState(() => _model.switchValue3 = newValue!);
                             if (newValue!) {
+                              logFirebaseEvent(
+                                  'NOTIFICATIONSETTING_Switch_xtl238lx_ON_T');
+                              logFirebaseEvent('Switch_request_permissions');
                               await requestPermission(notificationsPermission);
+                              logFirebaseEvent('Switch_play_sound');
                               _model.soundPlayer3 ??= AudioPlayer();
                               if (_model.soundPlayer3!.playing) {
                                 await _model.soundPlayer3!.stop();
@@ -315,12 +330,17 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
+                          logFirebaseEvent(
+                              'NOTIFICATIONSETTING_SAVE_CHANGES_BTN_ON_');
+                          logFirebaseEvent('Button_backend_call');
+
                           await currentUserReference!
                               .update(createUserRecordData(
                             emailNotification: _model.switchValue3,
                             pushNotification: _model.switchValue1,
                             locationServices: _model.switchValue2,
                           ));
+                          logFirebaseEvent('Button_bottom_sheet');
                           Navigator.pop(context);
                         },
                         text: 'Save changes',

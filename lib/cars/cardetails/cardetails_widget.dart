@@ -1,5 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/backend/push_notifications/push_notifications_util.dart';
 import '/backend/stripe/payment_manager.dart';
 import '/components/empty/empty_widget.dart';
 import '/components/noreviews/noreviews_widget.dart';
@@ -178,6 +179,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => CardetailsModel());
+
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Cardetails'});
   }
 
   @override
@@ -230,6 +233,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                   size: 24.0,
                 ),
                 onPressed: () async {
+                  logFirebaseEvent('CARDETAILS_PAGE_arrow_back_ICN_ON_TAP');
+                  logFirebaseEvent('IconButton_navigate_back');
                   context.pop();
                 },
               ),
@@ -395,11 +400,17 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                         setState(() =>
                                             FFAppState().favoriteswitch =
                                                 !FFAppState().favoriteswitch);
+                                        logFirebaseEvent(
+                                            'CARDETAILS_ToggleIcon_y5bvwd2h_ON_TOGGLE');
                                         if (FFAppState().favoriteswitch) {
+                                          logFirebaseEvent(
+                                              'ToggleIcon_update_app_state');
                                           setState(() {
                                             FFAppState().addToFavorite(
                                                 widget.productref!);
                                           });
+                                          logFirebaseEvent(
+                                              'ToggleIcon_play_sound');
                                           _model.soundPlayer1 ??= AudioPlayer();
                                           if (_model.soundPlayer1!.playing) {
                                             await _model.soundPlayer1!.stop();
@@ -411,9 +422,13 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                               .then((_) =>
                                                   _model.soundPlayer1!.play());
 
+                                          logFirebaseEvent(
+                                              'ToggleIcon_update_app_state');
                                           setState(() {
                                             FFAppState().favoriteswitch = true;
                                           });
+                                          logFirebaseEvent(
+                                              'ToggleIcon_show_snack_bar');
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
@@ -442,10 +457,14 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                             ),
                                           );
                                         } else {
+                                          logFirebaseEvent(
+                                              'ToggleIcon_update_app_state');
                                           setState(() {
                                             FFAppState().removeFromFavorite(
                                                 widget.productref!);
                                           });
+                                          logFirebaseEvent(
+                                              'ToggleIcon_play_sound');
                                           _model.soundPlayer2 ??= AudioPlayer();
                                           if (_model.soundPlayer2!.playing) {
                                             await _model.soundPlayer2!.stop();
@@ -457,9 +476,13 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                               .then((_) =>
                                                   _model.soundPlayer2!.play());
 
+                                          logFirebaseEvent(
+                                              'ToggleIcon_update_app_state');
                                           setState(() {
                                             FFAppState().favoriteswitch = false;
                                           });
+                                          logFirebaseEvent(
+                                              'ToggleIcon_show_snack_bar');
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
@@ -751,6 +774,9 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
+                                  logFirebaseEvent(
+                                      'CARDETAILS_PAGE_taskDetails_ON_TAP');
+                                  logFirebaseEvent('taskDetails_bottom_sheet');
                                   await showModalBottomSheet(
                                     isScrollControlled: true,
                                     backgroundColor: Colors.transparent,
@@ -994,6 +1020,10 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                   highlightColor:
                                                       Colors.transparent,
                                                   onTap: () async {
+                                                    logFirebaseEvent(
+                                                        'CARDETAILS_Container_oac5p0xe_ON_TAP');
+                                                    logFirebaseEvent(
+                                                        'Container_date_time_picker');
                                                     final _datePicked1Date =
                                                         await showDatePicker(
                                                       context: context,
@@ -1097,6 +1127,10 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                 highlightColor:
                                                     Colors.transparent,
                                                 onTap: () async {
+                                                  logFirebaseEvent(
+                                                      'CARDETAILS_Container_vr3bq3rv_ON_TAP');
+                                                  logFirebaseEvent(
+                                                      'Container_date_time_picker');
                                                   final _datePicked2Date =
                                                       await showDatePicker(
                                                     context: context,
@@ -1824,6 +1858,14 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                                 ''
                                                             ? cardetailsCarRecord
                                                                 .district
+                                                            : null)
+                                                .where('car_name',
+                                                    isNotEqualTo:
+                                                        cardetailsCarRecord
+                                                                    .carName !=
+                                                                ''
+                                                            ? cardetailsCarRecord
+                                                                .carName
                                                             : null),
                                           ),
                                         ),
@@ -2417,6 +2459,10 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                                   12.0),
                                                       child: FFButtonWidget(
                                                         onPressed: () async {
+                                                          logFirebaseEvent(
+                                                              'CARDETAILS_PAGE_VISA_PAY_BTN_ON_TAP');
+                                                          logFirebaseEvent(
+                                                              'Button_validate_form');
                                                           if (_model.formKey
                                                                       .currentState ==
                                                                   null ||
@@ -2486,6 +2532,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                                           ?.isHost,
                                                                       false) ==
                                                                   false)) {
+                                                            logFirebaseEvent(
+                                                                'Button_stripe_payment');
                                                             final paymentResponse =
                                                                 await processStripePayment(
                                                               context,
@@ -2540,6 +2588,9 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                                 paymentResponse
                                                                     .paymentId!;
 
+                                                            logFirebaseEvent(
+                                                                'Button_backend_call');
+
                                                             await BookingRecord
                                                                     .createDoc(
                                                                         widget
@@ -2587,6 +2638,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                               renteePhoto:
                                                                   currentUserPhoto,
                                                             ));
+                                                            logFirebaseEvent(
+                                                                'Button_show_snack_bar');
                                                             ScaffoldMessenger
                                                                     .of(context)
                                                                 .showSnackBar(
@@ -2612,6 +2665,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                                         .primaryBackground,
                                                               ),
                                                             );
+                                                            logFirebaseEvent(
+                                                                'Button_backend_call');
 
                                                             await widget
                                                                 .productref!
@@ -2637,6 +2692,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                               enddate: _model
                                                                   .datePicked2,
                                                             ));
+                                                            logFirebaseEvent(
+                                                                'Button_send_email');
                                                             await launchUrl(Uri(
                                                                 scheme:
                                                                     'mailto',
@@ -2655,6 +2712,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                                         '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
                                                                     .join(
                                                                         '&')));
+                                                            logFirebaseEvent(
+                                                                'Button_backend_call');
 
                                                             await PaymentRecord
                                                                 .collection
@@ -2694,6 +2753,29 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                                   reenteeName:
                                                                       '${valueOrDefault(currentUserDocument?.firstName, '')}  ${valueOrDefault(currentUserDocument?.lastName, '')}',
                                                                 ));
+                                                            logFirebaseEvent(
+                                                                'Button_trigger_push_notification');
+                                                            triggerPushNotification(
+                                                              notificationTitle:
+                                                                  'Booking',
+                                                              notificationText:
+                                                                  'Your car has been booked .Head to your dashboad and message the rentee .',
+                                                              notificationImageUrl:
+                                                                  cardetailsCarRecord
+                                                                      .carPhotos
+                                                                      .first,
+                                                              notificationSound:
+                                                                  'default',
+                                                              userRefs: [
+                                                                cardetailsCarRecord
+                                                                    .uid!
+                                                              ],
+                                                              initialPageName:
+                                                                  'Hostinventory',
+                                                              parameterData: {},
+                                                            );
+                                                            logFirebaseEvent(
+                                                                'Button_bottom_sheet');
                                                             await showModalBottomSheet(
                                                               isScrollControlled:
                                                                   true,
@@ -2727,6 +2809,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                             if (cardetailsCarRecord
                                                                     .bookingStatus ==
                                                                 'booked') {
+                                                              logFirebaseEvent(
+                                                                  'Button_show_snack_bar');
                                                               ScaffoldMessenger
                                                                       .of(context)
                                                                   .showSnackBar(
@@ -2773,6 +2857,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                                 ),
                                                               );
                                                             } else {
+                                                              logFirebaseEvent(
+                                                                  'Button_alert_dialog');
                                                               await showDialog(
                                                                 context:
                                                                     context,
@@ -2879,11 +2965,15 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                       0.0, 12.0, 0.0, 0.0),
                                               child: FFButtonWidget(
                                                 onPressed: () async {
+                                                  logFirebaseEvent(
+                                                      'CARDETAILS_PAGE_RESERVE_BTN_ON_TAP');
                                                   if (valueOrDefault<bool>(
                                                           currentUserDocument
                                                               ?.isHost,
                                                           false) ==
                                                       true) {
+                                                    logFirebaseEvent(
+                                                        'Button_show_snack_bar');
                                                     ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(
@@ -2915,6 +3005,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                       ),
                                                     );
                                                   } else {
+                                                    logFirebaseEvent(
+                                                        'Button_show_snack_bar');
                                                     ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(
@@ -2952,6 +3044,8 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                         ),
                                                       ),
                                                     );
+                                                    logFirebaseEvent(
+                                                        'Button_backend_call');
 
                                                     await ReservedRecord
                                                             .createDoc(widget

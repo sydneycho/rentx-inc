@@ -147,6 +147,8 @@ class _VendorWidgetState extends State<VendorWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
                     child: FFButtonWidget(
                       onPressed: () async {
+                        logFirebaseEvent('VENDOR_COMP_GO_BACK_BTN_ON_TAP');
+                        logFirebaseEvent('Button_navigate_back');
                         context.safePop();
                       },
                       text: 'Go back',

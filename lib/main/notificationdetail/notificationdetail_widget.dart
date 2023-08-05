@@ -59,6 +59,8 @@ class _NotificationdetailWidgetState extends State<NotificationdetailWidget>
     super.initState();
     _model = createModel(context, () => NotificationdetailModel());
 
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'Notificationdetail'});
     setupAnimations(
       animationsMap.values.where((anim) =>
           anim.trigger == AnimationTrigger.onActionTrigger ||
@@ -115,6 +117,8 @@ class _NotificationdetailWidgetState extends State<NotificationdetailWidget>
                 size: 25.0,
               ),
               onPressed: () async {
+                logFirebaseEvent('NOTIFICATIONDETAIL_arrow_back_rounded_IC');
+                logFirebaseEvent('IconButton_navigate_back');
                 context.pop();
               },
             ),

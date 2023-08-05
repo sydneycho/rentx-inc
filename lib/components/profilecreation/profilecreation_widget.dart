@@ -157,7 +157,11 @@ class _ProfilecreationWidgetState extends State<ProfilecreationWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
                   child: FFButtonWidget(
                     onPressed: () async {
+                      logFirebaseEvent(
+                          'PROFILECREATION_COMP_GO_HOME_BTN_ON_TAP');
+                      logFirebaseEvent('Button_bottom_sheet');
                       Navigator.pop(context);
+                      logFirebaseEvent('Button_navigate_to');
 
                       context.goNamed('signin');
                     },

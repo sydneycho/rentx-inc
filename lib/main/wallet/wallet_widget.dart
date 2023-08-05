@@ -1,6 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/components/empty/empty_widget.dart';
 import '/components/payment/payment_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -30,26 +29,7 @@ class _WalletWidgetState extends State<WalletWidget>
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final animationsMap = {
-    'containerOnPageLoadAnimation1': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      effects: [
-        FadeEffect(
-          curve: Curves.easeInOut,
-          delay: 0.ms,
-          duration: 600.ms,
-          begin: 0.0,
-          end: 1.0,
-        ),
-        MoveEffect(
-          curve: Curves.easeInOut,
-          delay: 0.ms,
-          duration: 600.ms,
-          begin: Offset(0.0, 70.0),
-          end: Offset(0.0, 0.0),
-        ),
-      ],
-    ),
-    'containerOnPageLoadAnimation2': AnimationInfo(
+    'containerOnPageLoadAnimation': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
       effects: [
         FadeEffect(
@@ -75,6 +55,7 @@ class _WalletWidgetState extends State<WalletWidget>
     super.initState();
     _model = createModel(context, () => WalletModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Wallet'});
     setupAnimations(
       animationsMap.values.where((anim) =>
           anim.trigger == AnimationTrigger.onActionTrigger ||
@@ -117,590 +98,226 @@ class _WalletWidgetState extends State<WalletWidget>
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 40.0),
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  if (responsiveVisibility(
-                    context: context,
-                    tablet: false,
-                    tabletLandscape: false,
-                    desktop: false,
-                  ))
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 12.0),
-                      child: Container(
-                        width: double.infinity,
-                        height: MediaQuery.sizeOf(context).height * 0.3,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 12.0, 0.0, 0.0),
-                              child: Text(
-                                'Paid Adverts',
-                                style: FlutterFlowTheme.of(context)
-                                    .headlineMedium
-                                    .override(
-                                      fontFamily: 'Outfit',
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 4.0, 0.0, 12.0),
-                              child: Text(
-                                'Get your self a car at the lowest price',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Plus Jakarta Sans',
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                              ),
-                            ),
-                            Expanded(
-                              child: StreamBuilder<List<PaidAdvertsRecord>>(
-                                stream: FFAppState().paidadverts(
-                                  requestFn: () => queryPaidAdvertsRecord(
-                                    queryBuilder: (paidAdvertsRecord) =>
-                                        paidAdvertsRecord.where('on_sale',
-                                            isEqualTo: true),
-                                  ),
-                                ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 100.0,
-                                        height: 100.0,
-                                        child: SpinKitDualRing(
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 100.0,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  List<PaidAdvertsRecord>
-                                      listViewPaidAdvertsRecordList =
-                                      snapshot.data!;
-                                  return ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    primary: false,
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount:
-                                        listViewPaidAdvertsRecordList.length,
-                                    itemBuilder: (context, listViewIndex) {
-                                      final listViewPaidAdvertsRecord =
-                                          listViewPaidAdvertsRecordList[
-                                              listViewIndex];
-                                      return Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 0.0, 16.0, 12.0),
-                                        child: Container(
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  0.9,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: 4.0,
-                                                color: Color(0x2B202529),
-                                                offset: Offset(0.0, 2.0),
-                                              )
-                                            ],
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        8.0, 0.0, 0.0, 0.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    8.0,
-                                                                    4.0,
-                                                                    0.0,
-                                                                    4.0),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              listViewPaidAdvertsRecord
-                                                                  .sellerName,
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .labelMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Plus Jakarta Sans',
-                                                                    color: Color(
-                                                                        0xFF57636C),
-                                                                    fontSize:
-                                                                        14.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          4.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                listViewPaidAdvertsRecord
-                                                                    .name,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .headlineSmall
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Outfit',
-                                                                      color: Color(
-                                                                          0xFF14181B),
-                                                                      fontSize:
-                                                                          24.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          4.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                listViewPaidAdvertsRecord
-                                                                    .sellerPhoneNumber,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Plus Jakarta Sans',
-                                                                      color: Color(
-                                                                          0xFF57636C),
-                                                                      fontSize:
-                                                                          12.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                        bottomLeft:
-                                                            Radius.circular(
-                                                                0.0),
-                                                        bottomRight:
-                                                            Radius.circular(
-                                                                0.0),
-                                                        topLeft:
-                                                            Radius.circular(
-                                                                0.0),
-                                                        topRight:
-                                                            Radius.circular(
-                                                                12.0),
-                                                      ),
-                                                      child: Image.network(
-                                                        valueOrDefault<String>(
-                                                          listViewPaidAdvertsRecord
-                                                              .thumb,
-                                                          'https://platform.cstatic-images.com/large/in/v2/stock_photos/af7f32d6-41d2-4a67-bd6e-49e188d0a7fb/3de60623-b1df-44e7-9da6-53129a69039c.png',
-                                                        ),
-                                                        width:
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .width *
-                                                                0.4,
-                                                        height:
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .height *
-                                                                0.12,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 0.0, 16.0, 8.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Card(
-                                                      clipBehavior: Clip
-                                                          .antiAliasWithSaveLayer,
-                                                      color: Color(0xFFF1F4F8),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(40.0),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    4.0,
-                                                                    4.0,
-                                                                    4.0,
-                                                                    4.0),
-                                                        child: Icon(
-                                                          Icons.car_rental,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          size: 20.0,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    12.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: Text(
-                                                          'On sale',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodySmall
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Plus Jakarta Sans',
-                                                                color: Color(
-                                                                    0xFF14181B),
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  12.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      child: Text(
-                                                        formatNumber(
-                                                          listViewPaidAdvertsRecord
-                                                              .sellerPrice,
-                                                          formatType:
-                                                              FormatType.custom,
-                                                          currency: 'K',
-                                                          format: '0.00',
-                                                          locale: '',
-                                                        ),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Plus Jakarta Sans',
-                                                              color: Color(
-                                                                  0xFF14181B),
-                                                              fontSize: 14.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ).animateOnPageLoad(animationsMap[
-                                            'containerOnPageLoadAnimation1']!),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 12.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: MediaQuery.sizeOf(context).height * 0.32,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).primaryBackground,
+                        borderRadius: BorderRadius.circular(0.0),
                       ),
-                    ),
-                  if (responsiveVisibility(
-                    context: context,
-                    phone: false,
-                  ))
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 12.0),
-                      child: Container(
-                        width: double.infinity,
-                        height: MediaQuery.sizeOf(context).height * 0.35,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 12.0, 0.0, 0.0),
-                              child: Text(
-                                'Paid Adverts',
-                                style: FlutterFlowTheme.of(context)
-                                    .headlineMedium
-                                    .override(
-                                      fontFamily: 'Outfit',
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      fontSize: 35.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                              ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                16.0, 12.0, 0.0, 0.0),
+                            child: Text(
+                              'Paid Adverts',
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .override(
+                                    fontFamily: 'Outfit',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                             ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 10.0, 0.0, 12.0),
-                              child: Text(
-                                'Get your self a car at the lowest price',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Plus Jakarta Sans',
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                              ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                16.0, 4.0, 0.0, 12.0),
+                            child: Text(
+                              'Get your self a car at the lowest price',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Plus Jakarta Sans',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                             ),
-                            Expanded(
-                              child: StreamBuilder<List<PaidAdvertsRecord>>(
-                                stream: queryPaidAdvertsRecord(
+                          ),
+                          Expanded(
+                            child: StreamBuilder<List<PaidAdvertsRecord>>(
+                              stream: FFAppState().paidadverts(
+                                requestFn: () => queryPaidAdvertsRecord(
                                   queryBuilder: (paidAdvertsRecord) =>
-                                      paidAdvertsRecord.orderBy('created_at'),
+                                      paidAdvertsRecord.where('on_sale',
+                                          isEqualTo: true),
                                 ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 100.0,
-                                        height: 100.0,
-                                        child: SpinKitDualRing(
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 100.0,
-                                        ),
+                              ),
+                              builder: (context, snapshot) {
+                                // Customize what your widget looks like when it's loading.
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: SizedBox(
+                                      width: 100.0,
+                                      height: 100.0,
+                                      child: SpinKitDualRing(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        size: 100.0,
                                       ),
-                                    );
-                                  }
-                                  List<PaidAdvertsRecord>
-                                      listViewPaidAdvertsRecordList =
-                                      snapshot.data!;
-                                  if (listViewPaidAdvertsRecordList.isEmpty) {
-                                    return EmptyWidget();
-                                  }
-                                  return ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    primary: false,
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount:
-                                        listViewPaidAdvertsRecordList.length,
-                                    itemBuilder: (context, listViewIndex) {
-                                      final listViewPaidAdvertsRecord =
-                                          listViewPaidAdvertsRecordList[
-                                              listViewIndex];
-                                      return Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            20.0, 0.0, 0.0, 12.0),
-                                        child: Container(
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  0.9,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: 4.0,
-                                                color: Color(0x2B202529),
-                                                offset: Offset(0.0, 2.0),
-                                              )
-                                            ],
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                          ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        8.0, 0.0, 0.0, 0.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    8.0,
-                                                                    4.0,
-                                                                    0.0,
-                                                                    4.0),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
+                                    ),
+                                  );
+                                }
+                                List<PaidAdvertsRecord>
+                                    listViewPaidAdvertsRecordList =
+                                    snapshot.data!;
+                                return ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  primary: false,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount:
+                                      listViewPaidAdvertsRecordList.length,
+                                  itemBuilder: (context, listViewIndex) {
+                                    final listViewPaidAdvertsRecord =
+                                        listViewPaidAdvertsRecordList[
+                                            listViewIndex];
+                                    return Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 0.0, 16.0, 12.0),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.sizeOf(context).width *
+                                                0.9,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              blurRadius: 4.0,
+                                              color: Color(0x2B202529),
+                                              offset: Offset(0.0, 2.0),
+                                            )
+                                          ],
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(8.0, 0.0, 0.0, 0.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8.0,
+                                                                  4.0,
+                                                                  0.0,
+                                                                  4.0),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            listViewPaidAdvertsRecord
+                                                                .sellerName,
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .labelMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Plus Jakarta Sans',
+                                                                  color: Color(
+                                                                      0xFF57636C),
+                                                                  fontSize:
+                                                                      14.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        4.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            child: Text(
                                                               listViewPaidAdvertsRecord
-                                                                  .sellerName,
+                                                                  .name,
                                                               style: FlutterFlowTheme
                                                                       .of(context)
-                                                                  .labelMedium
+                                                                  .headlineSmall
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Outfit',
+                                                                    color: Color(
+                                                                        0xFF14181B),
+                                                                    fontSize:
+                                                                        24.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        4.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            child: Text(
+                                                              listViewPaidAdvertsRecord
+                                                                  .sellerPhoneNumber,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .labelSmall
                                                                   .override(
                                                                     fontFamily:
                                                                         'Plus Jakarta Sans',
                                                                     color: Color(
                                                                         0xFF57636C),
                                                                     fontSize:
-                                                                        16.0,
+                                                                        12.0,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500,
                                                                   ),
                                                             ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          4.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                listViewPaidAdvertsRecord
-                                                                    .name,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .headlineSmall
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Outfit',
-                                                                      color: Color(
-                                                                          0xFF14181B),
-                                                                      fontSize:
-                                                                          32.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          4.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                listViewPaidAdvertsRecord
-                                                                    .sellerPhoneNumber,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Plus Jakarta Sans',
-                                                                      color: Color(
-                                                                          0xFF57636C),
-                                                                      fontSize:
-                                                                          14.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
-                                                    ClipRRect(
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 0.0,
+                                                                6.0, 0.0),
+                                                    child: ClipRRect(
                                                       borderRadius:
                                                           BorderRadius.only(
                                                         bottomLeft:
@@ -708,7 +325,7 @@ class _WalletWidgetState extends State<WalletWidget>
                                                                 0.0),
                                                         bottomRight:
                                                             Radius.circular(
-                                                                12.0),
+                                                                0.0),
                                                         topLeft:
                                                             Radius.circular(
                                                                 0.0),
@@ -726,482 +343,269 @@ class _WalletWidgetState extends State<WalletWidget>
                                                             MediaQuery.sizeOf(
                                                                         context)
                                                                     .width *
-                                                                0.4,
+                                                                0.45,
                                                         height:
                                                             MediaQuery.sizeOf(
                                                                         context)
                                                                     .height *
-                                                                0.2,
+                                                                0.14,
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 0.0, 16.0, 8.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Card(
-                                                      clipBehavior: Clip
-                                                          .antiAliasWithSaveLayer,
-                                                      color: Color(0xFFF1F4F8),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(40.0),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    8.0,
-                                                                    8.0,
-                                                                    8.0,
-                                                                    8.0),
-                                                        child: Icon(
-                                                          Icons
-                                                              .access_time_rounded,
-                                                          color:
-                                                              Color(0xFF57636C),
-                                                          size: 30.0,
-                                                        ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      12.0, 0.0, 16.0, 8.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Card(
+                                                    clipBehavior: Clip
+                                                        .antiAliasWithSaveLayer,
+                                                    color: Color(0xFFF1F4F8),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              40.0),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  4.0,
+                                                                  4.0,
+                                                                  4.0,
+                                                                  4.0),
+                                                      child: Icon(
+                                                        Icons.car_rental,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        size: 20.0,
                                                       ),
                                                     ),
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    12.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: Text(
-                                                          'In Preparation',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodySmall
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Plus Jakarta Sans',
-                                                                color: Color(
-                                                                    0xFF14181B),
-                                                                fontSize: 18.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
+                                                  ),
+                                                  Expanded(
+                                                    child: Padding(
                                                       padding:
                                                           EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   12.0,
                                                                   0.0,
-                                                                  20.0,
+                                                                  0.0,
                                                                   0.0),
                                                       child: Text(
-                                                        formatNumber(
-                                                          listViewPaidAdvertsRecord
-                                                              .sellerPrice,
-                                                          formatType:
-                                                              FormatType.custom,
-                                                          currency: 'K',
-                                                          format: '0.00',
-                                                          locale: '',
-                                                        ),
+                                                        'On sale',
                                                         style: FlutterFlowTheme
                                                                 .of(context)
-                                                            .bodyMedium
+                                                            .bodySmall
                                                             .override(
                                                               fontFamily:
                                                                   'Plus Jakarta Sans',
                                                               color: Color(
                                                                   0xFF14181B),
-                                                              fontSize: 20.0,
+                                                              fontSize: 12.0,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w500,
                                                             ),
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ).animateOnPageLoad(animationsMap[
-                                            'containerOnPageLoadAnimation2']!),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  if (responsiveVisibility(
-                    context: context,
-                    tablet: false,
-                    tabletLandscape: false,
-                    desktop: false,
-                  ))
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 12.0),
-                      child: Container(
-                        width: double.infinity,
-                        height: 270.0,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  6.0, 12.0, 6.0, 12.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 0.0, 0.0, 0.0),
-                                    child: Text(
-                                      'Card details',
-                                      style: FlutterFlowTheme.of(context)
-                                          .headlineMedium
-                                          .override(
-                                            fontFamily: 'Outfit',
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  4.0, 4.0, 4.0, 4.0),
-                              child: StreamBuilder<List<CardDetailsRecord>>(
-                                stream: queryCardDetailsRecord(
-                                  queryBuilder: (cardDetailsRecord) =>
-                                      cardDetailsRecord.where('uid',
-                                          isEqualTo: currentUserReference),
-                                  singleRecord: true,
-                                ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 100.0,
-                                        height: 100.0,
-                                        child: SpinKitDualRing(
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 100.0,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  List<CardDetailsRecord>
-                                      creditCardCardDetailsRecordList =
-                                      snapshot.data!;
-                                  // Return an empty Container when the item does not exist.
-                                  if (snapshot.data!.isEmpty) {
-                                    return Container();
-                                  }
-                                  final creditCardCardDetailsRecord =
-                                      creditCardCardDetailsRecordList.isNotEmpty
-                                          ? creditCardCardDetailsRecordList
-                                              .first
-                                          : null;
-                                  return Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 0.9,
-                                    height: MediaQuery.sizeOf(context).height *
-                                        0.25,
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 6.0,
-                                          color: Color(0x4B1A1F24),
-                                          offset: Offset(0.0, 2.0),
-                                        )
-                                      ],
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Color(0xFFEE8B60),
-                                          Color(0xFF4B39EF)
-                                        ],
-                                        stops: [0.0, 1.0],
-                                        begin: AlignmentDirectional(0.94, -1.0),
-                                        end: AlignmentDirectional(-0.94, 1.0),
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 16.0, 16.0, 16.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          AuthUserStreamWidget(
-                                            builder: (context) => Container(
-                                              width: 40.0,
-                                              height: 40.0,
-                                              clipBehavior: Clip.antiAlias,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Image.network(
-                                                currentUserPhoto,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            creditCardCardDetailsRecord!
-                                                .nameOnCard,
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily:
-                                                      'Plus Jakarta Sans',
-                                                  color: Colors.white,
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                          ),
-                                          Text(
-                                            creditCardCardDetailsRecord!.cvv
-                                                .toString(),
-                                            style: FlutterFlowTheme.of(context)
-                                                .displaySmall
-                                                .override(
-                                                  fontFamily: 'Outfit',
-                                                  color: Colors.white,
-                                                  fontSize: 26.0,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 12.0, 0.0, 4.0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  formatNumber(
-                                                    creditCardCardDetailsRecord!
-                                                        .cardNo,
-                                                    formatType:
-                                                        FormatType.custom,
-                                                    format:
-                                                        '0000 0000  0000 0000',
-                                                    locale: '',
                                                   ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Roboto Mono',
-                                                        color: Colors.white,
-                                                        fontSize: 14.0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(12.0, 0.0,
+                                                                0.0, 0.0),
+                                                    child: Text(
+                                                      formatNumber(
+                                                        listViewPaidAdvertsRecord
+                                                            .sellerPrice,
+                                                        formatType:
+                                                            FormatType.custom,
+                                                        currency: 'K',
+                                                        format: '0.00',
+                                                        locale: '',
                                                       ),
-                                                ),
-                                                Text(
-                                                  creditCardCardDetailsRecord!
-                                                      .expiryDate,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Roboto Mono',
-                                                        color: Colors.white,
-                                                        fontSize: 14.0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                ),
-                                              ],
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Plus Jakarta Sans',
+                                                            color: Color(
+                                                                0xFF14181B),
+                                                            fontSize: 14.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
+                                      ).animateOnPageLoad(animationsMap[
+                                          'containerOnPageLoadAnimation']!),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 10.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: MediaQuery.sizeOf(context).height * 0.35,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).primaryBackground,
+                        borderRadius: BorderRadius.circular(0.0),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                6.0, 12.0, 6.0, 12.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    'Card details',
+                                    style: FlutterFlowTheme.of(context)
+                                        .headlineMedium
+                                        .override(
+                                          fontFamily: 'Outfit',
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                4.0, 4.0, 4.0, 4.0),
+                            child: StreamBuilder<List<CardDetailsRecord>>(
+                              stream: queryCardDetailsRecord(
+                                queryBuilder: (cardDetailsRecord) =>
+                                    cardDetailsRecord.where('uid',
+                                        isEqualTo: currentUserReference),
+                                singleRecord: true,
+                              ),
+                              builder: (context, snapshot) {
+                                // Customize what your widget looks like when it's loading.
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: SizedBox(
+                                      width: 100.0,
+                                      height: 100.0,
+                                      child: SpinKitDualRing(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        size: 100.0,
                                       ),
                                     ),
                                   );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  if (responsiveVisibility(
-                    context: context,
-                    phone: false,
-                  ))
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 12.0),
-                      child: Container(
-                        width: double.infinity,
-                        height: MediaQuery.sizeOf(context).height * 0.3,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  40.0, 10.0, 40.0, 10.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 12.0, 0.0, 0.0),
-                                    child: Text(
-                                      'Card details',
-                                      style: FlutterFlowTheme.of(context)
-                                          .headlineMedium
-                                          .override(
-                                            fontFamily: 'Outfit',
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            fontSize: 18.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                    ),
+                                }
+                                List<CardDetailsRecord>
+                                    creditCardCardDetailsRecordList =
+                                    snapshot.data!;
+                                // Return an empty Container when the item does not exist.
+                                if (snapshot.data!.isEmpty) {
+                                  return Container();
+                                }
+                                final creditCardCardDetailsRecord =
+                                    creditCardCardDetailsRecordList.isNotEmpty
+                                        ? creditCardCardDetailsRecordList.first
+                                        : null;
+                                return Container(
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.25,
+                                  constraints: BoxConstraints(
+                                    minWidth: 380.0,
+                                    maxWidth: 800.0,
                                   ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  4.0, 4.0, 4.0, 4.0),
-                              child: StreamBuilder<List<CardDetailsRecord>>(
-                                stream: queryCardDetailsRecord(
-                                  queryBuilder: (cardDetailsRecord) =>
-                                      cardDetailsRecord.where('uid',
-                                          isEqualTo: currentUserReference),
-                                  singleRecord: true,
-                                ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 100.0,
-                                        height: 100.0,
-                                        child: SpinKitDualRing(
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 100.0,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  List<CardDetailsRecord>
-                                      creditCardCardDetailsRecordList =
-                                      snapshot.data!;
-                                  // Return an empty Container when the item does not exist.
-                                  if (snapshot.data!.isEmpty) {
-                                    return Container();
-                                  }
-                                  final creditCardCardDetailsRecord =
-                                      creditCardCardDetailsRecordList.isNotEmpty
-                                          ? creditCardCardDetailsRecordList
-                                              .first
-                                          : null;
-                                  return Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 0.9,
-                                    height: MediaQuery.sizeOf(context).height *
-                                        0.25,
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 6.0,
-                                          color: Color(0x4B1A1F24),
-                                          offset: Offset(0.0, 2.0),
-                                        )
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 6.0,
+                                        color: Color(0x4B1A1F24),
+                                        offset: Offset(0.0, 2.0),
+                                      )
+                                    ],
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFFEE8B60),
+                                        Color(0xFF4B39EF)
                                       ],
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Color(0xFFEE8B60),
-                                          Color(0xFF4B39EF)
-                                        ],
-                                        stops: [0.0, 1.0],
-                                        begin: AlignmentDirectional(0.94, -1.0),
-                                        end: AlignmentDirectional(-0.94, 1.0),
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
+                                      stops: [0.0, 1.0],
+                                      begin: AlignmentDirectional(0.94, -1.0),
+                                      end: AlignmentDirectional(-0.94, 1.0),
                                     ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 16.0, 16.0, 16.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          AuthUserStreamWidget(
-                                            builder: (context) => Image.network(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 16.0, 16.0, 16.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        AuthUserStreamWidget(
+                                          builder: (context) => Container(
+                                            width: 40.0,
+                                            height: 40.0,
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Image.network(
                                               currentUserPhoto,
-                                              width: 44.0,
-                                              height: 44.0,
                                               fit: BoxFit.cover,
                                             ),
                                           ),
-                                          Text(
-                                            creditCardCardDetailsRecord!
-                                                .nameOnCard,
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily:
-                                                      'Plus Jakarta Sans',
-                                                  color: Colors.white,
-                                                  fontSize: 18.0,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                          ),
-                                          Text(
+                                        ),
+                                        Text(
+                                          creditCardCardDetailsRecord!
+                                              .nameOnCard,
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Plus Jakarta Sans',
+                                                color: Colors.white,
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 10.0, 0.0, 0.0),
+                                          child: Text(
                                             creditCardCardDetailsRecord!.cvv
                                                 .toString(),
                                             style: FlutterFlowTheme.of(context)
@@ -1209,74 +613,67 @@ class _WalletWidgetState extends State<WalletWidget>
                                                 .override(
                                                   fontFamily: 'Outfit',
                                                   color: Colors.white,
-                                                  fontSize: 26.0,
+                                                  fontSize: 20.0,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                           ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 12.0, 0.0, 4.0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  formatNumber(
-                                                    creditCardCardDetailsRecord!
-                                                        .cardNo,
-                                                    formatType:
-                                                        FormatType.custom,
-                                                    format:
-                                                        '0000 0000 0000 0000',
-                                                    locale: '',
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Roboto Mono',
-                                                        color: Colors.white,
-                                                        fontSize: 18.0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                ),
-                                                Text(
-                                                  creditCardCardDetailsRecord!
-                                                      .expiryDate,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Roboto Mono',
-                                                        color: Colors.white,
-                                                        fontSize: 18.0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 12.0, 0.0, 4.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                creditCardCardDetailsRecord!
+                                                    .reference.id,
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Roboto Mono',
+                                                          color: Colors.white,
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                              ),
+                                              Text(
+                                                creditCardCardDetailsRecord!
+                                                    .expiryDate,
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Roboto Mono',
+                                                          color: Colors.white,
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  );
-                                },
-                              ),
+                                  ),
+                                );
+                              },
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
+                  ),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 40.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 10.0),
                     child: Container(
                       width: double.infinity,
                       height: 270.0,
@@ -1353,6 +750,9 @@ class _WalletWidgetState extends State<WalletWidget>
                                   10.0, 0.0, 0.0, 30.0),
                               child: FFButtonWidget(
                                 onPressed: () async {
+                                  logFirebaseEvent(
+                                      'WALLET_PAGE_ADD_PAYMENT_BTN_ON_TAP');
+                                  logFirebaseEvent('Button_bottom_sheet');
                                   await showModalBottomSheet(
                                     isScrollControlled: true,
                                     backgroundColor: Colors.transparent,
@@ -1392,7 +792,7 @@ class _WalletWidgetState extends State<WalletWidget>
                                     color: Colors.transparent,
                                     width: 1.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(50.0),
+                                  borderRadius: BorderRadius.circular(6.0),
                                 ),
                               ),
                             ),

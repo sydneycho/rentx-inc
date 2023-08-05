@@ -137,6 +137,18 @@ class _ProfileWidgetState extends State<ProfileWidget>
         ),
       ],
     ),
+    'containerOnPageLoadAnimation8': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      effects: [
+        FadeEffect(
+          curve: Curves.easeInOut,
+          delay: 0.ms,
+          duration: 600.ms,
+          begin: 0.0,
+          end: 1.0,
+        ),
+      ],
+    ),
     'buttonOnPageLoadAnimation': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
       effects: [
@@ -156,6 +168,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
     super.initState();
     _model = createModel(context, () => ProfileModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Profile'});
     setupAnimations(
       animationsMap.values.where((anim) =>
           anim.trigger == AnimationTrigger.onActionTrigger ||
@@ -277,6 +290,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
+                            logFirebaseEvent(
+                                'PROFILE_PAGE_Column_65ql1car_ON_TAP');
+                            logFirebaseEvent('Column_navigate_to');
+
                             context.pushNamed('Wallet');
                           },
                           child: Column(
@@ -288,6 +305,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
+                                  logFirebaseEvent(
+                                      'PROFILE_PAGE_Card_cev3h1o9_ON_TAP');
+                                  logFirebaseEvent('Card_navigate_to');
+
                                   context.pushNamed('Wallet');
                                 },
                                 child: Card(
@@ -327,6 +348,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
+                            logFirebaseEvent(
+                                'PROFILE_PAGE_Column_v4rbagsk_ON_TAP');
+                            logFirebaseEvent('Column_navigate_to');
+
                             context.pushNamed('Hostinventory');
                           },
                           child: Column(
@@ -367,6 +392,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
+                            logFirebaseEvent(
+                                'PROFILE_PAGE_Column_3luaxyn6_ON_TAP');
+                            logFirebaseEvent('Column_navigate_to');
+
                             context.pushNamed('Help');
                           },
                           child: Column(
@@ -425,6 +454,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
+                              logFirebaseEvent(
+                                  'PROFILE_PAGE_isLightMode_ON_TAP');
+                              logFirebaseEvent(
+                                  'isLightMode_set_dark_mode_settings');
                               setDarkModeSetting(context, ThemeMode.dark);
                             },
                             child: Container(
@@ -537,6 +570,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
+                              logFirebaseEvent(
+                                  'PROFILE_PAGE_isDarkMode_ON_TAP');
+                              logFirebaseEvent(
+                                  'isDarkMode_set_dark_mode_settings');
                               setDarkModeSetting(context, ThemeMode.light);
                             },
                             child: Container(
@@ -653,6 +690,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
+                        logFirebaseEvent(
+                            'PROFILE_PAGE_Container_pq8yry67_ON_TAP');
+                        logFirebaseEvent('Container_navigate_to');
+
                         context.pushNamed('Editprofile');
                       },
                       child: Container(
@@ -710,6 +751,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
+                            logFirebaseEvent(
+                                'PROFILE_PAGE_Container_oukhj3h6_ON_TAP');
+                            logFirebaseEvent('Container_navigate_to');
+
                             context.pushNamed('Host');
                           },
                           child: Container(
@@ -765,6 +810,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
+                        logFirebaseEvent(
+                            'PROFILE_PAGE_Container_ly52kj8m_ON_TAP');
+                        logFirebaseEvent('Container_navigate_to');
+
                         context.pushNamed('Advertise');
                       },
                       child: Container(
@@ -818,7 +867,20 @@ class _ProfileWidgetState extends State<ProfileWidget>
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        context.pushNamed('Email');
+                        logFirebaseEvent(
+                            'PROFILE_PAGE_Container_c23dev81_ON_TAP');
+                        logFirebaseEvent('Container_navigate_to');
+
+                        context.pushNamed(
+                          'passwordreset',
+                          extra: <String, dynamic>{
+                            kTransitionInfoKey: TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.rightToLeft,
+                              duration: Duration(milliseconds: 300),
+                            ),
+                          },
+                        );
                       },
                       child: Container(
                         width: double.infinity,
@@ -851,7 +913,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     12.0, 0.0, 0.0, 0.0),
                                 child: Text(
-                                  'Change email or password',
+                                  'Change password',
                                   style: FlutterFlowTheme.of(context).bodySmall,
                                 ),
                               ),
@@ -862,6 +924,77 @@ class _ProfileWidgetState extends State<ProfileWidget>
                     ).animateOnPageLoad(
                         animationsMap['containerOnPageLoadAnimation6']!),
                   ),
+                  if (!valueOrDefault<bool>(currentUserDocument?.isHost, false))
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
+                      child: AuthUserStreamWidget(
+                        builder: (context) => InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            logFirebaseEvent(
+                                'PROFILE_PAGE_Container_nzoco37a_ON_TAP');
+                            logFirebaseEvent('Container_navigate_to');
+
+                            context.pushNamed(
+                              'Host',
+                              extra: <String, dynamic>{
+                                kTransitionInfoKey: TransitionInfo(
+                                  hasTransition: true,
+                                  transitionType:
+                                      PageTransitionType.rightToLeft,
+                                  duration: Duration(milliseconds: 300),
+                                ),
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              borderRadius: BorderRadius.circular(12.0),
+                              border: Border.all(
+                                color: FlutterFlowTheme.of(context).accent4,
+                                width: 2.0,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  8.0, 10.0, 8.0, 10.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 0.0, 0.0, 0.0),
+                                    child: Icon(
+                                      Icons.car_rental,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      size: 24.0,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        12.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      'Become a host',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodySmall,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ).animateOnPageLoad(
+                            animationsMap['containerOnPageLoadAnimation7']!),
+                      ),
+                    ),
                   Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
@@ -871,6 +1004,9 @@ class _ProfileWidgetState extends State<ProfileWidget>
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
+                        logFirebaseEvent(
+                            'PROFILE_PAGE_Container_zpf8itew_ON_TAP');
+                        logFirebaseEvent('Container_bottom_sheet');
                         showModalBottomSheet(
                           isScrollControlled: true,
                           backgroundColor: Colors.transparent,
@@ -929,13 +1065,15 @@ class _ProfileWidgetState extends State<ProfileWidget>
                         ),
                       ),
                     ).animateOnPageLoad(
-                        animationsMap['containerOnPageLoadAnimation7']!),
+                        animationsMap['containerOnPageLoadAnimation8']!),
                   ),
                   Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 30.0),
                     child: FFButtonWidget(
                       onPressed: () async {
+                        logFirebaseEvent('PROFILE_PAGE_LOG_OUT_BTN_ON_TAP');
+                        logFirebaseEvent('Button_auth');
                         GoRouter.of(context).prepareAuthEvent();
                         await authManager.signOut();
                         GoRouter.of(context).clearRedirectLocation();

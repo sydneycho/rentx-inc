@@ -32,6 +32,7 @@ class _ContactWidgetState extends State<ContactWidget> {
     super.initState();
     _model = createModel(context, () => ContactModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Contact'});
     _model.yourNameController ??= TextEditingController(
         text:
             '${valueOrDefault(currentUserDocument?.firstName, '')}  ${valueOrDefault(currentUserDocument?.lastName, '')}');
@@ -66,7 +67,19 @@ class _ContactWidgetState extends State<ContactWidget> {
             size: 24.0,
           ),
           onPressed: () async {
-            context.pop();
+            logFirebaseEvent('CONTACT_arrow_back_rounded_ICN_ON_TAP');
+            logFirebaseEvent('IconButton_navigate_to');
+
+            context.pushNamed(
+              'Help',
+              extra: <String, dynamic>{
+                kTransitionInfoKey: TransitionInfo(
+                  hasTransition: true,
+                  transitionType: PageTransitionType.leftToRight,
+                  duration: Duration(milliseconds: 300),
+                ),
+              },
+            );
           },
         ),
         title: Text(
@@ -305,6 +318,9 @@ class _ContactWidgetState extends State<ContactWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 30.0),
                       child: FFButtonWidget(
                         onPressed: () async {
+                          logFirebaseEvent(
+                              'CONTACT_PAGE_SAVE_CHANGES_BTN_ON_TAP');
+                          logFirebaseEvent('Button_validate_form');
                           if (_model.formKey.currentState == null ||
                               !_model.formKey.currentState!.validate()) {
                             return;
@@ -349,6 +365,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                             );
                             return;
                           }
+                          logFirebaseEvent('Button_backend_call');
 
                           await EnquiryRecord.collection
                               .doc()
@@ -362,6 +379,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                                 userType: _model.userValue,
                                 userRef: currentUserReference,
                               ));
+                          logFirebaseEvent('Button_show_snack_bar');
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
@@ -384,6 +402,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                               ),
                             ),
                           );
+                          logFirebaseEvent('Button_navigate_to');
 
                           context.goNamed('Home');
                         },

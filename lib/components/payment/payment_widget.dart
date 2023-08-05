@@ -100,6 +100,9 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                               size: 24.0,
                             ),
                             onPressed: () async {
+                              logFirebaseEvent(
+                                  'PAYMENT_arrow_back_rounded_ICN_ON_TAP');
+                              logFirebaseEvent('IconButton_bottom_sheet');
                               Navigator.pop(context);
                             },
                           ),
@@ -532,10 +535,13 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                               0.0, 12.0, 0.0, 0.0),
                           child: FFButtonWidget(
                             onPressed: () async {
+                              logFirebaseEvent('PAYMENT_COMP_SAVE_BTN_ON_TAP');
+                              logFirebaseEvent('Button_validate_form');
                               if (_model.formKey.currentState == null ||
                                   !_model.formKey.currentState!.validate()) {
                                 return;
                               }
+                              logFirebaseEvent('Button_backend_call');
 
                               await CardDetailsRecord.collection
                                   .doc()
@@ -553,6 +559,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                                     phoneNumber: _model.textController3.text,
                                     nameOnCard: _model.textController2.text,
                                   ));
+                              logFirebaseEvent('Button_show_snack_bar');
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
@@ -578,6 +585,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                                   ),
                                 ),
                               );
+                              logFirebaseEvent('Button_bottom_sheet');
                               Navigator.pop(context);
                             },
                             text: 'Save',

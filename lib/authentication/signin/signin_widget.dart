@@ -82,6 +82,7 @@ class _SigninWidgetState extends State<SigninWidget>
     super.initState();
     _model = createModel(context, () => SigninModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'signin'});
     _model.emailAddressController ??= TextEditingController();
     _model.passwordController ??= TextEditingController();
   }
@@ -134,7 +135,7 @@ class _SigninWidgetState extends State<SigninWidget>
                       ),
                       alignment: AlignmentDirectional(0.0, 0.0),
                       child: Text(
-                        'Rentx.inc',
+                        'Rentz.inc',
                         style:
                             FlutterFlowTheme.of(context).displaySmall.override(
                                   fontFamily: 'Open Sans',
@@ -343,6 +344,10 @@ class _SigninWidgetState extends State<SigninWidget>
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    logFirebaseEvent(
+                                        'SIGNIN_PAGE_RichText_g42jdxo6_ON_TAP');
+                                    logFirebaseEvent('RichText_navigate_to');
+
                                     context.pushNamed(
                                       'passwordreset',
                                       extra: <String, dynamic>{
@@ -386,6 +391,9 @@ class _SigninWidgetState extends State<SigninWidget>
                                     0.0, 0.0, 0.0, 16.0),
                                 child: FFButtonWidget(
                                   onPressed: () async {
+                                    logFirebaseEvent(
+                                        'SIGNIN_PAGE_SIGN_IN_BTN_ON_TAP');
+                                    logFirebaseEvent('Button_auth');
                                     GoRouter.of(context).prepareAuthEvent();
 
                                     final user =
@@ -440,12 +448,16 @@ class _SigninWidgetState extends State<SigninWidget>
                                     0.0, 0.0, 0.0, 16.0),
                                 child: FFButtonWidget(
                                   onPressed: () async {
+                                    logFirebaseEvent(
+                                        'SIGNIN_CONTINUE_WITH_GOOGLE_BTN_ON_TAP');
+                                    logFirebaseEvent('Button_auth');
                                     GoRouter.of(context).prepareAuthEvent();
                                     final user = await authManager
                                         .signInWithGoogle(context);
                                     if (user == null) {
                                       return;
                                     }
+                                    logFirebaseEvent('Button_navigate_to');
 
                                     context.goNamedAuth(
                                       'Home',
@@ -502,6 +514,9 @@ class _SigninWidgetState extends State<SigninWidget>
                                           0.0, 0.0, 0.0, 16.0),
                                       child: FFButtonWidget(
                                         onPressed: () async {
+                                          logFirebaseEvent(
+                                              'SIGNIN_CONTINUE_WITH_APPLE_BTN_ON_TAP');
+                                          logFirebaseEvent('Button_auth');
                                           GoRouter.of(context)
                                               .prepareAuthEvent();
                                           final user = await authManager
@@ -509,6 +524,8 @@ class _SigninWidgetState extends State<SigninWidget>
                                           if (user == null) {
                                             return;
                                           }
+                                          logFirebaseEvent(
+                                              'Button_navigate_to');
 
                                           context.goNamedAuth(
                                               'Home', context.mounted);
@@ -568,6 +585,10 @@ class _SigninWidgetState extends State<SigninWidget>
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    logFirebaseEvent(
+                                        'SIGNIN_PAGE_RichText_ti3s7jcb_ON_TAP');
+                                    logFirebaseEvent('RichText_navigate_to');
+
                                     context.pushNamed(
                                       'signup',
                                       queryParameters: {

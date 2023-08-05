@@ -8,7 +8,6 @@ export '/authentication/createuser/createuser_widget.dart'
     show CreateuserWidget;
 export '/authentication/editprofile/editprofile_widget.dart'
     show EditprofileWidget;
-export '/cars/editcar/editcar_widget.dart' show EditcarWidget;
 export '/main/wallet/wallet_widget.dart' show WalletWidget;
 export '/cars/hostinventory/hostinventory_widget.dart' show HostinventoryWidget;
 export '/main/help/help_widget.dart' show HelpWidget;
@@ -23,7 +22,6 @@ export '/main/notificationdetail/notificationdetail_widget.dart'
     show NotificationdetailWidget;
 export '/main/frequentaskedquestions/frequentaskedquestions_widget.dart'
     show FrequentaskedquestionsWidget;
-export '/main/email/email_widget.dart' show EmailWidget;
 export '/main/referral/referral_widget.dart' show ReferralWidget;
 export '/authentication/signin/signin_widget.dart' show SigninWidget;
 export '/authentication/signup/signup_widget.dart' show SignupWidget;
@@ -32,4 +30,5 @@ export '/main/chat_page/chat_page_widget.dart' show ChatPageWidget;
 export '/main/all_chats_page/all_chats_page_widget.dart'
     show AllChatsPageWidget;
 export '/main/search/search_widget.dart' show SearchWidget;
-export '/cars/add_car/add_car_widget.dart' show AddCarWidget;
+export '/cars/edit_car/edit_car_widget.dart' show EditCarWidget;
+export '/cars/addcar/addcar_widget.dart' show AddcarWidget;

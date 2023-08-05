@@ -143,7 +143,11 @@ class _PhotouploadWidgetState extends State<PhotouploadWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
+                        logFirebaseEvent(
+                            'PHOTOUPLOAD_COMP_UPLOAD_IMAGE_BTN_ON_TAP');
+                        logFirebaseEvent('Button_request_permissions');
                         await requestPermission(photoLibraryPermission);
+                        logFirebaseEvent('Button_upload_media_to_firebase');
                         final selectedMedia =
                             await selectMediaWithSourceBottomSheet(
                           context: context,
@@ -230,7 +234,11 @@ class _PhotouploadWidgetState extends State<PhotouploadWidget> {
                     ),
                     FFButtonWidget(
                       onPressed: () async {
+                        logFirebaseEvent(
+                            'PHOTOUPLOAD_COMP_SAVE_CHANGES_BTN_ON_TAP');
+                        logFirebaseEvent('Button_bottom_sheet');
                         Navigator.pop(context);
+                        logFirebaseEvent('Button_backend_call');
 
                         await currentUserReference!.update(createUserRecordData(
                           photoUrl: _model.uploadedFileUrl,

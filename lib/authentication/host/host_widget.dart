@@ -31,6 +31,8 @@ class _HostWidgetState extends State<HostWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => HostModel());
+
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Host'});
   }
 
   @override
@@ -61,6 +63,8 @@ class _HostWidgetState extends State<HostWidget> {
             size: 24.0,
           ),
           onPressed: () async {
+            logFirebaseEvent('HOST_PAGE_arrow_back_rounded_ICN_ON_TAP');
+            logFirebaseEvent('IconButton_navigate_back');
             context.pop();
           },
         ),
@@ -99,6 +103,10 @@ class _HostWidgetState extends State<HostWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
+                          logFirebaseEvent(
+                              'HOST_PAGE_Container_glqvowf5_ON_TAP');
+                          logFirebaseEvent(
+                              'Container_upload_media_to_firebase');
                           final selectedMedia =
                               await selectMediaWithSourceBottomSheet(
                             context: context,
@@ -214,6 +222,10 @@ class _HostWidgetState extends State<HostWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
+                          logFirebaseEvent(
+                              'HOST_PAGE_Container_7h94eb9n_ON_TAP');
+                          logFirebaseEvent(
+                              'Container_upload_media_to_firebase');
                           final selectedMedia =
                               await selectMediaWithSourceBottomSheet(
                             context: context,
@@ -325,6 +337,10 @@ class _HostWidgetState extends State<HostWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
+                          logFirebaseEvent(
+                              'HOST_PAGE_Container_sv671qc0_ON_TAP');
+                          logFirebaseEvent(
+                              'Container_upload_media_to_firebase');
                           final selectedMedia =
                               await selectMediaWithSourceBottomSheet(
                             context: context,
@@ -436,6 +452,10 @@ class _HostWidgetState extends State<HostWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
+                          logFirebaseEvent(
+                              'HOST_PAGE_Container_bzni865x_ON_TAP');
+                          logFirebaseEvent(
+                              'Container_upload_media_to_firebase');
                           final selectedMedia =
                               await selectMediaWithSourceBottomSheet(
                             context: context,
@@ -545,6 +565,9 @@ class _HostWidgetState extends State<HostWidget> {
                             0.0, 24.0, 0.0, 24.0),
                         child: FFButtonWidget(
                           onPressed: () async {
+                            logFirebaseEvent(
+                                'HOST_PAGE_SAVE_CHANGES_BTN_ON_TAP');
+                            logFirebaseEvent('Button_validate_form');
                             if (_model.formKey.currentState == null ||
                                 !_model.formKey.currentState!.validate()) {
                               return;
@@ -633,6 +656,7 @@ class _HostWidgetState extends State<HostWidget> {
                               );
                               return;
                             }
+                            logFirebaseEvent('Button_backend_call');
 
                             await HostRecord.createDoc(currentUserReference!)
                                 .set(createHostRecordData(
@@ -641,12 +665,14 @@ class _HostWidgetState extends State<HostWidget> {
                               insurancePhoto: _model.uploadedFileUrl4,
                               licence: _model.uploadedFileUrl3,
                             ));
+                            logFirebaseEvent('Button_backend_call');
 
                             await currentUserReference!
                                 .update(createUserRecordData(
                               isHost: true,
                               userStatus: 'pending',
                             ));
+                            logFirebaseEvent('Button_bottom_sheet');
                             await showModalBottomSheet(
                               isScrollControlled: true,
                               backgroundColor: Colors.transparent,

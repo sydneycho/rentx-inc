@@ -27,6 +27,9 @@ class _AllChatsPageWidgetState extends State<AllChatsPageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => AllChatsPageModel());
+
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'AllChatsPage'});
   }
 
   @override

@@ -89,6 +89,7 @@ class _SignupWidgetState extends State<SignupWidget>
     super.initState();
     _model = createModel(context, () => SignupModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'signup'});
     _model.emailAddressController ??= TextEditingController();
     _model.passwordController ??= TextEditingController();
     _model.confirmpasswordController ??= TextEditingController();
@@ -148,7 +149,7 @@ class _SignupWidgetState extends State<SignupWidget>
                             ),
                             alignment: AlignmentDirectional(0.0, 0.0),
                             child: Text(
-                              'Rentx.inc',
+                              'Rentz.inc',
                               style: FlutterFlowTheme.of(context)
                                   .displaySmall
                                   .override(
@@ -474,6 +475,9 @@ class _SignupWidgetState extends State<SignupWidget>
                                           0.0, 0.0, 0.0, 16.0),
                                       child: FFButtonWidget(
                                         onPressed: () async {
+                                          logFirebaseEvent(
+                                              'SIGNUP_PAGE_CREATE_ACCOUNT_BTN_ON_TAP');
+                                          logFirebaseEvent('Button_auth');
                                           GoRouter.of(context)
                                               .prepareAuthEvent();
                                           if (_model.passwordController.text !=
@@ -508,12 +512,18 @@ class _SignupWidgetState extends State<SignupWidget>
                                                 userRef: FFAppState().userRef,
                                               ));
 
+                                          logFirebaseEvent(
+                                              'Button_backend_call');
+
                                           await widget.userRef!.update({
                                             'user_refs': FieldValue.arrayUnion(
                                                 [currentUserReference]),
                                           });
+                                          logFirebaseEvent('Button_auth');
                                           await authManager
                                               .sendEmailVerification();
+                                          logFirebaseEvent(
+                                              'Button_navigate_to');
 
                                           context.goNamedAuth(
                                             'createuser',
@@ -526,7 +536,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                                     PageTransitionType
                                                         .rightToLeft,
                                                 duration:
-                                                    Duration(milliseconds: 250),
+                                                    Duration(milliseconds: 300),
                                               ),
                                             },
                                           );
@@ -575,6 +585,9 @@ class _SignupWidgetState extends State<SignupWidget>
                                           0.0, 0.0, 0.0, 16.0),
                                       child: FFButtonWidget(
                                         onPressed: () async {
+                                          logFirebaseEvent(
+                                              'SIGNUP_CONTINUE_WITH_GOOGLE_BTN_ON_TAP');
+                                          logFirebaseEvent('Button_auth');
                                           GoRouter.of(context)
                                               .prepareAuthEvent();
                                           final user = await authManager
@@ -582,6 +595,8 @@ class _SignupWidgetState extends State<SignupWidget>
                                           if (user == null) {
                                             return;
                                           }
+                                          logFirebaseEvent(
+                                              'Button_navigate_to');
 
                                           context.goNamedAuth(
                                               'Home', context.mounted);
@@ -634,6 +649,9 @@ class _SignupWidgetState extends State<SignupWidget>
                                                     0.0, 0.0, 0.0, 16.0),
                                             child: FFButtonWidget(
                                               onPressed: () async {
+                                                logFirebaseEvent(
+                                                    'SIGNUP_CONTINUE_WITH_APPLE_BTN_ON_TAP');
+                                                logFirebaseEvent('Button_auth');
                                                 GoRouter.of(context)
                                                     .prepareAuthEvent();
                                                 final user = await authManager
@@ -641,6 +659,8 @@ class _SignupWidgetState extends State<SignupWidget>
                                                 if (user == null) {
                                                   return;
                                                 }
+                                                logFirebaseEvent(
+                                                    'Button_navigate_to');
 
                                                 context.goNamedAuth(
                                                     'Home', context.mounted);
@@ -699,6 +719,11 @@ class _SignupWidgetState extends State<SignupWidget>
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
+                                          logFirebaseEvent(
+                                              'SIGNUP_PAGE_RichText_rardxz9o_ON_TAP');
+                                          logFirebaseEvent(
+                                              'RichText_navigate_to');
+
                                           context.pushNamed(
                                             'signin',
                                             extra: <String, dynamic>{

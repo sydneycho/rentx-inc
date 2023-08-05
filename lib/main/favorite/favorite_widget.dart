@@ -56,6 +56,8 @@ class _FavoriteWidgetState extends State<FavoriteWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => FavoriteModel());
+
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Favorite'});
   }
 
   @override
@@ -177,6 +179,11 @@ class _FavoriteWidgetState extends State<FavoriteWidget>
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
+                                            logFirebaseEvent(
+                                                'FAVORITE_PAGE_Card_xpjoeocw_ON_TAP');
+                                            logFirebaseEvent(
+                                                'Card_navigate_to');
+
                                             context.pushNamed(
                                               'Cardetails',
                                               queryParameters: {
@@ -211,7 +218,7 @@ class _FavoriteWidgetState extends State<FavoriteWidget>
                                                             10.0),
                                                     child: Image.network(
                                                       cardCarRecord
-                                                          .profilePhoto,
+                                                          .carPhotos.first,
                                                       width: 100.0,
                                                       height: 80.0,
                                                       fit: BoxFit.cover,
@@ -328,6 +335,10 @@ class _FavoriteWidgetState extends State<FavoriteWidget>
                                                         highlightColor:
                                                             Colors.transparent,
                                                         onTap: () async {
+                                                          logFirebaseEvent(
+                                                              'FAVORITE_PAGE_Icon_iufeji02_ON_TAP');
+                                                          logFirebaseEvent(
+                                                              'Icon_update_app_state');
                                                           FFAppState()
                                                               .update(() {
                                                             FFAppState()

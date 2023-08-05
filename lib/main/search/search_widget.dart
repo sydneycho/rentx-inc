@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:text_search/text_search.dart';
 import 'search_model.dart';
 export 'search_model.dart';
 
@@ -30,6 +31,7 @@ class _SearchWidgetState extends State<SearchWidget> {
     super.initState();
     _model = createModel(context, () => SearchModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'search'});
     _model.textController ??= TextEditingController();
   }
 
@@ -50,7 +52,7 @@ class _SearchWidgetState extends State<SearchWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
         appBar: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+          backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: Colors.transparent,
@@ -59,16 +61,24 @@ class _SearchWidgetState extends State<SearchWidget> {
             buttonSize: 60.0,
             icon: Icon(
               Icons.arrow_back_rounded,
-              color: FlutterFlowTheme.of(context).primaryText,
-              size: 30.0,
+              color: FlutterFlowTheme.of(context).primaryBackground,
+              size: 24.0,
             ),
             onPressed: () async {
-              context.pop();
+              logFirebaseEvent('SEARCH_arrow_back_rounded_ICN_ON_TAP');
+              logFirebaseEvent('IconButton_navigate_to');
+
+              context.pushNamed(
+                'Home',
+                extra: <String, dynamic>{
+                  kTransitionInfoKey: TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.leftToRight,
+                    duration: Duration(milliseconds: 300),
+                  ),
+                },
+              );
             },
-          ),
-          title: Text(
-            'Search ',
-            style: FlutterFlowTheme.of(context).headlineSmall,
           ),
           actions: [],
           centerTitle: false,
@@ -161,8 +171,35 @@ class _SearchWidgetState extends State<SearchWidget> {
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
                       child: FFButtonWidget(
-                        onPressed: () {
-                          print('Button pressed ...');
+                        onPressed: () async {
+                          logFirebaseEvent('SEARCH_PAGE_SEARCH_BTN_ON_TAP');
+                          logFirebaseEvent('Button_simple_search');
+                          await queryCarRecordOnce()
+                              .then(
+                                (records) => _model.simpleSearchResults =
+                                    TextSearch(
+                                  records
+                                      .map(
+                                        (record) => TextSearchItem(record, [
+                                          record.carName!,
+                                          record.availabilityStatus!,
+                                          record.description!,
+                                          record.listingStatus!,
+                                          record.location!,
+                                          record.vendorName!,
+                                          record.brandName!,
+                                          record.district!
+                                        ]),
+                                      )
+                                      .toList(),
+                                )
+                                        .search(_model.textController.text)
+                                        .map((r) => r.object)
+                                        .toList(),
+                              )
+                              .onError(
+                                  (_, __) => _model.simpleSearchResults = [])
+                              .whenComplete(() => setState(() {}));
                         },
                         text: 'Search',
                         options: FFButtonOptions(
@@ -231,7 +268,12 @@ class _SearchWidgetState extends State<SearchWidget> {
                           }
                           int textCount = snapshot.data!;
                           return Text(
-                            textCount.toString(),
+                            formatNumber(
+                              _model.simpleSearchResults.length,
+                              formatType: FormatType.custom,
+                              format: '00',
+                              locale: '',
+                            ),
                             style: FlutterFlowTheme.of(context)
                                 .bodySmall
                                 .override(
@@ -253,29 +295,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                     Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 44.0),
-                      child: StreamBuilder<List<CarRecord>>(
-                        stream: queryCarRecord(
-                          queryBuilder: (carRecord) => carRecord
-                              .where('car_status', isEqualTo: 'approved')
-                              .where('car_name',
-                                  isEqualTo: _model.textController.text),
-                        ),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 100.0,
-                                height: 100.0,
-                                child: SpinKitDualRing(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  size: 100.0,
-                                ),
-                              ),
-                            );
-                          }
-                          List<CarRecord> wrapCarRecordList = snapshot.data!;
-                          if (wrapCarRecordList.isEmpty) {
+                      child: Builder(
+                        builder: (context) {
+                          final searchresults =
+                              _model.simpleSearchResults.toList();
+                          if (searchresults.isEmpty) {
                             return EmptyWidget();
                           }
                           return Wrap(
@@ -287,10 +311,10 @@ class _SearchWidgetState extends State<SearchWidget> {
                             runAlignment: WrapAlignment.start,
                             verticalDirection: VerticalDirection.down,
                             clipBehavior: Clip.none,
-                            children: List.generate(wrapCarRecordList.length,
-                                (wrapIndex) {
-                              final wrapCarRecord =
-                                  wrapCarRecordList[wrapIndex];
+                            children: List.generate(searchresults.length,
+                                (searchresultsIndex) {
+                              final searchresultsItem =
+                                  searchresults[searchresultsIndex];
                               return Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     14.0, 10.0, 0.0, 10.0),
@@ -300,14 +324,26 @@ class _SearchWidgetState extends State<SearchWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    logFirebaseEvent(
+                                        'SEARCH_PAGE_Container_23y3cpxy_ON_TAP');
+                                    logFirebaseEvent('Container_navigate_to');
+
                                     context.pushNamed(
                                       'Cardetails',
                                       queryParameters: {
                                         'productref': serializeParam(
-                                          wrapCarRecord.reference,
+                                          searchresultsItem.reference,
                                           ParamType.DocumentReference,
                                         ),
                                       }.withoutNulls,
+                                      extra: <String, dynamic>{
+                                        kTransitionInfoKey: TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.rightToLeft,
+                                          duration: Duration(milliseconds: 300),
+                                        ),
+                                      },
                                     );
                                   },
                                   child: Container(
@@ -366,7 +402,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                                                       BorderRadius.circular(
                                                           8.0),
                                                   child: Image.network(
-                                                    wrapCarRecord
+                                                    searchresultsItem
                                                         .carPhotos.first,
                                                     width: double.infinity,
                                                     height: double.infinity,
@@ -381,7 +417,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 8.0, 0.0, 0.0),
                                             child: Text(
-                                              wrapCarRecord.carName,
+                                              searchresultsItem.carName,
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .titleLarge,
@@ -401,7 +437,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                                                     children: [
                                                       TextSpan(
                                                         text: formatNumber(
-                                                          wrapCarRecord
+                                                          searchresultsItem
                                                               .costPerDay,
                                                           formatType:
                                                               FormatType.custom,
@@ -416,7 +452,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                                                         ),
                                                       ),
                                                       TextSpan(
-                                                        text: ' /night',
+                                                        text: '  /Day',
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -437,7 +473,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                                                   text: TextSpan(
                                                     children: [
                                                       TextSpan(
-                                                        text: wrapCarRecord
+                                                        text: searchresultsItem
                                                             .district,
                                                         style: TextStyle(),
                                                       )

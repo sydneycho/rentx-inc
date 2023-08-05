@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 
 import '../base_auth_user_provider.dart';
 
 export '../base_auth_user_provider.dart';
 
-class RentZFirebaseUser extends BaseAuthUser {
-  RentZFirebaseUser(this.user);
+class RentzFirebaseUser extends BaseAuthUser {
+  RentzFirebaseUser(this.user);
   User? user;
   bool get loggedIn => user != null;
 
@@ -47,17 +49,20 @@ class RentZFirebaseUser extends BaseAuthUser {
 
   static BaseAuthUser fromUserCredential(UserCredential userCredential) =>
       fromFirebaseUser(userCredential.user);
-  static BaseAuthUser fromFirebaseUser(User? user) => RentZFirebaseUser(user);
+  static BaseAuthUser fromFirebaseUser(User? user) => RentzFirebaseUser(user);
 }
 
-Stream<BaseAuthUser> rentZFirebaseUserStream() => FirebaseAuth.instance
+Stream<BaseAuthUser> rentzFirebaseUserStream() => FirebaseAuth.instance
         .authStateChanges()
         .debounce((user) => user == null && !loggedIn
             ? TimerStream(true, const Duration(seconds: 1))
             : Stream.value(user))
         .map<BaseAuthUser>(
       (user) {
-        currentUser = RentZFirebaseUser(user);
+        currentUser = RentzFirebaseUser(user);
+        if (!kIsWeb) {
+          FirebaseCrashlytics.instance.setUserIdentifier(user?.uid ?? '');
+        }
         return currentUser!;
       },
     );

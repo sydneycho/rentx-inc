@@ -39,20 +39,28 @@ class _HomeWidgetState extends State<HomeWidget> {
     super.initState();
     _model = createModel(context, () => HomeModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Home'});
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      logFirebaseEvent('HOME_PAGE_Home_ON_INIT_STATE');
       if ((valueOrDefault(currentUserDocument?.userStatus, '') == 'approved') &&
           (valueOrDefault<bool>(currentUserDocument?.isAdmin, false) ==
               false)) {
+        logFirebaseEvent('Home_navigate_to');
+
         context.goNamed('Home');
 
+        logFirebaseEvent('Home_request_permissions');
         await requestPermission(locationPermission);
       } else {
         if (valueOrDefault(currentUserDocument?.userStatus, '') == 'pending') {
+          logFirebaseEvent('Home_navigate_to');
+
           context.goNamed('Verification');
         } else {
           if (valueOrDefault(currentUserDocument?.userStatus, '') ==
               'cancelled') {
+            logFirebaseEvent('Home_alert_dialog');
             await showDialog(
               context: context,
               builder: (alertDialogContext) {
@@ -138,6 +146,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
+                                  logFirebaseEvent(
+                                      'HOME_PAGE_Icon_ip1a24xd_ON_TAP');
+                                  logFirebaseEvent('Icon_drawer');
                                   if (scaffoldKey.currentState!.isDrawerOpen ||
                                       scaffoldKey
                                           .currentState!.isEndDrawerOpen) {
@@ -275,6 +286,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
+                                        logFirebaseEvent(
+                                            'HOME_PAGE_replaceWidget_ON_TAP');
+                                        logFirebaseEvent(
+                                            'replaceWidget_navigate_to');
+
                                         context.pushNamed('Profile');
                                       },
                                       child: Container(
@@ -348,6 +364,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
+                                          logFirebaseEvent(
+                                              'HOME_PAGE_wrapWidget_ON_TAP');
+                                          logFirebaseEvent(
+                                              'wrapWidget_navigate_to');
+
                                           context.pushNamed('Referral');
                                         },
                                         child: AnimatedContainer(
@@ -437,6 +458,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
+                                          logFirebaseEvent(
+                                              'HOME_PAGE_convertComponent_ON_TAP');
+                                          logFirebaseEvent(
+                                              'convertComponent_navigate_to');
+
                                           context.pushNamed('Wallet');
                                         },
                                         child: AnimatedContainer(
@@ -545,6 +571,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
+                                          logFirebaseEvent(
+                                              'HOME_PAGE_convertComponent_ON_TAP');
+                                          logFirebaseEvent(
+                                              'convertComponent_navigate_to');
+
                                           context.pushNamed('Help');
                                         },
                                         child: AnimatedContainer(
@@ -633,6 +664,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
+                                          logFirebaseEvent(
+                                              'HOME_PAGE_convertComponent_ON_TAP');
+                                          logFirebaseEvent(
+                                              'convertComponent_call_number');
                                           await launchUrl(Uri(
                                             scheme: 'tel',
                                             path: '+260972562690',
@@ -779,6 +814,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                     size: 30.0,
                   ),
                   onPressed: () async {
+                    logFirebaseEvent('HOME_PAGE_menu_outlined_ICN_ON_TAP');
+                    logFirebaseEvent('IconButton_drawer');
                     scaffoldKey.currentState!.openDrawer();
                   },
                 ),
@@ -821,6 +858,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
+                            logFirebaseEvent('HOME_PAGE_Badge_21va058e_ON_TAP');
+                            logFirebaseEvent('Badge_bottom_sheet');
                             await showModalBottomSheet(
                               isScrollControlled: true,
                               backgroundColor: Colors.transparent,
@@ -953,6 +992,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
+                                          logFirebaseEvent(
+                                              'HOME_PAGE_Icon_nap5o1m2_ON_TAP');
+                                          logFirebaseEvent('Icon_navigate_to');
+
                                           context.pushNamed('search');
                                         },
                                         child: Icon(
@@ -1147,6 +1190,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     highlightColor:
                                                         Colors.transparent,
                                                     onTap: () async {
+                                                      logFirebaseEvent(
+                                                          'HOME_PAGE_Text_1ivlrno8_ON_TAP');
+                                                      logFirebaseEvent(
+                                                          'Text_call_number');
                                                       await launchUrl(Uri(
                                                         scheme: 'tel',
                                                         path: listViewPaidAdvertsRecord
@@ -1261,6 +1308,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    logFirebaseEvent(
+                                        'HOME_PAGE_Icon_n118uiad_ON_TAP');
+                                    logFirebaseEvent('Icon_navigate_to');
+
                                     context.goNamed(
                                       'Home',
                                       extra: <String, dynamic>{
@@ -1272,6 +1323,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       },
                                     );
 
+                                    logFirebaseEvent('Icon_clear_query_cache');
                                     FFAppState().clearCarsCache();
                                   },
                                   child: Icon(
@@ -1355,6 +1407,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
+                                          logFirebaseEvent(
+                                              'HOME_PAGE_Container_erkw4n1p_ON_TAP');
+                                          logFirebaseEvent(
+                                              'Container_navigate_to');
+
                                           context.pushNamed(
                                             'Cardetails',
                                             queryParameters: {
@@ -1398,7 +1455,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                 .circular(8.0),
                                                         child: Image.network(
                                                           listViewCarRecord
-                                                              .profilePhoto,
+                                                              .carPhotos.first,
                                                           width:
                                                               double.infinity,
                                                           height:
@@ -1442,14 +1499,20 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                           .favoriteswitch =
                                                                       !FFAppState()
                                                                           .favoriteswitch);
+                                                                  logFirebaseEvent(
+                                                                      'HOME_PAGE_ToggleIcon_pt5gn4cy_ON_TOGGLE');
                                                                   if (FFAppState()
                                                                       .favoriteswitch) {
+                                                                    logFirebaseEvent(
+                                                                        'ToggleIcon_update_app_state');
                                                                     setState(
                                                                         () {
                                                                       FFAppState()
                                                                           .addToFavorite(
                                                                               listViewCarRecord.reference);
                                                                     });
+                                                                    logFirebaseEvent(
+                                                                        'ToggleIcon_play_sound');
                                                                     _model.soundPlayer1 ??=
                                                                         AudioPlayer();
                                                                     if (_model
@@ -1471,12 +1534,16 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                             .soundPlayer1!
                                                                             .play());
 
+                                                                    logFirebaseEvent(
+                                                                        'ToggleIcon_update_app_state');
                                                                     setState(
                                                                         () {
                                                                       FFAppState()
                                                                               .favoriteswitch =
                                                                           true;
                                                                     });
+                                                                    logFirebaseEvent(
+                                                                        'ToggleIcon_show_snack_bar');
                                                                     ScaffoldMessenger.of(
                                                                             context)
                                                                         .showSnackBar(
@@ -1508,12 +1575,16 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                       ),
                                                                     );
                                                                   } else {
+                                                                    logFirebaseEvent(
+                                                                        'ToggleIcon_update_app_state');
                                                                     setState(
                                                                         () {
                                                                       FFAppState()
                                                                           .removeFromFavorite(
                                                                               listViewCarRecord.reference);
                                                                     });
+                                                                    logFirebaseEvent(
+                                                                        'ToggleIcon_play_sound');
                                                                     _model.soundPlayer2 ??=
                                                                         AudioPlayer();
                                                                     if (_model
@@ -1535,12 +1606,16 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                             .soundPlayer2!
                                                                             .play());
 
+                                                                    logFirebaseEvent(
+                                                                        'ToggleIcon_update_app_state');
                                                                     setState(
                                                                         () {
                                                                       FFAppState()
                                                                               .favoriteswitch =
                                                                           false;
                                                                     });
+                                                                    logFirebaseEvent(
+                                                                        'ToggleIcon_show_snack_bar');
                                                                     ScaffoldMessenger.of(
                                                                             context)
                                                                         .showSnackBar(
@@ -1794,6 +1869,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 highlightColor:
                                                     Colors.transparent,
                                                 onTap: () async {
+                                                  logFirebaseEvent(
+                                                      'HOME_PAGE_Container_wkq11byl_ON_TAP');
+                                                  logFirebaseEvent(
+                                                      'Container_navigate_to');
+
                                                   context.pushNamed(
                                                     'Cardetails',
                                                     queryParameters: {
@@ -1894,7 +1974,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                 child: Image
                                                                     .network(
                                                                   wrapCarRecord
-                                                                      .profilePhoto,
+                                                                      .carPhotos
+                                                                      .first,
                                                                   width: double
                                                                       .infinity,
                                                                   height: MediaQuery.sizeOf(

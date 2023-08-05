@@ -25,6 +25,9 @@ class _VerificationWidgetState extends State<VerificationWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => VerificationModel());
+
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'Verification'});
   }
 
   @override
@@ -92,7 +95,19 @@ class _VerificationWidgetState extends State<VerificationWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 44.0, 0.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    context.goNamed('signin');
+                    logFirebaseEvent('VERIFICATION_PAGE_GO_HOME_BTN_ON_TAP');
+                    logFirebaseEvent('Button_navigate_to');
+
+                    context.goNamed(
+                      'signin',
+                      extra: <String, dynamic>{
+                        kTransitionInfoKey: TransitionInfo(
+                          hasTransition: true,
+                          transitionType: PageTransitionType.leftToRight,
+                          duration: Duration(milliseconds: 300),
+                        ),
+                      },
+                    );
                   },
                   text: 'Go Home',
                   options: FFButtonOptions(

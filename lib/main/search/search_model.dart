@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:text_search/text_search.dart';
 
 class SearchModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
@@ -18,6 +19,7 @@ class SearchModel extends FlutterFlowModel {
   // State field(s) for TextField widget.
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  List<CarRecord> simpleSearchResults = [];
 
   /// Initialization and disposal methods.
 

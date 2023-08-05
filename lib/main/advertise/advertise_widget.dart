@@ -31,6 +31,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
     super.initState();
     _model = createModel(context, () => AdvertiseModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Advertise'});
     _model.nameController ??= TextEditingController();
     _model.sellernameController ??= TextEditingController();
     _model.sellerphonenumberController ??= TextEditingController();
@@ -68,7 +69,19 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
               size: 24.0,
             ),
             onPressed: () async {
-              context.pop();
+              logFirebaseEvent('ADVERTISE_PAGE_arrow_back_ICN_ON_TAP');
+              logFirebaseEvent('IconButton_navigate_to');
+
+              context.pushNamed(
+                'Profile',
+                extra: <String, dynamic>{
+                  kTransitionInfoKey: TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.leftToRight,
+                    duration: Duration(milliseconds: 300),
+                  ),
+                },
+              );
             },
           ),
           actions: [],
@@ -460,6 +473,10 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
+                          logFirebaseEvent(
+                              'ADVERTISE_PAGE_Container_lss79mvi_ON_TAP');
+                          logFirebaseEvent(
+                              'Container_upload_media_to_firebase');
                           final selectedMedia =
                               await selectMediaWithSourceBottomSheet(
                             context: context,
@@ -563,6 +580,9 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 34.0),
                       child: FFButtonWidget(
                         onPressed: () async {
+                          logFirebaseEvent(
+                              'ADVERTISE_PAGE_Button-Login_ON_TAP');
+                          logFirebaseEvent('Button-Login_validate_form');
                           if (_model.formKey.currentState == null ||
                               !_model.formKey.currentState!.validate()) {
                             return;
@@ -588,6 +608,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                             );
                             return;
                           }
+                          logFirebaseEvent('Button-Login_show_snack_bar');
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
@@ -602,8 +623,11 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                   .secondaryBackground,
                             ),
                           );
+                          logFirebaseEvent('Button-Login_navigate_to');
 
                           context.goNamed('Profile');
+
+                          logFirebaseEvent('Button-Login_backend_call');
 
                           await PaidAdvertsRecord.collection
                               .doc()

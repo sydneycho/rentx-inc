@@ -119,11 +119,6 @@ final parametersBuilderMap =
   'passwordreset': ParameterData.none(),
   'createuser': ParameterData.none(),
   'Editprofile': ParameterData.none(),
-  'editcar': (data) async => ParameterData(
-        allParams: {
-          'caredit': getParameter<DocumentReference>(data, 'caredit'),
-        },
-      ),
   'Wallet': ParameterData.none(),
   'Hostinventory': ParameterData.none(),
   'Help': ParameterData.none(),
@@ -141,7 +136,6 @@ final parametersBuilderMap =
         },
       ),
   'Frequentaskedquestions': ParameterData.none(),
-  'Email': ParameterData.none(),
   'Referral': ParameterData.none(),
   'signin': ParameterData.none(),
   'signup': (data) async => ParameterData(
@@ -159,7 +153,12 @@ final parametersBuilderMap =
       ),
   'AllChatsPage': ParameterData.none(),
   'search': ParameterData.none(),
-  'AddCar': ParameterData.none(),
+  'Edit_car': (data) async => ParameterData(
+        allParams: {
+          'editcar': getParameter<DocumentReference>(data, 'editcar'),
+        },
+      ),
+  'Addcar': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

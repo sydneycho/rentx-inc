@@ -23,6 +23,8 @@ class _AboutWidgetState extends State<AboutWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => AboutModel());
+
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'About'});
   }
 
   @override
@@ -48,7 +50,19 @@ class _AboutWidgetState extends State<AboutWidget> {
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () async {
-            context.pop();
+            logFirebaseEvent('ABOUT_PAGE_Icon_5cy6nweg_ON_TAP');
+            logFirebaseEvent('Icon_navigate_to');
+
+            context.pushNamed(
+              'Help',
+              extra: <String, dynamic>{
+                kTransitionInfoKey: TransitionInfo(
+                  hasTransition: true,
+                  transitionType: PageTransitionType.leftToRight,
+                  duration: Duration(milliseconds: 300),
+                ),
+              },
+            );
           },
           child: Icon(
             Icons.arrow_back,
@@ -147,7 +161,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           4.0, 0.0, 4.0, 0.0),
                                       child: Text(
-                                        'Welcome to  Rentx, the innovative platform that revolutionizes the way we access and utilize cars. Our app connects car owners with individuals seeking convenient and affordable transportation options, creating a thriving community of shared mobility.',
+                                        'Welcome to  Rentz, the innovative platform that revolutionizes the way we access and utilize cars. Our app connects car owners with individuals seeking convenient and affordable transportation options, creating a thriving community of shared mobility.',
                                         textAlign: TextAlign.start,
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
@@ -356,7 +370,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Text(
-                                          'Benefits of Rentx',
+                                          'Benefits of Rentz',
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -426,7 +440,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Text(
-                                          'Join Rentx Today',
+                                          'Join Rentz Today',
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(

@@ -46,6 +46,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
     super.initState();
     _model = createModel(context, () => ChatPageModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'ChatPage'});
     FFChatManager.instance
         .getChatInfo(
       otherUserRecord: widget.chatUser,
@@ -78,14 +79,26 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
           borderColor: Colors.transparent,
           borderRadius: 30.0,
           borderWidth: 1.0,
-          buttonSize: 60.0,
+          buttonSize: 50.0,
           icon: Icon(
             Icons.arrow_back_rounded,
             color: FlutterFlowTheme.of(context).primaryBackground,
             size: 24.0,
           ),
           onPressed: () async {
-            context.pop();
+            logFirebaseEvent('CHAT_arrow_back_rounded_ICN_ON_TAP');
+            logFirebaseEvent('IconButton_navigate_to');
+
+            context.pushNamed(
+              'AllChatsPage',
+              extra: <String, dynamic>{
+                kTransitionInfoKey: TransitionInfo(
+                  hasTransition: true,
+                  transitionType: PageTransitionType.leftToRight,
+                  duration: Duration(milliseconds: 300),
+                ),
+              },
+            );
           },
         ),
         title: Stack(
@@ -110,7 +123,10 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
               hoverColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onTap: () async {
+                logFirebaseEvent('CHAT_PAGE_PAGE_Icon_xyp5exxl_ON_TAP');
+                logFirebaseEvent('Icon_backend_call');
                 await widget.chatUser!.reference.delete();
+                logFirebaseEvent('Icon_alert_dialog');
                 await showDialog(
                   context: context,
                   builder: (alertDialogContext) {
@@ -126,6 +142,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                     );
                   },
                 );
+                logFirebaseEvent('Icon_navigate_to');
 
                 context.pushNamed('AllChatsPage');
               },

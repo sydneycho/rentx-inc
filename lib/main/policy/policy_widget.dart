@@ -23,6 +23,8 @@ class _PolicyWidgetState extends State<PolicyWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => PolicyModel());
+
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Policy'});
   }
 
   @override
@@ -48,7 +50,19 @@ class _PolicyWidgetState extends State<PolicyWidget> {
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () async {
-            context.pop();
+            logFirebaseEvent('POLICY_PAGE_Icon_z96paw2l_ON_TAP');
+            logFirebaseEvent('Icon_navigate_to');
+
+            context.pushNamed(
+              'Help',
+              extra: <String, dynamic>{
+                kTransitionInfoKey: TransitionInfo(
+                  hasTransition: true,
+                  transitionType: PageTransitionType.leftToRight,
+                  duration: Duration(milliseconds: 300),
+                ),
+              },
+            );
           },
           child: Icon(
             Icons.arrow_back,
@@ -535,7 +549,7 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
                                             Text(
-                                              'Join Rentx Today',
+                                              'Join Rentz Today',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -560,7 +574,11 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                                       child: Text(
                                         'By using the Service, you acknowledge that you have read, understood, and agree to be bound by this Policy. If you do not agree with any part of this Policy, you must not use the Service.',
                                         style: FlutterFlowTheme.of(context)
-                                            .labelMedium,
+                                            .labelMedium
+                                            .override(
+                                              fontFamily: 'Open Sans',
+                                              lineHeight: 2.0,
+                                            ),
                                       ),
                                     ),
                                   ],

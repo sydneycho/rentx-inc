@@ -23,16 +23,6 @@ class CarRecord extends FirestoreRecord {
   String get availabilityStatus => _availabilityStatus ?? '';
   bool hasAvailabilityStatus() => _availabilityStatus != null;
 
-  // "car_back" field.
-  String? _carBack;
-  String get carBack => _carBack ?? '';
-  bool hasCarBack() => _carBack != null;
-
-  // "car_front" field.
-  String? _carFront;
-  String get carFront => _carFront ?? '';
-  bool hasCarFront() => _carFront != null;
-
   // "car_id" field.
   String? _carId;
   String get carId => _carId ?? '';
@@ -77,11 +67,6 @@ class CarRecord extends FirestoreRecord {
   String? _location;
   String get location => _location ?? '';
   bool hasLocation() => _location != null;
-
-  // "profile_photo" field.
-  String? _profilePhoto;
-  String get profilePhoto => _profilePhoto ?? '';
-  bool hasProfilePhoto() => _profilePhoto != null;
 
   // "transmission_type" field.
   String? _transmissionType;
@@ -170,8 +155,6 @@ class CarRecord extends FirestoreRecord {
 
   void _initializeFields() {
     _availabilityStatus = snapshotData['availability_status'] as String?;
-    _carBack = snapshotData['car_back'] as String?;
-    _carFront = snapshotData['car_front'] as String?;
     _carId = snapshotData['car_id'] as String?;
     _carName = snapshotData['car_name'] as String?;
     _carVideo = snapshotData['car_video'] as String?;
@@ -181,7 +164,6 @@ class CarRecord extends FirestoreRecord {
     _fuelType = snapshotData['fuel_type'] as String?;
     _listingStatus = snapshotData['listing_status'] as String?;
     _location = snapshotData['location'] as String?;
-    _profilePhoto = snapshotData['profile_photo'] as String?;
     _transmissionType = snapshotData['transmission_type'] as String?;
     _vendorEmail = snapshotData['vendor_email'] as String?;
     _vendorName = snapshotData['vendor_name'] as String?;
@@ -225,8 +207,6 @@ class CarRecord extends FirestoreRecord {
       CarRecord.getDocumentFromData(
         {
           'availability_status': snapshot.data['availability_status'],
-          'car_back': snapshot.data['car_back'],
-          'car_front': snapshot.data['car_front'],
           'car_id': snapshot.data['car_id'],
           'car_name': snapshot.data['car_name'],
           'car_video': snapshot.data['car_video'],
@@ -236,7 +216,6 @@ class CarRecord extends FirestoreRecord {
           'fuel_type': snapshot.data['fuel_type'],
           'listing_status': snapshot.data['listing_status'],
           'location': snapshot.data['location'],
-          'profile_photo': snapshot.data['profile_photo'],
           'transmission_type': snapshot.data['transmission_type'],
           'vendor_email': snapshot.data['vendor_email'],
           'vendor_name': snapshot.data['vendor_name'],
@@ -302,8 +281,6 @@ class CarRecord extends FirestoreRecord {
 
 Map<String, dynamic> createCarRecordData({
   String? availabilityStatus,
-  String? carBack,
-  String? carFront,
   String? carId,
   String? carName,
   String? carVideo,
@@ -313,7 +290,6 @@ Map<String, dynamic> createCarRecordData({
   String? fuelType,
   String? listingStatus,
   String? location,
-  String? profilePhoto,
   String? transmissionType,
   String? vendorEmail,
   String? vendorName,
@@ -334,8 +310,6 @@ Map<String, dynamic> createCarRecordData({
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'availability_status': availabilityStatus,
-      'car_back': carBack,
-      'car_front': carFront,
       'car_id': carId,
       'car_name': carName,
       'car_video': carVideo,
@@ -345,7 +319,6 @@ Map<String, dynamic> createCarRecordData({
       'fuel_type': fuelType,
       'listing_status': listingStatus,
       'location': location,
-      'profile_photo': profilePhoto,
       'transmission_type': transmissionType,
       'vendor_email': vendorEmail,
       'vendor_name': vendorName,
@@ -375,8 +348,6 @@ class CarRecordDocumentEquality implements Equality<CarRecord> {
   bool equals(CarRecord? e1, CarRecord? e2) {
     const listEquality = ListEquality();
     return e1?.availabilityStatus == e2?.availabilityStatus &&
-        e1?.carBack == e2?.carBack &&
-        e1?.carFront == e2?.carFront &&
         e1?.carId == e2?.carId &&
         e1?.carName == e2?.carName &&
         e1?.carVideo == e2?.carVideo &&
@@ -386,7 +357,6 @@ class CarRecordDocumentEquality implements Equality<CarRecord> {
         e1?.fuelType == e2?.fuelType &&
         e1?.listingStatus == e2?.listingStatus &&
         e1?.location == e2?.location &&
-        e1?.profilePhoto == e2?.profilePhoto &&
         e1?.transmissionType == e2?.transmissionType &&
         e1?.vendorEmail == e2?.vendorEmail &&
         e1?.vendorName == e2?.vendorName &&
@@ -409,8 +379,6 @@ class CarRecordDocumentEquality implements Equality<CarRecord> {
   @override
   int hash(CarRecord? e) => const ListEquality().hash([
         e?.availabilityStatus,
-        e?.carBack,
-        e?.carFront,
         e?.carId,
         e?.carName,
         e?.carVideo,
@@ -420,7 +388,6 @@ class CarRecordDocumentEquality implements Equality<CarRecord> {
         e?.fuelType,
         e?.listingStatus,
         e?.location,
-        e?.profilePhoto,
         e?.transmissionType,
         e?.vendorEmail,
         e?.vendorName,

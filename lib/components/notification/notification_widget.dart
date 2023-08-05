@@ -95,6 +95,8 @@ class _NotificationWidgetState extends State<NotificationWidget>
                   hoverColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () async {
+                    logFirebaseEvent('NOTIFICATION_COMP_Icon_mjb3gwin_ON_TAP');
+                    logFirebaseEvent('Icon_bottom_sheet');
                     Navigator.pop(context);
                   },
                   child: Icon(

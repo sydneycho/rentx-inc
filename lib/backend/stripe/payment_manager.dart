@@ -91,7 +91,7 @@ Future<StripePaymentResponse> processStripePayment(
         paymentIntentClientSecret: response['paymentIntent'],
         customerEphemeralKeySecret: response['ephemeralKey'],
         customerId: response['customer'],
-        merchantDisplayName: 'Rentx inc',
+        merchantDisplayName: 'Rentz inc',
         googlePay: allowGooglePay
             ? PaymentSheetGooglePay(
                 merchantCountryCode: 'US',

@@ -34,6 +34,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
     super.initState();
     _model = createModel(context, () => EditprofileModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Editprofile'});
     _model.firstnameController ??= TextEditingController(
         text: valueOrDefault(currentUserDocument?.firstName, ''));
     _model.lastNameController ??= TextEditingController(
@@ -73,6 +74,8 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
             size: 24.0,
           ),
           onPressed: () async {
+            logFirebaseEvent('EDITPROFILE_arrow_back_rounded_ICN_ON_TA');
+            logFirebaseEvent('IconButton_navigate_back');
             context.pop();
           },
         ),
@@ -124,6 +127,8 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 15.0),
                     child: FFButtonWidget(
                       onPressed: () async {
+                        logFirebaseEvent('EDITPROFILE_PAGE_UPLOAD_BTN_ON_TAP');
+                        logFirebaseEvent('Button_bottom_sheet');
                         await showModalBottomSheet(
                           isScrollControlled: true,
                           backgroundColor: Colors.transparent,
@@ -429,6 +434,9 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
+                                logFirebaseEvent(
+                                    'EDITPROFILE_PAGE_Icon_5cbk6pqf_ON_TAP');
+                                logFirebaseEvent('Icon_date_time_picker');
                                 final _datePickedDate = await showDatePicker(
                                   context: context,
                                   initialDate: getCurrentTimestamp,
@@ -682,6 +690,10 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
                       child: FFButtonWidget(
                         onPressed: () async {
+                          logFirebaseEvent(
+                              'EDITPROFILE_PAGE_SAVE_CHANGES_BTN_ON_TAP');
+                          logFirebaseEvent('Button_backend_call');
+
                           await currentUserReference!
                               .update(createUserRecordData(
                             email: currentUserEmail,
@@ -702,6 +714,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                 .toString(),
                             dob: _model.datePicked,
                           ));
+                          logFirebaseEvent('Button_show_snack_bar');
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
@@ -716,6 +729,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                   .secondaryBackground,
                             ),
                           );
+                          logFirebaseEvent('Button_navigate_to');
 
                           context.goNamed(
                             'Profile',

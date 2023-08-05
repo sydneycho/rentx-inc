@@ -132,15 +132,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => EditprofileWidget(),
             ),
             FFRoute(
-              name: 'editcar',
-              path: 'editcar',
-              requireAuth: true,
-              builder: (context, params) => EditcarWidget(
-                caredit: params.getParam(
-                    'caredit', ParamType.DocumentReference, false, ['Car']),
-              ),
-            ),
-            FFRoute(
               name: 'Wallet',
               path: 'wallet',
               requireAuth: true,
@@ -220,12 +211,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => FrequentaskedquestionsWidget(),
             ),
             FFRoute(
-              name: 'Email',
-              path: 'email',
-              requireAuth: true,
-              builder: (context, params) => EmailWidget(),
-            ),
-            FFRoute(
               name: 'Referral',
               path: 'referral',
               requireAuth: true,
@@ -278,10 +263,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => SearchWidget(),
             ),
             FFRoute(
-              name: 'AddCar',
-              path: 'addCar',
+              name: 'Edit_car',
+              path: 'editCar',
               requireAuth: true,
-              builder: (context, params) => AddCarWidget(),
+              builder: (context, params) => EditCarWidget(
+                editcar: params.getParam(
+                    'editcar', ParamType.DocumentReference, false, ['Car']),
+              ),
+            ),
+            FFRoute(
+              name: 'Addcar',
+              path: 'addcar',
+              requireAuth: true,
+              builder: (context, params) => AddcarWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),

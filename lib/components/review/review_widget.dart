@@ -82,6 +82,8 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                       size: 24.0,
                     ),
                     onPressed: () async {
+                      logFirebaseEvent('REVIEW_COMP_close_rounded_ICN_ON_TAP');
+                      logFirebaseEvent('IconButton_bottom_sheet');
                       Navigator.pop(context);
                     },
                   ),
@@ -246,6 +248,10 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    logFirebaseEvent(
+                                        'REVIEW_COMP_Row_31k1lzhv_ON_TAP');
+                                    logFirebaseEvent('Row_backend_call');
+
                                     await RatingRecord.createDoc(widget.carref!)
                                         .set(createRatingRecordData(
                                       rating: _model.ratingBarValue?.round(),
@@ -253,6 +259,7 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                                       reviewPhoto: currentUserPhoto,
                                       uid: currentUserReference,
                                     ));
+                                    logFirebaseEvent('Row_show_snack_bar');
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
@@ -268,6 +275,7 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                                                 .secondary,
                                       ),
                                     );
+                                    logFirebaseEvent('Row_bottom_sheet');
                                     Navigator.pop(context);
                                   },
                                   child: Row(

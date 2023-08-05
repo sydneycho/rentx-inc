@@ -154,6 +154,9 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => HostinventoryModel());
+
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'Hostinventory'});
   }
 
   @override
@@ -177,7 +180,19 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
           child: AuthUserStreamWidget(
             builder: (context) => FloatingActionButton(
               onPressed: () async {
-                context.pushNamed('AddCar');
+                logFirebaseEvent('HOSTINVENTORY_FloatingActionButton_6to8y');
+                logFirebaseEvent('FloatingActionButton_navigate_to');
+
+                context.pushNamed(
+                  'Addcar',
+                  extra: <String, dynamic>{
+                    kTransitionInfoKey: TransitionInfo(
+                      hasTransition: true,
+                      transitionType: PageTransitionType.rightToLeft,
+                      duration: Duration(milliseconds: 300),
+                    ),
+                  },
+                );
               },
               backgroundColor: FlutterFlowTheme.of(context).primary,
               elevation: 8.0,
@@ -187,7 +202,19 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                 hoverColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () async {
-                  context.pushNamed('AddCar');
+                  logFirebaseEvent('HOSTINVENTORY_PAGE_Icon_7sxh2ss4_ON_TAP');
+                  logFirebaseEvent('Icon_navigate_to');
+
+                  context.pushNamed(
+                    'Addcar',
+                    extra: <String, dynamic>{
+                      kTransitionInfoKey: TransitionInfo(
+                        hasTransition: true,
+                        transitionType: PageTransitionType.rightToLeft,
+                        duration: Duration(milliseconds: 300),
+                      ),
+                    },
+                  );
                 },
                 child: Icon(
                   Icons.car_repair,
@@ -212,7 +239,19 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
               size: 24.0,
             ),
             onPressed: () async {
-              context.pop();
+              logFirebaseEvent('HOSTINVENTORY_arrow_back_rounded_ICN_ON_');
+              logFirebaseEvent('IconButton_navigate_to');
+
+              context.pushNamed(
+                'Profile',
+                extra: <String, dynamic>{
+                  kTransitionInfoKey: TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.leftToRight,
+                    duration: Duration(milliseconds: 300),
+                  ),
+                },
+              );
             },
           ),
           title: Text(
@@ -513,10 +552,15 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                           highlightColor: Colors
                                                               .transparent,
                                                           onTap: () async {
+                                                            logFirebaseEvent(
+                                                                'HOSTINVENTORY_PAGE_cardProduct40_ON_TAP');
+                                                            logFirebaseEvent(
+                                                                'cardProduct40_navigate_to');
+
                                                             context.pushNamed(
-                                                              'editcar',
+                                                              'Edit_car',
                                                               queryParameters: {
-                                                                'caredit':
+                                                                'editcar':
                                                                     serializeParam(
                                                                   listViewCarRecord
                                                                       .reference,
@@ -524,6 +568,20 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                       .DocumentReference,
                                                                 ),
                                                               }.withoutNulls,
+                                                              extra: <String,
+                                                                  dynamic>{
+                                                                kTransitionInfoKey:
+                                                                    TransitionInfo(
+                                                                  hasTransition:
+                                                                      true,
+                                                                  transitionType:
+                                                                      PageTransitionType
+                                                                          .rightToLeft,
+                                                                  duration: Duration(
+                                                                      milliseconds:
+                                                                          300),
+                                                                ),
+                                                              },
                                                             );
                                                           },
                                                           child: Container(
@@ -571,7 +629,8 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                     child: Image
                                                                         .network(
                                                                       listViewCarRecord
-                                                                          .profilePhoto,
+                                                                          .carPhotos
+                                                                          .first,
                                                                       width:
                                                                           120.0,
                                                                       height:
@@ -654,14 +713,24 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                               Colors.transparent,
                                                                           onTap:
                                                                               () async {
+                                                                            logFirebaseEvent('HOSTINVENTORY_PAGE_Icon_dcpcdfsb_ON_TAP');
+                                                                            logFirebaseEvent('Icon_navigate_to');
+
                                                                             context.pushNamed(
-                                                                              'editcar',
+                                                                              'Edit_car',
                                                                               queryParameters: {
-                                                                                'caredit': serializeParam(
+                                                                                'editcar': serializeParam(
                                                                                   listViewCarRecord.reference,
                                                                                   ParamType.DocumentReference,
                                                                                 ),
                                                                               }.withoutNulls,
+                                                                              extra: <String, dynamic>{
+                                                                                kTransitionInfoKey: TransitionInfo(
+                                                                                  hasTransition: true,
+                                                                                  transitionType: PageTransitionType.rightToLeft,
+                                                                                  duration: Duration(milliseconds: 300),
+                                                                                ),
+                                                                              },
                                                                             );
                                                                           },
                                                                           child:
@@ -700,6 +769,8 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                             FFButtonWidget(
                                                                           onPressed:
                                                                               () async {
+                                                                            logFirebaseEvent('HOSTINVENTORY_PAGE_DELETE_BTN_ON_TAP');
+                                                                            logFirebaseEvent('Button_backend_call');
                                                                             await listViewCarRecord.reference.delete();
                                                                           },
                                                                           text:
@@ -895,7 +966,8 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                       child: Image
                                                                           .network(
                                                                         listViewCarRecord
-                                                                            .profilePhoto,
+                                                                            .carPhotos
+                                                                            .first,
                                                                         width:
                                                                             120.0,
                                                                         height:
@@ -1201,7 +1273,7 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                               BorderRadius.circular(12.0),
                                                                           child:
                                                                               Image.network(
-                                                                            cardProduct40CarRecord.profilePhoto,
+                                                                            cardProduct40CarRecord.carPhotos.first,
                                                                             width:
                                                                                 120.0,
                                                                             height:
@@ -1240,6 +1312,9 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                               hoverColor: Colors.transparent,
                                                                               highlightColor: Colors.transparent,
                                                                               onTap: () async {
+                                                                                logFirebaseEvent('HOSTINVENTORY_PAGE_Row_c0r1u1cq_ON_TAP');
+                                                                                logFirebaseEvent('Row_navigate_to');
+
                                                                                 context.pushNamed(
                                                                                   'ChatPage',
                                                                                   queryParameters: {
@@ -1350,6 +1425,8 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                               FFButtonWidget(
                                                                             onPressed:
                                                                                 () async {
+                                                                              logFirebaseEvent('HOSTINVENTORY_PAGE_CANCEL_BTN_ON_TAP');
+                                                                              logFirebaseEvent('Button_send_s_m_s');
                                                                               if (isiOS) {
                                                                                 await launchUrl(Uri.parse("sms:${cardProduct40CarRecord.vendorPhoneNumber}&body=${Uri.encodeComponent('Booking of ${cardProduct40CarRecord.carName} has been cancelled by the rentee.The money for this cancelled  booking will be refunded back to rentee.')}"));
                                                                               } else {
@@ -1361,6 +1438,8 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                                   },
                                                                                 ));
                                                                               }
+
+                                                                              logFirebaseEvent('Button_backend_call');
 
                                                                               await listViewBookingRecord.reference.update(createBookingRecordData(
                                                                                 bookingStatus: 'cancelled',
@@ -1532,7 +1611,7 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                               BorderRadius.circular(12.0),
                                                                           child:
                                                                               Image.network(
-                                                                            cardProduct40CarRecord.profilePhoto,
+                                                                            cardProduct40CarRecord.carPhotos.first,
                                                                             width:
                                                                                 120.0,
                                                                             height:
@@ -1571,6 +1650,9 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                               hoverColor: Colors.transparent,
                                                                               highlightColor: Colors.transparent,
                                                                               onTap: () async {
+                                                                                logFirebaseEvent('HOSTINVENTORY_PAGE_Row_1snk5led_ON_TAP');
+                                                                                logFirebaseEvent('Row_navigate_to');
+
                                                                                 context.pushNamed(
                                                                                   'ChatPage',
                                                                                   queryParameters: {
@@ -1687,6 +1769,8 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                               FFButtonWidget(
                                                                             onPressed:
                                                                                 () async {
+                                                                              logFirebaseEvent('HOSTINVENTORY_PAGE_RATE_IT_BTN_ON_TAP');
+                                                                              logFirebaseEvent('Button_bottom_sheet');
                                                                               await showModalBottomSheet(
                                                                                 isScrollControlled: true,
                                                                                 backgroundColor: Colors.transparent,
@@ -1837,6 +1921,11 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                   Colors
                                                                       .transparent,
                                                               onTap: () async {
+                                                                logFirebaseEvent(
+                                                                    'HOSTINVENTORY_PAGE_cardProduct40_ON_TAP');
+                                                                logFirebaseEvent(
+                                                                    'cardProduct40_navigate_to');
+
                                                                 context
                                                                     .pushNamed(
                                                                   'Cardetails',
@@ -1894,7 +1983,8 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                         child: Image
                                                                             .network(
                                                                           cardProduct40CarRecord
-                                                                              .profilePhoto,
+                                                                              .carPhotos
+                                                                              .first,
                                                                           width:
                                                                               120.0,
                                                                           height:
@@ -1973,6 +2063,8 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                             child:
                                                                                 FFButtonWidget(
                                                                               onPressed: () async {
+                                                                                logFirebaseEvent('HOSTINVENTORY_PAGE__BTN_ON_TAP');
+                                                                                logFirebaseEvent('Button_backend_call');
                                                                                 await listViewReservedRecord.reference.delete();
                                                                               },
                                                                               text: '',

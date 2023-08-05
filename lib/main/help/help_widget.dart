@@ -25,6 +25,8 @@ class _HelpWidgetState extends State<HelpWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => HelpModel());
+
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Help'});
   }
 
   @override
@@ -57,7 +59,19 @@ class _HelpWidgetState extends State<HelpWidget> {
               size: 24.0,
             ),
             onPressed: () async {
-              context.pop();
+              logFirebaseEvent('HELP_PAGE_arrow_back_rounded_ICN_ON_TAP');
+              logFirebaseEvent('IconButton_navigate_to');
+
+              context.pushNamed(
+                'Profile',
+                extra: <String, dynamic>{
+                  kTransitionInfoKey: TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.leftToRight,
+                    duration: Duration(milliseconds: 300),
+                  ),
+                },
+              );
             },
           ),
           title: Text(
@@ -155,7 +169,22 @@ class _HelpWidgetState extends State<HelpWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
-                                    context.pushNamed('About');
+                                    logFirebaseEvent(
+                                        'HELP_PAGE_materialList_Item_4_ON_TAP');
+                                    logFirebaseEvent(
+                                        'materialList_Item_4_navigate_to');
+
+                                    context.pushNamed(
+                                      'About',
+                                      extra: <String, dynamic>{
+                                        kTransitionInfoKey: TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.rightToLeft,
+                                          duration: Duration(milliseconds: 300),
+                                        ),
+                                      },
+                                    );
                                   },
                                   child: Container(
                                     width:
@@ -221,7 +250,7 @@ class _HelpWidgetState extends State<HelpWidget> {
                                                   .fromSTEB(
                                                       12.0, 0.0, 12.0, 0.0),
                                               child: Text(
-                                                'About Rentx inc',
+                                                'About Rentz inc',
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodyLarge
@@ -236,11 +265,39 @@ class _HelpWidgetState extends State<HelpWidget> {
                                               ),
                                             ),
                                           ),
-                                          Icon(
-                                            Icons.chevron_right_rounded,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 24.0,
+                                          InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              logFirebaseEvent(
+                                                  'HELP_PAGE_Icon_6xkskohp_ON_TAP');
+                                              logFirebaseEvent(
+                                                  'Icon_navigate_to');
+
+                                              context.pushNamed(
+                                                'About',
+                                                extra: <String, dynamic>{
+                                                  kTransitionInfoKey:
+                                                      TransitionInfo(
+                                                    hasTransition: true,
+                                                    transitionType:
+                                                        PageTransitionType
+                                                            .rightToLeft,
+                                                    duration: Duration(
+                                                        milliseconds: 300),
+                                                  ),
+                                                },
+                                              );
+                                            },
+                                            child: Icon(
+                                              Icons.chevron_right_rounded,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryText,
+                                              size: 24.0,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -260,6 +317,11 @@ class _HelpWidgetState extends State<HelpWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    logFirebaseEvent(
+                                        'HELP_PAGE_materialList_Item_4_ON_TAP');
+                                    logFirebaseEvent(
+                                        'materialList_Item_4_navigate_to');
+
                                     context.pushNamed('About');
                                   },
                                   child: Container(
@@ -291,6 +353,10 @@ class _HelpWidgetState extends State<HelpWidget> {
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
+                                          logFirebaseEvent(
+                                              'HELP_PAGE_Row_ig51tgac_ON_TAP');
+                                          logFirebaseEvent('Row_navigate_to');
+
                                           context.pushNamed('About');
                                         },
                                         child: Row(
@@ -332,7 +398,7 @@ class _HelpWidgetState extends State<HelpWidget> {
                                                     .fromSTEB(
                                                         12.0, 0.0, 12.0, 0.0),
                                                 child: Text(
-                                                  'Earn with rentx',
+                                                  'Earn with rentz',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyLarge
@@ -373,6 +439,11 @@ class _HelpWidgetState extends State<HelpWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    logFirebaseEvent(
+                                        'HELP_PAGE_materialList_Item_4_ON_TAP');
+                                    logFirebaseEvent(
+                                        'materialList_Item_4_navigate_to');
+
                                     context.pushNamed('Frequentaskedquestions');
                                   },
                                   child: Container(
@@ -404,6 +475,10 @@ class _HelpWidgetState extends State<HelpWidget> {
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
+                                          logFirebaseEvent(
+                                              'HELP_PAGE_Row_lwcavl2d_ON_TAP');
+                                          logFirebaseEvent('Row_navigate_to');
+
                                           context.pushNamed(
                                               'Frequentaskedquestions');
                                         },
@@ -555,6 +630,11 @@ class _HelpWidgetState extends State<HelpWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    logFirebaseEvent(
+                                        'HELP_PAGE_materialList_Item_4_ON_TAP');
+                                    logFirebaseEvent(
+                                        'materialList_Item_4_navigate_to');
+
                                     context.pushNamed('Terms');
                                   },
                                   child: Container(
@@ -659,6 +739,11 @@ class _HelpWidgetState extends State<HelpWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    logFirebaseEvent(
+                                        'HELP_PAGE_materialList_Item_4_ON_TAP');
+                                    logFirebaseEvent(
+                                        'materialList_Item_4_navigate_to');
+
                                     context.pushNamed('Policy');
                                   },
                                   child: Container(
@@ -763,6 +848,11 @@ class _HelpWidgetState extends State<HelpWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    logFirebaseEvent(
+                                        'HELP_PAGE_materialList_Item_4_ON_TAP');
+                                    logFirebaseEvent(
+                                        'materialList_Item_4_navigate_to');
+
                                     context.pushNamed('Contact');
                                   },
                                   child: Container(

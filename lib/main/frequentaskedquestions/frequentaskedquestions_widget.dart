@@ -26,6 +26,9 @@ class _FrequentaskedquestionsWidgetState
   void initState() {
     super.initState();
     _model = createModel(context, () => FrequentaskedquestionsModel());
+
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'Frequentaskedquestions'});
   }
 
   @override
@@ -58,7 +61,19 @@ class _FrequentaskedquestionsWidgetState
               size: 24.0,
             ),
             onPressed: () async {
-              context.pop();
+              logFirebaseEvent('FREQUENTASKEDQUESTIONS_arrow_back_ICN_ON');
+              logFirebaseEvent('IconButton_navigate_to');
+
+              context.pushNamed(
+                'Help',
+                extra: <String, dynamic>{
+                  kTransitionInfoKey: TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.leftToRight,
+                    duration: Duration(milliseconds: 300),
+                  ),
+                },
+              );
             },
           ),
           actions: [],
@@ -192,7 +207,7 @@ class _FrequentaskedquestionsWidgetState
                                               EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 0.0, 10.0),
                                           child: Text(
-                                            'Rentx Inc',
+                                            'Rentz Inc',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
@@ -254,11 +269,15 @@ class _FrequentaskedquestionsWidgetState
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
+                              logFirebaseEvent(
+                                  'FREQUENTASKEDQUESTIONS_Question1_ON_TAP');
                               if (FFAppState().Answer1) {
+                                logFirebaseEvent('Question1_update_app_state');
                                 setState(() {
                                   FFAppState().Answer1 = false;
                                 });
                               } else {
+                                logFirebaseEvent('Question1_update_app_state');
                                 setState(() {
                                   FFAppState().Answer1 = true;
                                 });
@@ -282,7 +301,7 @@ class _FrequentaskedquestionsWidgetState
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        '1. Is my car eligible for Rentx host?',
+                                        '1. Is my car eligible for Rentz host?',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
@@ -334,7 +353,7 @@ class _FrequentaskedquestionsWidgetState
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        'Rentx  Inc  is currently available to hosts with eligible vehicles across all the provinces in zambia.\n\nRentx works by connecting your car’s existing connected technology with the rentx  app.',
+                                        'Rentz  Inc  is currently available to hosts with eligible vehicles across all the provinces in zambia.\n\nRentz works by connecting your car’s existing connected technology with the rentx  app.',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
@@ -360,11 +379,15 @@ class _FrequentaskedquestionsWidgetState
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
+                              logFirebaseEvent(
+                                  'FREQUENTASKEDQUESTIONS_Question2_ON_TAP');
                               if (FFAppState().Answer2) {
+                                logFirebaseEvent('Question2_update_app_state');
                                 setState(() {
                                   FFAppState().Answer2 = false;
                                 });
                               } else {
+                                logFirebaseEvent('Question2_update_app_state');
                                 setState(() {
                                   FFAppState().Answer2 = true;
                                 });
@@ -388,7 +411,7 @@ class _FrequentaskedquestionsWidgetState
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        '2. How much does it  cost to rent a car on rentx?',
+                                        '2. How much does it  cost to rent a car on rentz?',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
@@ -440,7 +463,7 @@ class _FrequentaskedquestionsWidgetState
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        'If you and your cars are eligible forentx host program\n\nClick or tap “Upgrade” and complete the quick registration process.',
+                                        'If you and your cars are eligible for rentz host program\n\nClick and complete the quick registration process.',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
@@ -466,11 +489,15 @@ class _FrequentaskedquestionsWidgetState
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
+                              logFirebaseEvent(
+                                  'FREQUENTASKEDQUESTIONS_question3_ON_TAP');
                               if (FFAppState().Answer3) {
+                                logFirebaseEvent('question3_update_app_state');
                                 setState(() {
                                   FFAppState().Answer3 = false;
                                 });
                               } else {
+                                logFirebaseEvent('question3_update_app_state');
                                 setState(() {
                                   FFAppState().Answer3 = true;
                                 });
@@ -494,7 +521,7 @@ class _FrequentaskedquestionsWidgetState
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        '3. How do I register for Rentx Host?',
+                                        '3. How do I register for Rentz Host?',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
@@ -572,11 +599,15 @@ class _FrequentaskedquestionsWidgetState
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
+                              logFirebaseEvent(
+                                  'FREQUENTASKEDQUESTIONS_question4_ON_TAP');
                               if (FFAppState().Answer4) {
+                                logFirebaseEvent('question4_update_app_state');
                                 setState(() {
                                   FFAppState().Answer4 = false;
                                 });
                               } else {
+                                logFirebaseEvent('question4_update_app_state');
                                 setState(() {
                                   FFAppState().Answer4 = true;
                                 });
@@ -600,7 +631,7 @@ class _FrequentaskedquestionsWidgetState
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        '4. How does insurance & protection work for Rentx  trips?',
+                                        '4. How does insurance & protection work for Rentz  trips?',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
@@ -702,6 +733,10 @@ class _FrequentaskedquestionsWidgetState
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
+                              logFirebaseEvent(
+                                  'FREQUENTASKEDQUESTIONS_Icon_1s08elam_ON_');
+                              logFirebaseEvent('Icon_navigate_to');
+
                               context.pushNamed('Contact');
                             },
                             child: Icon(

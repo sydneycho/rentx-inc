@@ -23,6 +23,8 @@ class _TermsWidgetState extends State<TermsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => TermsModel());
+
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Terms'});
   }
 
   @override
@@ -48,7 +50,10 @@ class _TermsWidgetState extends State<TermsWidget> {
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () async {
-            context.pop();
+            logFirebaseEvent('TERMS_PAGE_Icon_1gn46jsa_ON_TAP');
+            logFirebaseEvent('Icon_navigate_to');
+
+            context.pushNamed('Help');
           },
           child: Icon(
             Icons.arrow_back,
@@ -186,7 +191,7 @@ class _TermsWidgetState extends State<TermsWidget> {
                       thickness: 1.0,
                       indent: 20.0,
                       endIndent: 20.0,
-                      color: FlutterFlowTheme.of(context).alternate,
+                      color: FlutterFlowTheme.of(context).accent4,
                     ),
                     SingleChildScrollView(
                       child: Column(
@@ -194,7 +199,7 @@ class _TermsWidgetState extends State<TermsWidget> {
                         children: [
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
-                                16.0, 0.0, 16.0, 8.0),
+                                16.0, 10.0, 16.0, 8.0),
                             child: Container(
                               width: double.infinity,
                               decoration: BoxDecoration(
@@ -533,7 +538,7 @@ class _TermsWidgetState extends State<TermsWidget> {
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
                                             Text(
-                                              'Join Rentx today',
+                                              'Join Rentz today',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -567,6 +572,7 @@ class _TermsWidgetState extends State<TermsWidget> {
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
                                             fontSize: 14.0,
+                                            lineHeight: 2.0,
                                           ),
                                     ),
                                   ],
