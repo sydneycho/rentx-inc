@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1077038338459",
+    "firebase_url": "https://rentx-inc-default-rtdb.firebaseio.com",
     "project_id": "rentx-inc",
     "storage_bucket": "rentx-inc.appspot.com"
   },
@@ -22,7 +23,7 @@
           }
         },
         {
-          "client_id": "1077038338459-hggev3dhvgr74kvbtioq3184pprkot75.apps.googleusercontent.com",
+          "client_id": "1077038338459-evfrl35fmt9l08hg3m34b1u0c5he4u9t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -35,7 +36,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1077038338459-hggev3dhvgr74kvbtioq3184pprkot75.apps.googleusercontent.com",
+              "client_id": "1077038338459-evfrl35fmt9l08hg3m34b1u0c5he4u9t.apps.googleusercontent.com",
               "client_type": 3
             },
             {
@@ -66,7 +67,7 @@
           }
         },
         {
-          "client_id": "1077038338459-hggev3dhvgr74kvbtioq3184pprkot75.apps.googleusercontent.com",
+          "client_id": "1077038338459-evfrl35fmt9l08hg3m34b1u0c5he4u9t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -79,7 +80,51 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1077038338459-hggev3dhvgr74kvbtioq3184pprkot75.apps.googleusercontent.com",
+              "client_id": "1077038338459-evfrl35fmt9l08hg3m34b1u0c5he4u9t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1077038338459-1rju1nv3kvntinug56i557i8ngbl35ud.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Rentx.client"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077038338459:android:c52d46722747c0d23d913e",
+        "android_client_info": {
+          "package_name": "com.rentx.web"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1077038338459-pvp67dlotir9va60pi90qehsp36ppi3m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rentx.web",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "1077038338459-evfrl35fmt9l08hg3m34b1u0c5he4u9t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2im9IjM3sqcpcNfnpVEv8Nx7SEViRdjM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1077038338459-evfrl35fmt9l08hg3m34b1u0c5he4u9t.apps.googleusercontent.com",
               "client_type": 3
             },
             {

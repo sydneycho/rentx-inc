@@ -89,73 +89,76 @@ class _AllChatsPageWidgetState extends State<AllChatsPageWidget> {
               if (listViewChatsRecordList.isEmpty) {
                 return NochatsWidget();
               }
-              return ListView.builder(
-                padding: EdgeInsets.zero,
-                scrollDirection: Axis.vertical,
-                itemCount: listViewChatsRecordList.length,
-                itemBuilder: (context, listViewIndex) {
-                  final listViewChatsRecord =
-                      listViewChatsRecordList[listViewIndex];
-                  return StreamBuilder<FFChatInfo>(
-                    stream: FFChatManager.instance
-                        .getChatInfo(chatRecord: listViewChatsRecord),
-                    builder: (context, snapshot) {
-                      final chatInfo =
-                          snapshot.data ?? FFChatInfo(listViewChatsRecord);
-                      return FFChatPreview(
-                        onTap: () => context.pushNamed(
-                          'ChatPage',
-                          queryParameters: {
-                            'chatUser': serializeParam(
-                              chatInfo.otherUsers.length == 1
+              return Semantics(
+                label: 'List of chat',
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  scrollDirection: Axis.vertical,
+                  itemCount: listViewChatsRecordList.length,
+                  itemBuilder: (context, listViewIndex) {
+                    final listViewChatsRecord =
+                        listViewChatsRecordList[listViewIndex];
+                    return StreamBuilder<FFChatInfo>(
+                      stream: FFChatManager.instance
+                          .getChatInfo(chatRecord: listViewChatsRecord),
+                      builder: (context, snapshot) {
+                        final chatInfo =
+                            snapshot.data ?? FFChatInfo(listViewChatsRecord);
+                        return FFChatPreview(
+                          onTap: () => context.pushNamed(
+                            'ChatPage',
+                            queryParameters: {
+                              'chatUser': serializeParam(
+                                chatInfo.otherUsers.length == 1
+                                    ? chatInfo.otherUsersList.first
+                                    : null,
+                                ParamType.Document,
+                              ),
+                              'chatRef': serializeParam(
+                                chatInfo.chatRecord.reference,
+                                ParamType.DocumentReference,
+                              ),
+                            }.withoutNulls,
+                            extra: <String, dynamic>{
+                              'chatUser': chatInfo.otherUsers.length == 1
                                   ? chatInfo.otherUsersList.first
                                   : null,
-                              ParamType.Document,
-                            ),
-                            'chatRef': serializeParam(
-                              chatInfo.chatRecord.reference,
-                              ParamType.DocumentReference,
-                            ),
-                          }.withoutNulls,
-                          extra: <String, dynamic>{
-                            'chatUser': chatInfo.otherUsers.length == 1
-                                ? chatInfo.otherUsersList.first
-                                : null,
-                          },
-                        ),
-                        lastChatText: chatInfo.chatPreviewMessage(),
-                        lastChatTime: listViewChatsRecord.lastMessageTime,
-                        seen: listViewChatsRecord.lastMessageSeenBy!
-                            .contains(currentUserReference),
-                        title: chatInfo.chatPreviewTitle(),
-                        userProfilePic: chatInfo.chatPreviewPic(),
-                        color: Color(0xFFEEF0F5),
-                        unreadColor: FlutterFlowTheme.of(context).primary,
-                        titleTextStyle: GoogleFonts.getFont(
-                          'DM Sans',
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
-                        ),
-                        dateTextStyle: GoogleFonts.getFont(
-                          'DM Sans',
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14.0,
-                        ),
-                        previewTextStyle: GoogleFonts.getFont(
-                          'DM Sans',
-                          color: Color(0x73000000),
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14.0,
-                        ),
-                        contentPadding:
-                            EdgeInsetsDirectional.fromSTEB(3.0, 3.0, 3.0, 3.0),
-                        borderRadius: BorderRadius.circular(0.0),
-                      );
-                    },
-                  );
-                },
+                            },
+                          ),
+                          lastChatText: chatInfo.chatPreviewMessage(),
+                          lastChatTime: listViewChatsRecord.lastMessageTime,
+                          seen: listViewChatsRecord.lastMessageSeenBy!
+                              .contains(currentUserReference),
+                          title: chatInfo.chatPreviewTitle(),
+                          userProfilePic: chatInfo.chatPreviewPic(),
+                          color: Color(0xFFEEF0F5),
+                          unreadColor: FlutterFlowTheme.of(context).primary,
+                          titleTextStyle: GoogleFonts.getFont(
+                            'DM Sans',
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15.0,
+                          ),
+                          dateTextStyle: GoogleFonts.getFont(
+                            'DM Sans',
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14.0,
+                          ),
+                          previewTextStyle: GoogleFonts.getFont(
+                            'DM Sans',
+                            color: Color(0x73000000),
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14.0,
+                          ),
+                          contentPadding: EdgeInsetsDirectional.fromSTEB(
+                              3.0, 3.0, 3.0, 3.0),
+                          borderRadius: BorderRadius.circular(0.0),
+                        );
+                      },
+                    );
+                  },
+                ),
               );
             },
           ),

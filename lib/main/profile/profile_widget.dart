@@ -315,7 +315,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                   clipBehavior: Clip.antiAliasWithSaveLayer,
                                   color: FlutterFlowTheme.of(context).primary,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0),
+                                    borderRadius: BorderRadius.circular(1.0),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
@@ -361,14 +361,15 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 color: FlutterFlowTheme.of(context).primary,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0),
+                                  borderRadius: BorderRadius.circular(1.0),
                                 ),
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       5.0, 5.0, 5.0, 5.0),
                                   child: Icon(
                                     Icons.electric_car_rounded,
-                                    color: FlutterFlowTheme.of(context).accent3,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
                                     size: 20.0,
                                   ),
                                 ),
@@ -405,7 +406,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 color: FlutterFlowTheme.of(context).primary,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0),
+                                  borderRadius: BorderRadius.circular(1.0),
                                 ),
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
@@ -465,7 +466,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                borderRadius: BorderRadius.circular(12.0),
+                                borderRadius: BorderRadius.circular(6.0),
                                 border: Border.all(
                                   color: FlutterFlowTheme.of(context).accent4,
                                   width: 2.0,
@@ -541,7 +542,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                               decoration: BoxDecoration(
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .accent3,
+                                                        .primary,
                                                 boxShadow: [
                                                   BoxShadow(
                                                     blurRadius: 4.0,
@@ -588,7 +589,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                     offset: Offset(0.0, 0.0),
                                   )
                                 ],
-                                borderRadius: BorderRadius.circular(12.0),
+                                borderRadius: BorderRadius.circular(6.0),
                                 border: Border.all(
                                   color: FlutterFlowTheme.of(context).lineColor,
                                   width: 2.0,
@@ -656,7 +657,9 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                               width: 25.0,
                                               height: 25.0,
                                               decoration: BoxDecoration(
-                                                color: Color(0xFF14181B),
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
                                                 boxShadow: [
                                                   BoxShadow(
                                                     blurRadius: 4.0,
@@ -694,14 +697,23 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             'PROFILE_PAGE_Container_pq8yry67_ON_TAP');
                         logFirebaseEvent('Container_navigate_to');
 
-                        context.pushNamed('Editprofile');
+                        context.pushNamed(
+                          'Editprofile',
+                          extra: <String, dynamic>{
+                            kTransitionInfoKey: TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.rightToLeft,
+                              duration: Duration(milliseconds: 300),
+                            ),
+                          },
+                        );
                       },
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.circular(12.0),
+                          borderRadius: BorderRadius.circular(6.0),
                           border: Border.all(
                             color: FlutterFlowTheme.of(context).accent4,
                             width: 2.0,
@@ -755,7 +767,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 'PROFILE_PAGE_Container_oukhj3h6_ON_TAP');
                             logFirebaseEvent('Container_navigate_to');
 
-                            context.pushNamed('Host');
+                            context.pushNamed('Host_registration');
                           },
                           child: Container(
                             width: double.infinity,
@@ -814,14 +826,23 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             'PROFILE_PAGE_Container_ly52kj8m_ON_TAP');
                         logFirebaseEvent('Container_navigate_to');
 
-                        context.pushNamed('Advertise');
+                        context.pushNamed(
+                          'Advertise',
+                          extra: <String, dynamic>{
+                            kTransitionInfoKey: TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.rightToLeft,
+                              duration: Duration(milliseconds: 300),
+                            ),
+                          },
+                        );
                       },
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.circular(12.0),
+                          borderRadius: BorderRadius.circular(6.0),
                           border: Border.all(
                             color: FlutterFlowTheme.of(context).accent4,
                             width: 2.0,
@@ -887,7 +908,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.circular(12.0),
+                          borderRadius: BorderRadius.circular(6.0),
                           border: Border.all(
                             color: FlutterFlowTheme.of(context).accent4,
                             width: 2.0,
@@ -940,7 +961,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             logFirebaseEvent('Container_navigate_to');
 
                             context.pushNamed(
-                              'Host',
+                              'Host_registration',
                               extra: <String, dynamic>{
                                 kTransitionInfoKey: TransitionInfo(
                                   hasTransition: true,
@@ -956,7 +977,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
-                              borderRadius: BorderRadius.circular(12.0),
+                              borderRadius: BorderRadius.circular(6.0),
                               border: Border.all(
                                 color: FlutterFlowTheme.of(context).accent4,
                                 width: 2.0,
@@ -1030,7 +1051,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.circular(12.0),
+                          borderRadius: BorderRadius.circular(6.0),
                           border: Border.all(
                             color: FlutterFlowTheme.of(context).accent4,
                             width: 2.0,
@@ -1095,7 +1116,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                           color: FlutterFlowTheme.of(context).primary,
                           width: 1.0,
                         ),
-                        borderRadius: BorderRadius.circular(50.0),
+                        borderRadius: BorderRadius.circular(6.0),
                       ),
                     ).animateOnPageLoad(
                         animationsMap['buttonOnPageLoadAnimation']!),

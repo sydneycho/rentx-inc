@@ -128,7 +128,7 @@ class _FrequentaskedquestionsWidgetState
                           ),
                           Icon(
                             Icons.help_outline_rounded,
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: FlutterFlowTheme.of(context).primary,
                             size: 24.0,
                           ),
                         ],
@@ -313,17 +313,33 @@ class _FrequentaskedquestionsWidgetState
                                             ),
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Align(
-                                        alignment:
-                                            AlignmentDirectional(0.9, 0.0),
-                                        child: Icon(
-                                          Icons.expand_more_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          size: 24.0,
-                                        ),
-                                      ),
+                                    Stack(
+                                      children: [
+                                        if (FFAppState().Answer1)
+                                          Align(
+                                            alignment:
+                                                AlignmentDirectional(0.9, 0.0),
+                                            child: Icon(
+                                              Icons.expand_more_rounded,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 24.0,
+                                            ),
+                                          ),
+                                        if (!FFAppState().Answer1)
+                                          Align(
+                                            alignment:
+                                                AlignmentDirectional(0.9, 0.0),
+                                            child: Icon(
+                                              Icons.keyboard_arrow_right_sharp,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 24.0,
+                                            ),
+                                          ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -423,17 +439,33 @@ class _FrequentaskedquestionsWidgetState
                                             ),
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Align(
-                                        alignment:
-                                            AlignmentDirectional(0.9, 0.0),
-                                        child: Icon(
-                                          Icons.expand_more_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          size: 24.0,
-                                        ),
-                                      ),
+                                    Stack(
+                                      children: [
+                                        if (FFAppState().Answer2)
+                                          Align(
+                                            alignment:
+                                                AlignmentDirectional(0.9, 0.0),
+                                            child: Icon(
+                                              Icons.expand_more_rounded,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 24.0,
+                                            ),
+                                          ),
+                                        if (!FFAppState().Answer2)
+                                          Align(
+                                            alignment:
+                                                AlignmentDirectional(0.9, 0.0),
+                                            child: Icon(
+                                              Icons.keyboard_arrow_right_sharp,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 24.0,
+                                            ),
+                                          ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -533,17 +565,33 @@ class _FrequentaskedquestionsWidgetState
                                             ),
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Align(
-                                        alignment:
-                                            AlignmentDirectional(0.9, 0.0),
-                                        child: Icon(
-                                          Icons.expand_more_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          size: 24.0,
-                                        ),
-                                      ),
+                                    Stack(
+                                      children: [
+                                        if (FFAppState().Answer3)
+                                          Align(
+                                            alignment:
+                                                AlignmentDirectional(0.9, 0.0),
+                                            child: Icon(
+                                              Icons.expand_more_rounded,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 24.0,
+                                            ),
+                                          ),
+                                        if (!FFAppState().Answer3)
+                                          Align(
+                                            alignment:
+                                                AlignmentDirectional(0.9, 0.0),
+                                            child: Icon(
+                                              Icons.keyboard_arrow_right_sharp,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 24.0,
+                                            ),
+                                          ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -643,17 +691,33 @@ class _FrequentaskedquestionsWidgetState
                                             ),
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Align(
-                                        alignment:
-                                            AlignmentDirectional(0.9, 0.0),
-                                        child: Icon(
-                                          Icons.expand_more_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          size: 24.0,
-                                        ),
-                                      ),
+                                    Stack(
+                                      children: [
+                                        if (FFAppState().Answer4)
+                                          Align(
+                                            alignment:
+                                                AlignmentDirectional(0.9, 0.0),
+                                            child: Icon(
+                                              Icons.expand_more_rounded,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 24.0,
+                                            ),
+                                          ),
+                                        if (!FFAppState().Answer4)
+                                          Align(
+                                            alignment:
+                                                AlignmentDirectional(0.9, 0.0),
+                                            child: Icon(
+                                              Icons.keyboard_arrow_right_sharp,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 24.0,
+                                            ),
+                                          ),
+                                      ],
                                     ),
                                   ],
                                 ),

@@ -93,7 +93,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                           children: [
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 20.0, 0.0, 16.0),
+                                  0.0, 40.0, 0.0, 16.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:

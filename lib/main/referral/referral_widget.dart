@@ -108,7 +108,7 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                       child: Image.network(
                         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2aKFhZToFn4JsDDapNU4vHM_kpH6tz0Bh62cj7rg3wQ&s',
                         width: double.infinity,
-                        height: 200.0,
+                        height: 300.0,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -157,13 +157,13 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                               logFirebaseEvent('Button_copy_to_clipboard');
                               await Clipboard.setData(ClipboardData(
                                   text:
-                                      'https://rentx-client-tyq9i9.flutterflow.app?userRef=${currentUserUid}'));
+                                      'https://play.google.com/store/apps/details?id=com.Rentx.client?userRef=${currentUserUid}'));
                               logFirebaseEvent('Button_backend_call');
 
                               await currentUserReference!
                                   .update(createUserRecordData(
                                 referralLink:
-                                    'https://rentx-client-tyq9i9.flutterflow.app?userRef=${currentUserUid}',
+                                    'https://play.google.com/store/apps/details?id=com.Rentx.client?userRef=${currentUserUid}',
                               ));
                             },
                             text: 'Generate Link',
@@ -196,7 +196,7 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                             color: Colors.transparent,
                             elevation: 2.0,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius: BorderRadius.circular(6.0),
                             ),
                             child: Container(
                               width: double.infinity,
@@ -204,7 +204,7 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                borderRadius: BorderRadius.circular(8.0),
+                                borderRadius: BorderRadius.circular(6.0),
                               ),
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -240,7 +240,7 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                                       icon: Icon(
                                         Icons.content_copy,
                                         color: FlutterFlowTheme.of(context)
-                                            .primaryText,
+                                            .primary,
                                         size: 24.0,
                                       ),
                                       onPressed: () async {
@@ -268,7 +268,7 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                             color: Colors.transparent,
                             elevation: 2.0,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius: BorderRadius.circular(6.0),
                             ),
                             child: Container(
                               width: double.infinity,
@@ -276,7 +276,7 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                borderRadius: BorderRadius.circular(8.0),
+                                borderRadius: BorderRadius.circular(6.0),
                               ),
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -366,11 +366,13 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                               if (referrals.isEmpty) {
                                 return EmptyWidget();
                               }
-                              return ListView.builder(
-                                padding: EdgeInsets.zero,
+                              return ListView.separated(
+                                padding: EdgeInsets.symmetric(vertical: 8.0),
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 itemCount: referrals.length,
+                                separatorBuilder: (_, __) =>
+                                    SizedBox(height: 8.0),
                                 itemBuilder: (context, referralsIndex) {
                                   final referralsItem =
                                       referrals[referralsIndex];
@@ -405,6 +407,11 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                                           height: 60.0,
                                           decoration: BoxDecoration(
                                             color: Colors.white,
+                                            border: Border.all(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .accent4,
+                                            ),
                                           ),
                                           child: Padding(
                                             padding:

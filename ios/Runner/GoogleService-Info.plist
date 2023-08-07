@@ -32,5 +32,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:1077038338459:ios:b0633843fae7bff13d913e</string>
+	<key>DATABASE_URL</key>
+	<string>https://rentx-inc-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

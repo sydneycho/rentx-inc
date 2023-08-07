@@ -73,7 +73,7 @@ class _PayokWidgetState extends State<PayokWidget> {
               children: [
                 Expanded(
                   child: Text(
-                    'Payment complete',
+                    'Payment Sent',
                     textAlign: TextAlign.center,
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'Open Sans',

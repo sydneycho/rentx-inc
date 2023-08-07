@@ -537,8 +537,10 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        cardetailsCarRecord.description
-                                            .maybeHandleOverflow(maxChars: 300),
+                                        valueOrDefault<String>(
+                                          cardetailsCarRecord.description,
+                                          'Introducing the sleek and reliable \"SwiftDrive\" - your ideal companion for the road! This compact car is designed to provide an exceptional driving experience, perfect for both city adventures and weekend getaways. With its fuel-efficient engine and smooth handling, \"SwiftDrive\" guarantees a comfortable ride and easy maneuverability through traffic.  Equipped with modern features and safety technology, you can enjoy seamless connectivity with Bluetooth integration and a user-friendly infotainment system. Feel at ease knowing that \"SwiftDrive\" prioritizes your safety with advanced safety features like adaptive cruise control, lane departure warning, and multiple airbags.',
+                                        ).maybeHandleOverflow(maxChars: 300),
                                         textAlign: TextAlign.justify,
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall,

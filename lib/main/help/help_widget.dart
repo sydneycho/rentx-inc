@@ -175,7 +175,7 @@ class _HelpWidgetState extends State<HelpWidget> {
                                         'materialList_Item_4_navigate_to');
 
                                     context.pushNamed(
-                                      'About',
+                                      'About_rentz',
                                       extra: <String, dynamic>{
                                         kTransitionInfoKey: TransitionInfo(
                                           hasTransition: true,
@@ -277,7 +277,7 @@ class _HelpWidgetState extends State<HelpWidget> {
                                                   'Icon_navigate_to');
 
                                               context.pushNamed(
-                                                'About',
+                                                'About_rentz',
                                                 extra: <String, dynamic>{
                                                   kTransitionInfoKey:
                                                       TransitionInfo(
@@ -322,7 +322,7 @@ class _HelpWidgetState extends State<HelpWidget> {
                                     logFirebaseEvent(
                                         'materialList_Item_4_navigate_to');
 
-                                    context.pushNamed('About');
+                                    context.pushNamed('About_rentz');
                                   },
                                   child: Container(
                                     width: double.infinity,
@@ -357,7 +357,7 @@ class _HelpWidgetState extends State<HelpWidget> {
                                               'HELP_PAGE_Row_ig51tgac_ON_TAP');
                                           logFirebaseEvent('Row_navigate_to');
 
-                                          context.pushNamed('About');
+                                          context.pushNamed('About_rentz');
                                         },
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,

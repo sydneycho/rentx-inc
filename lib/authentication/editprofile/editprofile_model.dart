@@ -64,9 +64,9 @@ class EditprofileModel extends FlutterFlowModel {
   }
 
   DateTime? datePicked;
-  // State field(s) for state widget.
-  String? stateValue;
-  FormFieldController<String>? stateValueController;
+  // State field(s) for Districtselection widget.
+  String? districtselectionValue;
+  FormFieldController<String>? districtselectionValueController;
   // State field(s) for myBio widget.
   TextEditingController? myBioController;
   String? Function(BuildContext, String?)? myBioControllerValidator;

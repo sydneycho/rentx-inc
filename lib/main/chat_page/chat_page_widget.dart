@@ -75,31 +75,34 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
       appBar: AppBar(
         backgroundColor: FlutterFlowTheme.of(context).primary,
         automaticallyImplyLeading: false,
-        leading: FlutterFlowIconButton(
-          borderColor: Colors.transparent,
-          borderRadius: 30.0,
-          borderWidth: 1.0,
-          buttonSize: 50.0,
-          icon: Icon(
-            Icons.arrow_back_rounded,
-            color: FlutterFlowTheme.of(context).primaryBackground,
-            size: 24.0,
-          ),
-          onPressed: () async {
-            logFirebaseEvent('CHAT_arrow_back_rounded_ICN_ON_TAP');
-            logFirebaseEvent('IconButton_navigate_to');
+        leading: Semantics(
+          label: 'Back button',
+          child: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30.0,
+            borderWidth: 1.0,
+            buttonSize: 50.0,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: FlutterFlowTheme.of(context).primaryBackground,
+              size: 24.0,
+            ),
+            onPressed: () async {
+              logFirebaseEvent('CHAT_arrow_back_rounded_ICN_ON_TAP');
+              logFirebaseEvent('IconButton_navigate_to');
 
-            context.pushNamed(
-              'AllChatsPage',
-              extra: <String, dynamic>{
-                kTransitionInfoKey: TransitionInfo(
-                  hasTransition: true,
-                  transitionType: PageTransitionType.leftToRight,
-                  duration: Duration(milliseconds: 300),
-                ),
-              },
-            );
-          },
+              context.pushNamed(
+                'AllChatsPage',
+                extra: <String, dynamic>{
+                  kTransitionInfoKey: TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.leftToRight,
+                    duration: Duration(milliseconds: 300),
+                  ),
+                },
+              );
+            },
+          ),
         ),
         title: Stack(
           children: [
@@ -117,39 +120,42 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
         actions: [
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 15.0, 0.0),
-            child: InkWell(
-              splashColor: Colors.transparent,
-              focusColor: Colors.transparent,
-              hoverColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onTap: () async {
-                logFirebaseEvent('CHAT_PAGE_PAGE_Icon_xyp5exxl_ON_TAP');
-                logFirebaseEvent('Icon_backend_call');
-                await widget.chatUser!.reference.delete();
-                logFirebaseEvent('Icon_alert_dialog');
-                await showDialog(
-                  context: context,
-                  builder: (alertDialogContext) {
-                    return AlertDialog(
-                      title: Text('Chat deleted'),
-                      content: Text('The chat is deleted successfully.'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(alertDialogContext),
-                          child: Text('Ok'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-                logFirebaseEvent('Icon_navigate_to');
+            child: Semantics(
+              label: 'Delete chat button',
+              child: InkWell(
+                splashColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () async {
+                  logFirebaseEvent('CHAT_PAGE_PAGE_Icon_xyp5exxl_ON_TAP');
+                  logFirebaseEvent('Icon_backend_call');
+                  await widget.chatUser!.reference.delete();
+                  logFirebaseEvent('Icon_alert_dialog');
+                  await showDialog(
+                    context: context,
+                    builder: (alertDialogContext) {
+                      return AlertDialog(
+                        title: Text('Chat deleted'),
+                        content: Text('The chat is deleted successfully.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(alertDialogContext),
+                            child: Text('Ok'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  logFirebaseEvent('Icon_navigate_to');
 
-                context.pushNamed('AllChatsPage');
-              },
-              child: Icon(
-                Icons.delete_sweep,
-                color: FlutterFlowTheme.of(context).primaryBackground,
-                size: 28.0,
+                  context.pushNamed('AllChatsPage');
+                },
+                child: Icon(
+                  Icons.delete_sweep,
+                  color: FlutterFlowTheme.of(context).primaryBackground,
+                  size: 28.0,
+                ),
               ),
             ),
           ),
@@ -159,72 +165,75 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
       ),
       body: SafeArea(
         top: true,
-        child: StreamBuilder<FFChatInfo>(
-          stream: FFChatManager.instance.getChatInfo(
-            otherUserRecord: widget.chatUser,
-            chatReference: widget.chatRef,
-          ),
-          builder: (context, snapshot) => snapshot.hasData
-              ? FFChatPage(
-                  chatInfo: snapshot.data!,
-                  allowImages: true,
-                  backgroundColor:
-                      FlutterFlowTheme.of(context).primaryBackground,
-                  timeDisplaySetting: TimeDisplaySetting.visibleOnTap,
-                  currentUserBoxDecoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.transparent,
+        child: Semantics(
+          label: 'Chat preview page',
+          child: StreamBuilder<FFChatInfo>(
+            stream: FFChatManager.instance.getChatInfo(
+              otherUserRecord: widget.chatUser,
+              chatReference: widget.chatRef,
+            ),
+            builder: (context, snapshot) => snapshot.hasData
+                ? FFChatPage(
+                    chatInfo: snapshot.data!,
+                    allowImages: true,
+                    backgroundColor:
+                        FlutterFlowTheme.of(context).primaryBackground,
+                    timeDisplaySetting: TimeDisplaySetting.visibleOnTap,
+                    currentUserBoxDecoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        color: Colors.transparent,
+                      ),
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  otherUsersBoxDecoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).primary,
-                    border: Border.all(
-                      color: Colors.transparent,
-                    ),
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  currentUserTextStyle: GoogleFonts.getFont(
-                    'DM Sans',
-                    color: FlutterFlowTheme.of(context).secondaryText,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14.0,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  otherUsersTextStyle: GoogleFonts.getFont(
-                    'DM Sans',
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14.0,
-                  ),
-                  inputHintTextStyle: GoogleFonts.getFont(
-                    'DM Sans',
-                    color: Color(0xFF95A1AC),
-                    fontWeight: FontWeight.normal,
-                    fontSize: 14.0,
-                  ),
-                  inputTextStyle: GoogleFonts.getFont(
-                    'DM Sans',
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 14.0,
-                  ),
-                  emptyChatWidget: Image.asset(
-                    'assets/images/2vqf7_',
-                    width: MediaQuery.sizeOf(context).width * 0.76,
-                  ),
-                )
-              : Center(
-                  child: SizedBox(
-                    width: 100.0,
-                    height: 100.0,
-                    child: SpinKitDualRing(
+                    otherUsersBoxDecoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).primary,
-                      size: 100.0,
+                      border: Border.all(
+                        color: Colors.transparent,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    currentUserTextStyle: GoogleFonts.getFont(
+                      'DM Sans',
+                      color: FlutterFlowTheme.of(context).secondaryText,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.0,
+                      fontStyle: FontStyle.normal,
+                    ),
+                    otherUsersTextStyle: GoogleFonts.getFont(
+                      'DM Sans',
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.0,
+                    ),
+                    inputHintTextStyle: GoogleFonts.getFont(
+                      'DM Sans',
+                      color: Color(0xFF95A1AC),
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14.0,
+                    ),
+                    inputTextStyle: GoogleFonts.getFont(
+                      'DM Sans',
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14.0,
+                    ),
+                    emptyChatWidget: Image.asset(
+                      'assets/images/2vqf7_',
+                      width: MediaQuery.sizeOf(context).width * 0.76,
+                    ),
+                  )
+                : Center(
+                    child: SizedBox(
+                      width: 100.0,
+                      height: 100.0,
+                      child: SpinKitDualRing(
+                        color: FlutterFlowTheme.of(context).primary,
+                        size: 100.0,
+                      ),
                     ),
                   ),
-                ),
+          ),
         ),
       ),
     );

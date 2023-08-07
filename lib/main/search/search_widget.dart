@@ -119,15 +119,14 @@ class _SearchWidgetState extends State<SearchWidget> {
                             hintStyle: FlutterFlowTheme.of(context).labelMedium,
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
+                                color: FlutterFlowTheme.of(context).accent4,
                                 width: 2.0,
                               ),
                               borderRadius: BorderRadius.circular(50.0),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).primary,
+                                color: FlutterFlowTheme.of(context).accent4,
                                 width: 2.0,
                               ),
                               borderRadius: BorderRadius.circular(50.0),

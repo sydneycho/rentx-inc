@@ -143,163 +143,127 @@ class _FavoriteWidgetState extends State<FavoriteWidget>
                             ),
                           );
                         }
-                        return SingleChildScrollView(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children:
-                                List.generate(favorite.length, (favoriteIndex) {
-                              final favoriteItem = favorite[favoriteIndex];
-                              return Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Expanded(
-                                    child: StreamBuilder<CarRecord>(
-                                      stream:
-                                          CarRecord.getDocument(favoriteItem),
-                                      builder: (context, snapshot) {
-                                        // Customize what your widget looks like when it's loading.
-                                        if (!snapshot.hasData) {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 100.0,
-                                              height: 100.0,
-                                              child: SpinKitDualRing(
+                        return Semantics(
+                          label: 'List of cars you like',
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: List.generate(favorite.length,
+                                  (favoriteIndex) {
+                                final favoriteItem = favorite[favoriteIndex];
+                                return Semantics(
+                                  label: 'Car details',
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Expanded(
+                                        child: StreamBuilder<CarRecord>(
+                                          stream: CarRecord.getDocument(
+                                              favoriteItem),
+                                          builder: (context, snapshot) {
+                                            // Customize what your widget looks like when it's loading.
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 100.0,
+                                                  height: 100.0,
+                                                  child: SpinKitDualRing(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primary,
+                                                    size: 100.0,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                            final cardCarRecord =
+                                                snapshot.data!;
+                                            return InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                logFirebaseEvent(
+                                                    'FAVORITE_PAGE_Card_xpjoeocw_ON_TAP');
+                                                logFirebaseEvent(
+                                                    'Card_navigate_to');
+
+                                                context.pushNamed(
+                                                  'Cardetails',
+                                                  queryParameters: {
+                                                    'productref':
+                                                        serializeParam(
+                                                      cardCarRecord.reference,
+                                                      ParamType
+                                                          .DocumentReference,
+                                                    ),
+                                                  }.withoutNulls,
+                                                );
+                                              },
+                                              child: Card(
+                                                clipBehavior:
+                                                    Clip.antiAliasWithSaveLayer,
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                size: 100.0,
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                        final cardCarRecord = snapshot.data!;
-                                        return InkWell(
-                                          splashColor: Colors.transparent,
-                                          focusColor: Colors.transparent,
-                                          hoverColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-                                          onTap: () async {
-                                            logFirebaseEvent(
-                                                'FAVORITE_PAGE_Card_xpjoeocw_ON_TAP');
-                                            logFirebaseEvent(
-                                                'Card_navigate_to');
-
-                                            context.pushNamed(
-                                              'Cardetails',
-                                              queryParameters: {
-                                                'productref': serializeParam(
-                                                  cardCarRecord.reference,
-                                                  ParamType.DocumentReference,
+                                                        .primaryBackground,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0),
                                                 ),
-                                              }.withoutNulls,
-                                            );
-                                          },
-                                          child: Card(
-                                            clipBehavior:
-                                                Clip.antiAliasWithSaveLayer,
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      10.0, 10.0, 10.0, 10.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    child: Image.network(
-                                                      cardCarRecord
-                                                          .carPhotos.first,
-                                                      width: 100.0,
-                                                      height: 80.0,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  5.0,
-                                                                  0.0,
-                                                                  5.0,
-                                                                  0.0),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Row(
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(10.0, 10.0,
+                                                          10.0, 10.0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                        child: Image.network(
+                                                          cardCarRecord
+                                                              .carPhotos.first,
+                                                          width: 100.0,
+                                                          height: 80.0,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      5.0,
+                                                                      0.0,
+                                                                      5.0,
+                                                                      0.0),
+                                                          child: Column(
                                                             mainAxisSize:
                                                                 MainAxisSize
                                                                     .max,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
                                                             children: [
-                                                              Expanded(
-                                                                child: Text(
-                                                                  cardCarRecord
-                                                                      .carName,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Open Sans',
-                                                                        fontSize:
-                                                                            15.0,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        0.0,
-                                                                        5.0,
-                                                                        0.0),
-                                                            child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                Expanded(
-                                                                  child:
-                                                                      Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            5.0,
-                                                                            0.0,
-                                                                            0.0),
+                                                              Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  Expanded(
                                                                     child: Text(
-                                                                      'K ${formatNumber(
-                                                                        cardCarRecord
-                                                                            .costPerDay,
-                                                                        formatType:
-                                                                            FormatType.custom,
-                                                                        format:
-                                                                            '00.00',
-                                                                        locale:
-                                                                            '',
-                                                                      )}',
+                                                                      cardCarRecord
+                                                                          .carName,
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .bodyMedium
@@ -308,66 +272,113 @@ class _FavoriteWidgetState extends State<FavoriteWidget>
                                                                                 'Open Sans',
                                                                             fontSize:
                                                                                 15.0,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
                                                                           ),
                                                                     ),
                                                                   ),
+                                                                ],
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            5.0,
+                                                                            0.0),
+                                                                child: Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            5.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            Text(
+                                                                          'K ${formatNumber(
+                                                                            cardCarRecord.costPerDay,
+                                                                            formatType:
+                                                                                FormatType.custom,
+                                                                            format:
+                                                                                '00.00',
+                                                                            locale:
+                                                                                '',
+                                                                          )}',
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
+                                                                                fontFamily: 'Open Sans',
+                                                                                fontSize: 15.0,
+                                                                              ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                              ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              logFirebaseEvent(
+                                                                  'FAVORITE_PAGE_Icon_iufeji02_ON_TAP');
+                                                              logFirebaseEvent(
+                                                                  'Icon_update_app_state');
+                                                              FFAppState()
+                                                                  .update(() {
+                                                                FFAppState().removeFromFavorite(
+                                                                    cardCarRecord
+                                                                        .reference);
+                                                              });
+                                                            },
+                                                            child: Icon(
+                                                              Icons.delete,
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .alternate,
+                                                              size: 28.0,
                                                             ),
                                                           ),
                                                         ],
                                                       ),
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      InkWell(
-                                                        splashColor:
-                                                            Colors.transparent,
-                                                        focusColor:
-                                                            Colors.transparent,
-                                                        hoverColor:
-                                                            Colors.transparent,
-                                                        highlightColor:
-                                                            Colors.transparent,
-                                                        onTap: () async {
-                                                          logFirebaseEvent(
-                                                              'FAVORITE_PAGE_Icon_iufeji02_ON_TAP');
-                                                          logFirebaseEvent(
-                                                              'Icon_update_app_state');
-                                                          FFAppState()
-                                                              .update(() {
-                                                            FFAppState()
-                                                                .removeFromFavorite(
-                                                                    cardCarRecord
-                                                                        .reference);
-                                                          });
-                                                        },
-                                                        child: Icon(
-                                                          Icons.delete,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .alternate,
-                                                          size: 28.0,
-                                                        ),
-                                                      ),
                                                     ],
                                                   ),
-                                                ],
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              );
-                            }),
+                                );
+                              }),
+                            ),
                           ),
                         ).animateOnPageLoad(
                             animationsMap['columnOnPageLoadAnimation']!);

@@ -158,10 +158,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => ContactWidget(),
             ),
             FFRoute(
-              name: 'About',
-              path: 'about',
+              name: 'About_rentz',
+              path: 'aboutRentz',
               requireAuth: true,
-              builder: (context, params) => AboutWidget(),
+              builder: (context, params) => AboutRentzWidget(),
             ),
             FFRoute(
               name: 'Policy',
@@ -176,10 +176,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => TermsWidget(),
             ),
             FFRoute(
-              name: 'Host',
-              path: 'host',
+              name: 'Host_registration',
+              path: 'hostRegistration',
               requireAuth: true,
-              builder: (context, params) => HostWidget(),
+              builder: (context, params) => HostRegistrationWidget(),
             ),
             FFRoute(
               name: 'Verification',
@@ -460,7 +460,7 @@ class FFRoute {
               ? Container(
                   color: Colors.transparent,
                   child: Image.asset(
-                    'assets/images/Rentxsplash.png',
+                    'assets/images/RENTZ_(2).png',
                     fit: BoxFit.cover,
                   ),
                 )

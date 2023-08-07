@@ -5,20 +5,20 @@ import '/components/notification/notification_widget.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/permissions_util.dart';
 import '/flutter_flow/request_manager.dart';
 
 import 'package:badges/badges.dart' as badges;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -37,8 +37,6 @@ class HomeModel extends FlutterFlowModel {
   // State field(s) for ChoiceChips widget.
   String? choiceChipsValue;
   FormFieldController<List<String>>? choiceChipsValueController;
-  AudioPlayer? soundPlayer1;
-  AudioPlayer? soundPlayer2;
 
   /// Query cache managers for this widget.
 
@@ -72,21 +70,6 @@ class HomeModel extends FlutterFlowModel {
   void clearNotificationCacheKey(String? uniqueKey) =>
       _notificationManager.clearRequest(uniqueKey);
 
-  final _tripsManager = FutureRequestManager<int>();
-  Future<int> trips({
-    String? uniqueQueryKey,
-    bool? overrideCache,
-    required Future<int> Function() requestFn,
-  }) =>
-      _tripsManager.performRequest(
-        uniqueQueryKey: uniqueQueryKey,
-        overrideCache: overrideCache,
-        requestFn: requestFn,
-      );
-  void clearTripsCache() => _tripsManager.clear();
-  void clearTripsCacheKey(String? uniqueKey) =>
-      _tripsManager.clearRequest(uniqueKey);
-
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {}
@@ -99,8 +82,6 @@ class HomeModel extends FlutterFlowModel {
     clearCarCache();
 
     clearNotificationCache();
-
-    clearTripsCache();
   }
 
   /// Action blocks are added here.

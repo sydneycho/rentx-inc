@@ -12,10 +12,11 @@ export '/main/wallet/wallet_widget.dart' show WalletWidget;
 export '/cars/hostinventory/hostinventory_widget.dart' show HostinventoryWidget;
 export '/main/help/help_widget.dart' show HelpWidget;
 export '/main/contact/contact_widget.dart' show ContactWidget;
-export '/main/about/about_widget.dart' show AboutWidget;
+export '/main/about_rentz/about_rentz_widget.dart' show AboutRentzWidget;
 export '/main/policy/policy_widget.dart' show PolicyWidget;
 export '/main/terms/terms_widget.dart' show TermsWidget;
-export '/authentication/host/host_widget.dart' show HostWidget;
+export '/authentication/host_registration/host_registration_widget.dart'
+    show HostRegistrationWidget;
 export '/main/verification/verification_widget.dart' show VerificationWidget;
 export '/main/home/home_widget.dart' show HomeWidget;
 export '/main/notificationdetail/notificationdetail_widget.dart'
