@@ -153,6 +153,14 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Brand Name',
+                                  labelStyle: FlutterFlowTheme.of(context)
+                                      .headlineSmall
+                                      .override(
+                                        fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        fontSize: 18.0,
+                                      ),
                                   hintText: 'Enter brand name',
                                   hintStyle: FlutterFlowTheme.of(context)
                                       .bodyLarge
@@ -201,6 +209,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
+                                      fontSize: 18.0,
                                     ),
                                 validator: _model.textController1Validator
                                     .asValidator(context),
@@ -217,6 +226,14 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Car Name',
+                                  labelStyle: FlutterFlowTheme.of(context)
+                                      .headlineSmall
+                                      .override(
+                                        fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        fontSize: 18.0,
+                                      ),
                                   hintText: 'Enter car name',
                                   hintStyle: FlutterFlowTheme.of(context)
                                       .bodyLarge
@@ -265,6 +282,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
+                                      fontSize: 18.0,
                                     ),
                                 validator: _model.textController2Validator
                                     .asValidator(context),
@@ -287,6 +305,14 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Cost per Day',
+                                  labelStyle: FlutterFlowTheme.of(context)
+                                      .headlineSmall
+                                      .override(
+                                        fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        fontSize: 18.0,
+                                      ),
                                   hintText: 'Enter cost per day',
                                   hintStyle: FlutterFlowTheme.of(context)
                                       .bodyLarge
@@ -335,6 +361,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
+                                      fontSize: 18.0,
                                     ),
                                 validator: _model.textController3Validator
                                     .asValidator(context),
@@ -351,6 +378,14 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Plate Number',
+                                  labelStyle: FlutterFlowTheme.of(context)
+                                      .headlineSmall
+                                      .override(
+                                        fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        fontSize: 18.0,
+                                      ),
                                   hintText: 'Enter plate number',
                                   hintStyle: FlutterFlowTheme.of(context)
                                       .bodyLarge
@@ -399,6 +434,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
+                                      fontSize: 18.0,
                                     ),
                                 validator: _model.textController4Validator
                                     .asValidator(context),
@@ -454,8 +490,14 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       EdgeInsetsDirectional.fromSTEB(
                                           20.0, 32.0, 20.0, 12.0),
                                 ),
-                                style:
-                                    FlutterFlowTheme.of(context).headlineSmall,
+                                style: FlutterFlowTheme.of(context)
+                                    .headlineSmall
+                                    .override(
+                                      fontFamily: 'Open Sans',
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      fontSize: 18.0,
+                                    ),
                                 validator: _model.textController5Validator
                                     .asValidator(context),
                               ),
@@ -471,6 +513,14 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Address',
+                                  labelStyle: FlutterFlowTheme.of(context)
+                                      .headlineSmall
+                                      .override(
+                                        fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        fontSize: 18.0,
+                                      ),
                                   hintText: 'Enter address',
                                   hintStyle: FlutterFlowTheme.of(context)
                                       .bodyLarge
@@ -519,6 +569,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
+                                      fontSize: 18.0,
                                     ),
                                 validator: _model.textController6Validator
                                     .asValidator(context),
@@ -841,6 +892,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
+                                      fontSize: 18.0,
                                     ),
                                 maxLines: 4,
                                 validator: _model.textController7Validator
@@ -858,6 +910,14 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Notes',
+                                  labelStyle: FlutterFlowTheme.of(context)
+                                      .headlineSmall
+                                      .override(
+                                        fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        fontSize: 18.0,
+                                      ),
                                   hintText: 'Enter notes',
                                   hintStyle:
                                       FlutterFlowTheme.of(context).bodyLarge,
@@ -901,6 +961,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
+                                      fontSize: 18.0,
                                     ),
                                 maxLines: 4,
                                 validator: _model.textController8Validator

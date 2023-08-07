@@ -1,6 +1,5 @@
 // Export pages
 export '/cars/cardetails/cardetails_widget.dart' show CardetailsWidget;
-export '/main/favorite/favorite_widget.dart' show FavoriteWidget;
 export '/main/profile/profile_widget.dart' show ProfileWidget;
 export '/authentication/passwordreset/passwordreset_widget.dart'
     show PasswordresetWidget;
@@ -32,4 +31,4 @@ export '/main/all_chats_page/all_chats_page_widget.dart'
     show AllChatsPageWidget;
 export '/main/search/search_widget.dart' show SearchWidget;
 export '/cars/edit_car/edit_car_widget.dart' show EditCarWidget;
-export '/cars/addcar/addcar_widget.dart' show AddcarWidget;
+export '/cars/add_car/add_car_widget.dart' show AddCarWidget;

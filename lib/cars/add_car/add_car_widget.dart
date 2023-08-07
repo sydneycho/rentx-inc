@@ -13,35 +13,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'addcar_model.dart';
-export 'addcar_model.dart';
+import 'add_car_model.dart';
+export 'add_car_model.dart';
 
-class AddcarWidget extends StatefulWidget {
-  const AddcarWidget({Key? key}) : super(key: key);
+class AddCarWidget extends StatefulWidget {
+  const AddCarWidget({Key? key}) : super(key: key);
 
   @override
-  _AddcarWidgetState createState() => _AddcarWidgetState();
+  _AddCarWidgetState createState() => _AddCarWidgetState();
 }
 
-class _AddcarWidgetState extends State<AddcarWidget> {
-  late AddcarModel _model;
+class _AddCarWidgetState extends State<AddCarWidget> {
+  late AddCarModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => AddcarModel());
+    _model = createModel(context, () => AddCarModel());
 
-    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Addcar'});
-    _model.textController1 ??= TextEditingController();
-    _model.textController2 ??= TextEditingController();
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Add_car'});
+    _model.carnameController ??= TextEditingController();
+    _model.brandnameController ??= TextEditingController();
     _model.textController3 ??= TextEditingController();
-    _model.textController4 ??= TextEditingController();
-    _model.textController5 ??= TextEditingController();
+    _model.phonenumberController ??= TextEditingController();
+    _model.carcolorController ??= TextEditingController();
     _model.textController6 ??= TextEditingController();
-    _model.textController7 ??= TextEditingController();
-    _model.textController8 ??= TextEditingController();
+    _model.descriptionController ??= TextEditingController();
+    _model.notesController ??= TextEditingController();
   }
 
   @override
@@ -96,7 +96,7 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                                 ),
                                 onPressed: () async {
                                   logFirebaseEvent(
-                                      'ADDCAR_PAGE_close_rounded_ICN_ON_TAP');
+                                      'ADD_CAR_PAGE_close_rounded_ICN_ON_TAP');
                                   logFirebaseEvent('IconButton_navigate_to');
 
                                   context.pushNamed(
@@ -116,10 +116,18 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                           ),
                         ),
                         TextFormField(
-                          controller: _model.textController1,
+                          controller: _model.carnameController,
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'Car Name',
+                            labelStyle: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .override(
+                                  fontFamily: 'Open Sans',
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  fontSize: 18.0,
+                                ),
                             hintText: 'Enter car name',
                             hintStyle:
                                 FlutterFlowTheme.of(context).bodyLarge.override(
@@ -158,18 +166,31 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                             contentPadding: EdgeInsetsDirectional.fromSTEB(
                                 20.0, 32.0, 20.0, 12.0),
                           ),
-                          style: FlutterFlowTheme.of(context).headlineSmall,
-                          validator: _model.textController1Validator
+                          style: FlutterFlowTheme.of(context)
+                              .headlineSmall
+                              .override(
+                                fontFamily: 'Open Sans',
+                                fontSize: 18.0,
+                              ),
+                          validator: _model.carnameControllerValidator
                               .asValidator(context),
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
                           child: TextFormField(
-                            controller: _model.textController2,
+                            controller: _model.brandnameController,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Brand Name',
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .headlineSmall
+                                  .override(
+                                    fontFamily: 'Open Sans',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 18.0,
+                                  ),
                               hintText: 'Enter brand name',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .bodyLarge
@@ -209,8 +230,13 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                               contentPadding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 32.0, 20.0, 12.0),
                             ),
-                            style: FlutterFlowTheme.of(context).headlineSmall,
-                            validator: _model.textController2Validator
+                            style: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .override(
+                                  fontFamily: 'Open Sans',
+                                  fontSize: 18.0,
+                                ),
+                            validator: _model.brandnameControllerValidator
                                 .asValidator(context),
                           ),
                         ),
@@ -222,6 +248,14 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Cost per Day',
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .headlineSmall
+                                  .override(
+                                    fontFamily: 'Open Sans',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 18.0,
+                                  ),
                               hintText: 'Enter cost per day',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .bodyLarge
@@ -261,7 +295,12 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                               contentPadding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 32.0, 20.0, 12.0),
                             ),
-                            style: FlutterFlowTheme.of(context).headlineSmall,
+                            style: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .override(
+                                  fontFamily: 'Open Sans',
+                                  fontSize: 18.0,
+                                ),
                             validator: _model.textController3Validator
                                 .asValidator(context),
                           ),
@@ -270,10 +309,18 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
                           child: TextFormField(
-                            controller: _model.textController4,
+                            controller: _model.phonenumberController,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Plate Number',
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .headlineSmall
+                                  .override(
+                                    fontFamily: 'Open Sans',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 18.0,
+                                  ),
                               hintText: 'Enter plate number',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .bodyLarge
@@ -313,8 +360,13 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                               contentPadding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 32.0, 20.0, 12.0),
                             ),
-                            style: FlutterFlowTheme.of(context).headlineSmall,
-                            validator: _model.textController4Validator
+                            style: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .override(
+                                  fontFamily: 'Open Sans',
+                                  fontSize: 18.0,
+                                ),
+                            validator: _model.phonenumberControllerValidator
                                 .asValidator(context),
                           ),
                         ),
@@ -322,10 +374,18 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
                           child: TextFormField(
-                            controller: _model.textController5,
+                            controller: _model.carcolorController,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Car Color',
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .headlineSmall
+                                  .override(
+                                    fontFamily: 'Open Sans',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 18.0,
+                                  ),
                               hintText: 'Enter car color',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .bodyLarge
@@ -365,8 +425,13 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                               contentPadding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 32.0, 20.0, 12.0),
                             ),
-                            style: FlutterFlowTheme.of(context).headlineSmall,
-                            validator: _model.textController5Validator
+                            style: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .override(
+                                  fontFamily: 'Open Sans',
+                                  fontSize: 18.0,
+                                ),
+                            validator: _model.carcolorControllerValidator
                                 .asValidator(context),
                           ),
                         ),
@@ -378,6 +443,14 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Address',
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .headlineSmall
+                                  .override(
+                                    fontFamily: 'Open Sans',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 18.0,
+                                  ),
                               hintText: 'Enter address',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .bodyLarge
@@ -417,7 +490,12 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                               contentPadding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 32.0, 20.0, 12.0),
                             ),
-                            style: FlutterFlowTheme.of(context).headlineSmall,
+                            style: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .override(
+                                  fontFamily: 'Open Sans',
+                                  fontSize: 18.0,
+                                ),
                             validator: _model.textController6Validator
                                 .asValidator(context),
                           ),
@@ -669,16 +747,25 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
                           child: TextFormField(
-                            controller: _model.textController7,
+                            controller: _model.descriptionController,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Description',
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .headlineSmall
+                                  .override(
+                                    fontFamily: 'Open Sans',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 18.0,
+                                  ),
                               hintText: 'Enter description',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .bodyLarge
                                   .override(
                                     fontFamily: 'Open Sans',
-                                    color: FlutterFlowTheme.of(context).accent3,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -711,9 +798,14 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                               contentPadding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 32.0, 20.0, 12.0),
                             ),
-                            style: FlutterFlowTheme.of(context).headlineSmall,
+                            style: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .override(
+                                  fontFamily: 'Open Sans',
+                                  fontSize: 18.0,
+                                ),
                             maxLines: 4,
-                            validator: _model.textController7Validator
+                            validator: _model.descriptionControllerValidator
                                 .asValidator(context),
                           ),
                         ),
@@ -721,10 +813,18 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
                           child: TextFormField(
-                            controller: _model.textController8,
+                            controller: _model.notesController,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Notes',
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .headlineSmall
+                                  .override(
+                                    fontFamily: 'Open Sans',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 18.0,
+                                  ),
                               hintText: 'Enter notes',
                               hintStyle: FlutterFlowTheme.of(context).bodyLarge,
                               enabledBorder: OutlineInputBorder(
@@ -758,9 +858,16 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                               contentPadding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 32.0, 20.0, 12.0),
                             ),
-                            style: FlutterFlowTheme.of(context).headlineSmall,
+                            style: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .override(
+                                  fontFamily: 'Open Sans',
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  fontSize: 18.0,
+                                ),
                             maxLines: 4,
-                            validator: _model.textController8Validator
+                            validator: _model.notesControllerValidator
                                 .asValidator(context),
                           ),
                         ),
@@ -774,7 +881,7 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                             highlightColor: Colors.transparent,
                             onTap: () async {
                               logFirebaseEvent(
-                                  'ADDCAR_PAGE_Container_ryd44jjw_ON_TAP');
+                                  'ADD_CAR_PAGE_Container_ryd44jjw_ON_TAP');
                               logFirebaseEvent(
                                   'Container_upload_media_to_firebase');
                               final selectedMedia = await selectMedia(
@@ -881,18 +988,20 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                               0.0, 24.0, 0.0, 16.0),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              logFirebaseEvent('ADDCAR_PAGE_SUBMIT_BTN_ON_TAP');
+                              logFirebaseEvent(
+                                  'ADD_CAR_PAGE_SUBMIT_BTN_ON_TAP');
                               logFirebaseEvent('Button_backend_call');
 
                               await CarRecord.collection.doc().set({
                                 ...createCarRecordData(
                                   availabilityStatus: 'Available',
                                   bookingStatus: 'not booked',
-                                  carName: _model.textController1.text,
+                                  carName: _model.carnameController.text,
                                   carStatus: 'pending',
                                   costPerDay: double.tryParse(
                                       _model.textController3.text),
-                                  description: _model.textController7.text,
+                                  description:
+                                      _model.descriptionController.text,
                                   fuelType: _model.fueltypeValue,
                                   listingStatus: 'latest',
                                   location: _model.textController6.text,
@@ -901,18 +1010,19 @@ class _AddcarWidgetState extends State<AddcarWidget> {
                                   vendorName:
                                       '${valueOrDefault(currentUserDocument?.firstName, '')}  ${valueOrDefault(currentUserDocument?.lastName, '')}',
                                   vendorPhoto: currentUserPhoto,
-                                  plateNumber: _model.textController4.text,
+                                  plateNumber:
+                                      _model.phonenumberController.text,
                                   carColor: colorFromCssString(
-                                    _model.textController5.text,
+                                    _model.carcolorController.text,
                                     defaultColor: Colors.black,
                                   ),
                                   district: _model.districtsValue,
-                                  brandName: _model.textController2.text,
+                                  brandName: _model.brandnameController.text,
                                   uid: currentUserReference,
                                   vendorPhoneNumber: currentPhoneNumber,
                                   vendorDescription: valueOrDefault(
                                       currentUserDocument?.bio, ''),
-                                  note: _model.textController8.text,
+                                  note: _model.notesController.text,
                                   createdTime: getCurrentTimestamp,
                                 ),
                                 'car_photos': _model.uploadedFileUrls,

@@ -131,7 +131,11 @@ class _NotificationdetailWidgetState extends State<NotificationdetailWidget>
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Expanded(
+                Container(
+                  width: MediaQuery.sizeOf(context).width * 1.0,
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                  ),
                   child: Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(10.0, 5.0, 10.0, 0.0),

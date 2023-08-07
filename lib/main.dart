@@ -143,7 +143,6 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'Home': HomeWidget(),
-      'Favorite': FavoriteWidget(),
       'Wallet': WalletWidget(),
       'AllChatsPage': AllChatsPageWidget(),
       'Profile': ProfileWidget(),
@@ -171,14 +170,6 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 24.0,
             ),
             label: 'Home',
-            tooltip: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.favorite_sharp,
-              size: 24.0,
-            ),
-            label: 'Favorite',
             tooltip: '',
           ),
           BottomNavigationBarItem(

@@ -44,10 +44,6 @@ class FFAppState extends ChangeNotifier {
     await _safeInitAsync(() async {
       _userRef = (await secureStorage.getString('ff_userRef'))?.ref ?? _userRef;
     });
-    await _safeInitAsync(() async {
-      _favoriteswitch =
-          await secureStorage.getBool('ff_favoriteswitch') ?? _favoriteswitch;
-    });
   }
 
   void update(VoidCallback callback) {
@@ -245,17 +241,6 @@ class FFAppState extends ChangeNotifier {
 
   void deleteUserRef() {
     secureStorage.delete(key: 'ff_userRef');
-  }
-
-  bool _favoriteswitch = false;
-  bool get favoriteswitch => _favoriteswitch;
-  set favoriteswitch(bool _value) {
-    _favoriteswitch = _value;
-    secureStorage.setBool('ff_favoriteswitch', _value);
-  }
-
-  void deleteFavoriteswitch() {
-    secureStorage.delete(key: 'ff_favoriteswitch');
   }
 
   final _paidadvertsManager = StreamRequestManager<List<PaidAdvertsRecord>>();

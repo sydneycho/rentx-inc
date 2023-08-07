@@ -98,14 +98,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'Favorite',
-              path: 'favorite',
-              requireAuth: true,
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'Favorite')
-                  : FavoriteWidget(),
-            ),
-            FFRoute(
               name: 'Profile',
               path: 'profile',
               requireAuth: true,
@@ -272,10 +264,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'Addcar',
-              path: 'addcar',
+              name: 'Add_car',
+              path: 'addCar',
               requireAuth: true,
-              builder: (context, params) => AddcarWidget(),
+              builder: (context, params) => AddCarWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),

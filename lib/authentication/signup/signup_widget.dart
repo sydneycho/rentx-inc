@@ -278,6 +278,10 @@ class _SignupWidgetState extends State<SignupWidget>
                                               fillColor:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
+                                              contentPadding:
+                                                  EdgeInsetsDirectional
+                                                      .fromSTEB(10.0, 18.0, 0.0,
+                                                          18.0),
                                             ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyLarge,
@@ -355,6 +359,10 @@ class _SignupWidgetState extends State<SignupWidget>
                                               fillColor:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
+                                              contentPadding:
+                                                  EdgeInsetsDirectional
+                                                      .fromSTEB(10.0, 18.0, 0.0,
+                                                          18.0),
                                               suffixIcon: InkWell(
                                                 onTap: () => setState(
                                                   () => _model
@@ -451,6 +459,10 @@ class _SignupWidgetState extends State<SignupWidget>
                                               fillColor:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
+                                              contentPadding:
+                                                  EdgeInsetsDirectional
+                                                      .fromSTEB(10.0, 18.0, 0.0,
+                                                          18.0),
                                               suffixIcon: InkWell(
                                                 onTap: () => setState(
                                                   () => _model

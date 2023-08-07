@@ -1,24 +1,6 @@
 {
   "indexes": [
     {
-      "collectionGroup": "Car",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "car_status",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "district",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "car_name",
-          "order": "ASCENDING"
-        }
-      ]
-    },
-    {
       "collectionGroup": "Booking",
       "queryScope": "COLLECTION_GROUP",
       "fields": [

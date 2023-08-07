@@ -1,6 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/components/empty/empty_widget.dart';
+import '/components/referrals/referrals_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -364,7 +364,7 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                                           [])
                                       .toList();
                               if (referrals.isEmpty) {
-                                return EmptyWidget();
+                                return ReferralsWidget();
                               }
                               return ListView.separated(
                                 padding: EdgeInsets.symmetric(vertical: 8.0),

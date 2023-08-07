@@ -160,7 +160,7 @@ class _PasswordresetWidgetState extends State<PasswordresetWidget> {
                             fillColor: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
                             contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                16.0, 24.0, 0.0, 24.0),
+                                16.0, 18.0, 0.0, 18.0),
                           ),
                           style: FlutterFlowTheme.of(context)
                               .titleMedium

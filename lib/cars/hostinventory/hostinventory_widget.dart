@@ -184,7 +184,7 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                 logFirebaseEvent('FloatingActionButton_navigate_to');
 
                 context.pushNamed(
-                  'Addcar',
+                  'Add_car',
                   extra: <String, dynamic>{
                     kTransitionInfoKey: TransitionInfo(
                       hasTransition: true,
@@ -206,7 +206,7 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                   logFirebaseEvent('Icon_navigate_to');
 
                   context.pushNamed(
-                    'Addcar',
+                    'Add_car',
                     extra: <String, dynamic>{
                       kTransitionInfoKey: TransitionInfo(
                         hasTransition: true,
@@ -434,7 +434,7 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                             Flexible(
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 12.0, 0.0, 0.0),
+                                    0.0, 12.0, 0.0, 20.0),
                                 child: AuthUserStreamWidget(
                                   builder: (context) => DefaultTabController(
                                     length: 2,
@@ -1082,7 +1082,7 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                             Flexible(
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 12.0, 0.0, 0.0),
+                                    0.0, 12.0, 0.0, 20.0),
                                 child: AuthUserStreamWidget(
                                   builder: (context) => DefaultTabController(
                                     length: 3,

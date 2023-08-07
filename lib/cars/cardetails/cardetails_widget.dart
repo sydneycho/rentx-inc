@@ -10,7 +10,6 @@ import '/components/vendor/vendor_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
@@ -24,7 +23,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'cardetails_model.dart';
@@ -261,7 +259,7 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                 0.0, 12.0, 0.0, 12.0),
                             child: Container(
                               width: MediaQuery.sizeOf(context).width * 0.95,
-                              height: MediaQuery.sizeOf(context).height * 0.3,
+                              height: MediaQuery.sizeOf(context).height * 0.35,
                               child: Stack(
                                 children: [
                                   PageView(
@@ -394,137 +392,6 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                 .secondaryText,
                                             fontSize: 18.0,
                                           ),
-                                    ),
-                                    ToggleIcon(
-                                      onPressed: () async {
-                                        setState(() =>
-                                            FFAppState().favoriteswitch =
-                                                !FFAppState().favoriteswitch);
-                                        logFirebaseEvent(
-                                            'CARDETAILS_ToggleIcon_y5bvwd2h_ON_TOGGLE');
-                                        if (FFAppState().favoriteswitch) {
-                                          logFirebaseEvent(
-                                              'ToggleIcon_update_app_state');
-                                          setState(() {
-                                            FFAppState().addToFavorite(
-                                                widget.productref!);
-                                          });
-                                          logFirebaseEvent(
-                                              'ToggleIcon_play_sound');
-                                          _model.soundPlayer1 ??= AudioPlayer();
-                                          if (_model.soundPlayer1!.playing) {
-                                            await _model.soundPlayer1!.stop();
-                                          }
-                                          _model.soundPlayer1!.setVolume(1.0);
-                                          _model.soundPlayer1!
-                                              .setAsset(
-                                                  'assets/audios/QKTA234-pop.mp3')
-                                              .then((_) =>
-                                                  _model.soundPlayer1!.play());
-
-                                          logFirebaseEvent(
-                                              'ToggleIcon_update_app_state');
-                                          setState(() {
-                                            FFAppState().favoriteswitch = true;
-                                          });
-                                          logFirebaseEvent(
-                                              'ToggleIcon_show_snack_bar');
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Car added to the favorite list',
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryText,
-                                                ),
-                                              ),
-                                              duration:
-                                                  Duration(milliseconds: 4000),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryBackground,
-                                              action: SnackBarAction(
-                                                label: 'Check',
-                                                textColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                onPressed: () async {
-                                                  context.pushNamed('Favorite');
-                                                },
-                                              ),
-                                            ),
-                                          );
-                                        } else {
-                                          logFirebaseEvent(
-                                              'ToggleIcon_update_app_state');
-                                          setState(() {
-                                            FFAppState().removeFromFavorite(
-                                                widget.productref!);
-                                          });
-                                          logFirebaseEvent(
-                                              'ToggleIcon_play_sound');
-                                          _model.soundPlayer2 ??= AudioPlayer();
-                                          if (_model.soundPlayer2!.playing) {
-                                            await _model.soundPlayer2!.stop();
-                                          }
-                                          _model.soundPlayer2!.setVolume(1.0);
-                                          _model.soundPlayer2!
-                                              .setAsset(
-                                                  'assets/audios/QKTA234-pop.mp3')
-                                              .then((_) =>
-                                                  _model.soundPlayer2!.play());
-
-                                          logFirebaseEvent(
-                                              'ToggleIcon_update_app_state');
-                                          setState(() {
-                                            FFAppState().favoriteswitch = false;
-                                          });
-                                          logFirebaseEvent(
-                                              'ToggleIcon_show_snack_bar');
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Car removed  from the favorite list',
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryText,
-                                                ),
-                                              ),
-                                              duration:
-                                                  Duration(milliseconds: 4000),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryBackground,
-                                              action: SnackBarAction(
-                                                label: 'Check',
-                                                textColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                onPressed: () async {
-                                                  context.pushNamed('Favorite');
-                                                },
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      value: FFAppState().favoriteswitch,
-                                      onIcon: Icon(
-                                        Icons.favorite_sharp,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        size: 24.0,
-                                      ),
-                                      offIcon: Icon(
-                                        Icons.favorite_border,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                        size: 24.0,
-                                      ),
                                     ),
                                   ],
                                 ),
@@ -1860,14 +1727,6 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                                 ''
                                                             ? cardetailsCarRecord
                                                                 .district
-                                                            : null)
-                                                .where('car_name',
-                                                    isNotEqualTo:
-                                                        cardetailsCarRecord
-                                                                    .carName !=
-                                                                ''
-                                                            ? cardetailsCarRecord
-                                                                .carName
                                                             : null),
                                           ),
                                         ),
@@ -1961,7 +1820,7 @@ class _CardetailsWidgetState extends State<CardetailsWidget>
                                                               MediaQuery.sizeOf(
                                                                           context)
                                                                       .height *
-                                                                  0.28,
+                                                                  0.25,
                                                           fit: BoxFit.cover,
                                                         ),
                                                       ),

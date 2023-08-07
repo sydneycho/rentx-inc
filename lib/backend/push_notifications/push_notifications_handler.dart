@@ -114,7 +114,6 @@ final parametersBuilderMap =
           'productref': getParameter<DocumentReference>(data, 'productref'),
         },
       ),
-  'Favorite': ParameterData.none(),
   'Profile': ParameterData.none(),
   'passwordreset': ParameterData.none(),
   'createuser': ParameterData.none(),
@@ -158,7 +157,7 @@ final parametersBuilderMap =
           'editcar': getParameter<DocumentReference>(data, 'editcar'),
         },
       ),
-  'Addcar': ParameterData.none(),
+  'Add_car': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

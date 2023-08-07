@@ -11,6 +11,7 @@ import '/flutter_flow/permissions_util.dart';
 import '/flutter_flow/request_manager.dart';
 
 import 'package:badges/badges.dart' as badges;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

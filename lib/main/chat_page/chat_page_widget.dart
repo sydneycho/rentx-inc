@@ -117,49 +117,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
             ),
           ],
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 15.0, 0.0),
-            child: Semantics(
-              label: 'Delete chat button',
-              child: InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () async {
-                  logFirebaseEvent('CHAT_PAGE_PAGE_Icon_xyp5exxl_ON_TAP');
-                  logFirebaseEvent('Icon_backend_call');
-                  await widget.chatUser!.reference.delete();
-                  logFirebaseEvent('Icon_alert_dialog');
-                  await showDialog(
-                    context: context,
-                    builder: (alertDialogContext) {
-                      return AlertDialog(
-                        title: Text('Chat deleted'),
-                        content: Text('The chat is deleted successfully.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(alertDialogContext),
-                            child: Text('Ok'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                  logFirebaseEvent('Icon_navigate_to');
-
-                  context.pushNamed('AllChatsPage');
-                },
-                child: Icon(
-                  Icons.delete_sweep,
-                  color: FlutterFlowTheme.of(context).primaryBackground,
-                  size: 28.0,
-                ),
-              ),
-            ),
-          ),
-        ],
+        actions: [],
         centerTitle: false,
         elevation: 2.0,
       ),

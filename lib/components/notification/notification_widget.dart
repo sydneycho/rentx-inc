@@ -209,247 +209,287 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                 return Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 1.0),
-                                  child: Container(
-                                    width: 100.0,
-                                    height: 110.0,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 0.0,
-                                          color: Color(0xFFE0E3E7),
-                                          offset: Offset(0.0, 1.0),
-                                        )
-                                      ],
-                                      border: Border.all(
-                                        color: listViewNotificationRecord
-                                                    .notificationStatus ==
-                                                'new'
-                                            ? FlutterFlowTheme.of(context)
-                                                .accent3
-                                            : Color(0x00000000),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 2.0, 0.0, 2.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    16.0, 8.0, 0.0, 8.0),
-                                            child: Container(
-                                              width: 4.0,
-                                              height: 100.0,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                borderRadius:
-                                                    BorderRadius.circular(4.0),
-                                              ),
-                                            ),
+                                  child: InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () async {
+                                      logFirebaseEvent(
+                                          'NOTIFICATION_Container_7oo5xqo6_ON_TAP');
+                                      logFirebaseEvent('Container_navigate_to');
+
+                                      context.pushNamed(
+                                        'Notificationdetail',
+                                        queryParameters: {
+                                          'notificationDetail': serializeParam(
+                                            listViewNotificationRecord
+                                                .reference,
+                                            ParamType.DocumentReference,
                                           ),
-                                          Expanded(
-                                            child: Padding(
+                                        }.withoutNulls,
+                                        extra: <String, dynamic>{
+                                          kTransitionInfoKey: TransitionInfo(
+                                            hasTransition: true,
+                                            transitionType:
+                                                PageTransitionType.rightToLeft,
+                                            duration:
+                                                Duration(milliseconds: 250),
+                                          ),
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                      width: 100.0,
+                                      height: 110.0,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 0.0,
+                                            color: Color(0xFFE0E3E7),
+                                            offset: Offset(0.0, 1.0),
+                                          )
+                                        ],
+                                        border: Border.all(
+                                          color: listViewNotificationRecord
+                                                      .notificationStatus ==
+                                                  'new'
+                                              ? FlutterFlowTheme.of(context)
+                                                  .accent3
+                                              : Color(0x00000000),
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 2.0, 0.0, 2.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(
-                                                      12.0, 12.0, 12.0, 0.0),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 4.0),
-                                                    child: Text(
+                                                      16.0, 8.0, 0.0, 8.0),
+                                              child: Container(
+                                                width: 4.0,
+                                                height: 100.0,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primary,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        12.0, 12.0, 12.0, 0.0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  4.0),
+                                                      child: Text(
+                                                        listViewNotificationRecord
+                                                            .notificationName,
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .labelSmall
+                                                            .override(
+                                                              fontFamily:
+                                                                  'Plus Jakarta Sans',
+                                                              color: Color(
+                                                                  0xFF57636C),
+                                                              fontSize: 12.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                    Text(
                                                       listViewNotificationRecord
-                                                          .notificationName,
+                                                          .notificationMessage,
+                                                      maxLines: 3,
                                                       style: FlutterFlowTheme
                                                               .of(context)
-                                                          .labelSmall
+                                                          .labelMedium
                                                           .override(
                                                             fontFamily:
                                                                 'Plus Jakarta Sans',
                                                             color: Color(
                                                                 0xFF57636C),
-                                                            fontSize: 12.0,
+                                                            fontSize: 14.0,
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                           ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    listViewNotificationRecord
-                                                        .notificationMessage,
-                                                    maxLines: 3,
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .labelMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              'Plus Jakarta Sans',
-                                                          color:
-                                                              Color(0xFF57636C),
-                                                          fontSize: 14.0,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 8.0,
-                                                                0.0, 0.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      4.0,
-                                                                      0.0),
-                                                          child: Text(
-                                                            'Sent: ',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodySmall
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Plus Jakarta Sans',
-                                                                  color: Color(
-                                                                      0xFF14181B),
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            dateTimeFormat(
-                                                              'relative',
-                                                              listViewNotificationRecord
-                                                                  .createdAt!,
-                                                              locale: FFLocalizations
-                                                                      .of(context)
-                                                                  .languageCode,
-                                                            ),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Plus Jakarta Sans',
-                                                                  color: Color(
-                                                                      0xFF14181B),
-                                                                  fontSize:
-                                                                      14.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                          ),
-                                                        ),
-                                                        if (listViewNotificationRecord
-                                                                .notificationStatus ==
-                                                            'new')
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  8.0,
+                                                                  0.0,
+                                                                  0.0),
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
                                                           Padding(
                                                             padding:
                                                                 EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         0.0,
                                                                         0.0,
-                                                                        8.0,
+                                                                        4.0,
                                                                         0.0),
-                                                            child: badges.Badge(
-                                                              badgeContent:
-                                                                  Text(
-                                                                '1',
-                                                                style: FlutterFlowTheme.of(
+                                                            child: Text(
+                                                              'Sent: ',
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodySmall
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Plus Jakarta Sans',
+                                                                    color: Color(
+                                                                        0xFF14181B),
+                                                                    fontSize:
+                                                                        12.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              dateTimeFormat(
+                                                                'relative',
+                                                                listViewNotificationRecord
+                                                                    .createdAt!,
+                                                                locale: FFLocalizations.of(
                                                                         context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Plus Jakarta Sans',
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          14.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
+                                                                    .languageCode,
                                                               ),
-                                                              showBadge: true,
-                                                              shape: badges
-                                                                  .BadgeShape
-                                                                  .circle,
-                                                              badgeColor:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primary,
-                                                              elevation: 4.0,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Plus Jakarta Sans',
+                                                                    color: Color(
+                                                                        0xFF14181B),
+                                                                    fontSize:
+                                                                        14.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                          if (listViewNotificationRecord
+                                                                  .notificationStatus ==
+                                                              'new')
+                                                            Padding(
                                                               padding:
                                                                   EdgeInsetsDirectional
                                                                       .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
                                                                           8.0,
-                                                                          8.0,
-                                                                          8.0,
-                                                                          8.0),
-                                                              position: badges
-                                                                      .BadgePosition
-                                                                  .topStart(),
-                                                              animationType: badges
-                                                                  .BadgeAnimationType
-                                                                  .scale,
-                                                              toAnimate: true,
-                                                              child: Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            16.0,
-                                                                            4.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                child: Text(
-                                                                  '${listViewNotificationRecord.notificationStatus}',
+                                                                          0.0),
+                                                              child:
+                                                                  badges.Badge(
+                                                                badgeContent:
+                                                                    Text(
+                                                                  '1',
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium
                                                                       .override(
                                                                         fontFamily:
                                                                             'Plus Jakarta Sans',
-                                                                        color: Color(
-                                                                            0xFF4B39EF),
+                                                                        color: Colors
+                                                                            .white,
                                                                         fontSize:
                                                                             14.0,
                                                                         fontWeight:
                                                                             FontWeight.w500,
                                                                       ),
                                                                 ),
+                                                                showBadge: true,
+                                                                shape: badges
+                                                                    .BadgeShape
+                                                                    .circle,
+                                                                badgeColor:
+                                                                    FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primary,
+                                                                elevation: 4.0,
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            8.0,
+                                                                            8.0,
+                                                                            8.0,
+                                                                            8.0),
+                                                                position: badges
+                                                                        .BadgePosition
+                                                                    .topStart(),
+                                                                animationType:
+                                                                    badges
+                                                                        .BadgeAnimationType
+                                                                        .scale,
+                                                                toAnimate: true,
+                                                                child: Padding(
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          16.0,
+                                                                          4.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                                  child: Text(
+                                                                    '${listViewNotificationRecord.notificationStatus}',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Plus Jakarta Sans',
+                                                                          color:
+                                                                              Color(0xFF4B39EF),
+                                                                          fontSize:
+                                                                              14.0,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),

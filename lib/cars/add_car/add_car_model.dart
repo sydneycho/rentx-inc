@@ -14,25 +14,25 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class AddcarModel extends FlutterFlowModel {
+class AddCarModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
-  // State field(s) for TextField widget.
-  TextEditingController? textController1;
-  String? Function(BuildContext, String?)? textController1Validator;
-  // State field(s) for TextField widget.
-  TextEditingController? textController2;
-  String? Function(BuildContext, String?)? textController2Validator;
+  // State field(s) for Carname widget.
+  TextEditingController? carnameController;
+  String? Function(BuildContext, String?)? carnameControllerValidator;
+  // State field(s) for Brandname widget.
+  TextEditingController? brandnameController;
+  String? Function(BuildContext, String?)? brandnameControllerValidator;
   // State field(s) for TextField widget.
   TextEditingController? textController3;
   String? Function(BuildContext, String?)? textController3Validator;
-  // State field(s) for TextField widget.
-  TextEditingController? textController4;
-  String? Function(BuildContext, String?)? textController4Validator;
-  // State field(s) for TextField widget.
-  TextEditingController? textController5;
-  String? Function(BuildContext, String?)? textController5Validator;
+  // State field(s) for Phonenumber widget.
+  TextEditingController? phonenumberController;
+  String? Function(BuildContext, String?)? phonenumberControllerValidator;
+  // State field(s) for carcolor widget.
+  TextEditingController? carcolorController;
+  String? Function(BuildContext, String?)? carcolorControllerValidator;
   // State field(s) for TextField widget.
   TextEditingController? textController6;
   String? Function(BuildContext, String?)? textController6Validator;
@@ -45,12 +45,12 @@ class AddcarModel extends FlutterFlowModel {
   // State field(s) for Districts widget.
   String? districtsValue;
   FormFieldController<String>? districtsValueController;
-  // State field(s) for TextField widget.
-  TextEditingController? textController7;
-  String? Function(BuildContext, String?)? textController7Validator;
-  // State field(s) for TextField widget.
-  TextEditingController? textController8;
-  String? Function(BuildContext, String?)? textController8Validator;
+  // State field(s) for Description widget.
+  TextEditingController? descriptionController;
+  String? Function(BuildContext, String?)? descriptionControllerValidator;
+  // State field(s) for Notes widget.
+  TextEditingController? notesController;
+  String? Function(BuildContext, String?)? notesControllerValidator;
   bool isDataUploading = false;
   List<FFUploadedFile> uploadedLocalFiles = [];
   List<String> uploadedFileUrls = [];
@@ -61,14 +61,14 @@ class AddcarModel extends FlutterFlowModel {
 
   void dispose() {
     unfocusNode.dispose();
-    textController1?.dispose();
-    textController2?.dispose();
+    carnameController?.dispose();
+    brandnameController?.dispose();
     textController3?.dispose();
-    textController4?.dispose();
-    textController5?.dispose();
+    phonenumberController?.dispose();
+    carcolorController?.dispose();
     textController6?.dispose();
-    textController7?.dispose();
-    textController8?.dispose();
+    descriptionController?.dispose();
+    notesController?.dispose();
   }
 
   /// Action blocks are added here.
