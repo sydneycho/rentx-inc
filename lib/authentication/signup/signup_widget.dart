@@ -140,7 +140,7 @@ class _SignupWidgetState extends State<SignupWidget>
                       children: [
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 60.0, 0.0, 20.0),
+                              0.0, 10.0, 0.0, 0.0),
                           child: Container(
                             width: 200.0,
                             height: 70.0,
@@ -161,7 +161,7 @@ class _SignupWidgetState extends State<SignupWidget>
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 16.0, 0.0, 16.0),
+                              0.0, 2.0, 0.0, 16.0),
                           child: Container(
                             width: MediaQuery.sizeOf(context).width * 0.9,
                             constraints: BoxConstraints(
@@ -280,8 +280,8 @@ class _SignupWidgetState extends State<SignupWidget>
                                                       .primaryBackground,
                                               contentPadding:
                                                   EdgeInsetsDirectional
-                                                      .fromSTEB(10.0, 18.0, 0.0,
-                                                          18.0),
+                                                      .fromSTEB(10.0, 10.0, 0.0,
+                                                          10.0),
                                             ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyLarge,
@@ -361,8 +361,8 @@ class _SignupWidgetState extends State<SignupWidget>
                                                       .primaryBackground,
                                               contentPadding:
                                                   EdgeInsetsDirectional
-                                                      .fromSTEB(10.0, 18.0, 0.0,
-                                                          18.0),
+                                                      .fromSTEB(10.0, 10.0, 0.0,
+                                                          10.0),
                                               suffixIcon: InkWell(
                                                 onTap: () => setState(
                                                   () => _model
@@ -461,8 +461,8 @@ class _SignupWidgetState extends State<SignupWidget>
                                                       .primaryBackground,
                                               contentPadding:
                                                   EdgeInsetsDirectional
-                                                      .fromSTEB(10.0, 18.0, 0.0,
-                                                          18.0),
+                                                      .fromSTEB(10.0, 10.0, 0.0,
+                                                          10.0),
                                               suffixIcon: InkWell(
                                                 onTap: () => setState(
                                                   () => _model
@@ -538,19 +538,9 @@ class _SignupWidgetState extends State<SignupWidget>
                                                   userStatus: 'approved',
                                                   isAdmin: false,
                                                   userRef: FFAppState().userRef,
+                                                  time: getCurrentTimestamp,
                                                 ));
 
-                                            logFirebaseEvent(
-                                                'Button_backend_call');
-
-                                            await widget.userRef!.update({
-                                              'user_refs':
-                                                  FieldValue.arrayUnion(
-                                                      [currentUserReference]),
-                                            });
-                                            logFirebaseEvent('Button_auth');
-                                            await authManager
-                                                .sendEmailVerification();
                                             logFirebaseEvent(
                                                 'Button_navigate_to');
 
@@ -569,6 +559,18 @@ class _SignupWidgetState extends State<SignupWidget>
                                                 ),
                                               },
                                             );
+
+                                            logFirebaseEvent(
+                                                'Button_backend_call');
+
+                                            await widget.userRef!.update({
+                                              'user_refs':
+                                                  FieldValue.arrayUnion(
+                                                      [currentUserReference]),
+                                            });
+                                            logFirebaseEvent('Button_auth');
+                                            await authManager
+                                                .sendEmailVerification();
                                           },
                                           text: 'Create Account',
                                           options: FFButtonOptions(
@@ -627,6 +629,16 @@ class _SignupWidgetState extends State<SignupWidget>
                                             if (user == null) {
                                               return;
                                             }
+                                            logFirebaseEvent(
+                                                'Button_backend_call');
+
+                                            await currentUserReference!
+                                                .update(createUserRecordData(
+                                              userStatus: 'approved',
+                                              isAdmin: false,
+                                              isHost: false,
+                                              time: getCurrentTimestamp,
+                                            ));
                                             logFirebaseEvent(
                                                 'Button_navigate_to');
 
@@ -695,10 +707,34 @@ class _SignupWidgetState extends State<SignupWidget>
                                                   return;
                                                 }
                                                 logFirebaseEvent(
+                                                    'Button_backend_call');
+
+                                                await currentUserReference!
+                                                    .update(
+                                                        createUserRecordData(
+                                                  userStatus: 'approved',
+                                                  isAdmin: false,
+                                                  isHost: false,
+                                                  time: getCurrentTimestamp,
+                                                ));
+                                                logFirebaseEvent(
                                                     'Button_navigate_to');
 
                                                 context.goNamedAuth(
-                                                    'Home', context.mounted);
+                                                  'Home',
+                                                  context.mounted,
+                                                  extra: <String, dynamic>{
+                                                    kTransitionInfoKey:
+                                                        TransitionInfo(
+                                                      hasTransition: true,
+                                                      transitionType:
+                                                          PageTransitionType
+                                                              .rightToLeft,
+                                                      duration: Duration(
+                                                          milliseconds: 300),
+                                                    ),
+                                                  },
+                                                );
                                               },
                                               text: 'Continue with Apple',
                                               icon: FaIcon(

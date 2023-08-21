@@ -54,7 +54,7 @@
 	<true/>
 
 	<key>NSCameraUsageDescription</key>
-    <string>In order to book the car ,this app requires permission to access the camera</string>
+    <string>In order to access all the features  ,this app requires permission to access the camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
     <string>In order to upload the photo ,this app requires permission to access the camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

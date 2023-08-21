@@ -12,10 +12,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
 
-class SearchModel extends FlutterFlowModel {
-  ///  State fields for stateful widgets in this page.
+class SearchresultsModel extends FlutterFlowModel {
+  ///  State fields for stateful widgets in this component.
 
-  final unfocusNode = FocusNode();
   // State field(s) for TextField widget.
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
@@ -26,7 +25,6 @@ class SearchModel extends FlutterFlowModel {
   void initState(BuildContext context) {}
 
   void dispose() {
-    unfocusNode.dispose();
     textController?.dispose();
   }
 

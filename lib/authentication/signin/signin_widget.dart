@@ -1,8 +1,10 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -130,7 +132,7 @@ class _SigninWidgetState extends State<SigninWidget>
                   children: [
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 20.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                       child: Container(
                         width: 200.0,
                         height: 70.0,
@@ -268,7 +270,7 @@ class _SigninWidgetState extends State<SigninWidget>
                                                     .primaryBackground,
                                             contentPadding:
                                                 EdgeInsetsDirectional.fromSTEB(
-                                                    10.0, 18.0, 0.0, 18.0),
+                                                    10.0, 10.0, 0.0, 10.0),
                                           ),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge,
@@ -348,7 +350,7 @@ class _SigninWidgetState extends State<SigninWidget>
                                                     .primaryBackground,
                                             contentPadding:
                                                 EdgeInsetsDirectional.fromSTEB(
-                                                    10.0, 18.0, 0.0, 18.0),
+                                                    10.0, 10.0, 0.0, 10.0),
                                             suffixIcon: InkWell(
                                               onTap: () => setState(
                                                 () => _model
@@ -454,8 +456,21 @@ class _SigninWidgetState extends State<SigninWidget>
                                           return;
                                         }
 
+                                        logFirebaseEvent('Button_navigate_to');
+
                                         context.goNamedAuth(
-                                            'Home', context.mounted);
+                                          'Home',
+                                          context.mounted,
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType: PageTransitionType
+                                                  .rightToLeft,
+                                              duration:
+                                                  Duration(milliseconds: 300),
+                                            ),
+                                          },
+                                        );
                                       },
                                       text: 'Sign In',
                                       options: FFButtonOptions(
@@ -512,6 +527,15 @@ class _SigninWidgetState extends State<SigninWidget>
                                             return;
                                           }
                                           logFirebaseEvent(
+                                              'Button_backend_call');
+
+                                          await currentUserReference!
+                                              .update(createUserRecordData(
+                                            userStatus: 'approved',
+                                            isAdmin: false,
+                                            isHost: false,
+                                          ));
+                                          logFirebaseEvent(
                                               'Button_navigate_to');
 
                                           context.goNamedAuth(
@@ -522,11 +546,10 @@ class _SigninWidgetState extends State<SigninWidget>
                                                   TransitionInfo(
                                                 hasTransition: true,
                                                 transitionType:
-                                                    PageTransitionType.scale,
-                                                alignment:
-                                                    Alignment.bottomCenter,
+                                                    PageTransitionType
+                                                        .rightToLeft,
                                                 duration:
-                                                    Duration(milliseconds: 250),
+                                                    Duration(milliseconds: 300),
                                               ),
                                             },
                                           );
@@ -591,10 +614,32 @@ class _SigninWidgetState extends State<SigninWidget>
                                                 return;
                                               }
                                               logFirebaseEvent(
+                                                  'Button_backend_call');
+
+                                              await currentUserReference!
+                                                  .update(createUserRecordData(
+                                                userStatus: 'approved',
+                                                isAdmin: false,
+                                                isHost: false,
+                                              ));
+                                              logFirebaseEvent(
                                                   'Button_navigate_to');
 
                                               context.goNamedAuth(
-                                                  'Home', context.mounted);
+                                                'Home',
+                                                context.mounted,
+                                                extra: <String, dynamic>{
+                                                  kTransitionInfoKey:
+                                                      TransitionInfo(
+                                                    hasTransition: true,
+                                                    transitionType:
+                                                        PageTransitionType
+                                                            .rightToLeft,
+                                                    duration: Duration(
+                                                        milliseconds: 300),
+                                                  ),
+                                                },
+                                              );
                                             },
                                             text: 'Continue with Apple',
                                             icon: FaIcon(
@@ -646,7 +691,7 @@ class _SigninWidgetState extends State<SigninWidget>
                                   // Navigate to sign up page
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        12.0, 12.0, 12.0, 12.0),
+                                        12.0, 12.0, 12.0, 8.0),
                                     child: Semantics(
                                       label: 'Navigate to sign up page',
                                       child: InkWell(

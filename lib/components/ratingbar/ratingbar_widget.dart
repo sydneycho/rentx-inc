@@ -57,7 +57,7 @@ class _RatingbarWidgetState extends State<RatingbarWidget> {
               setState(() => _model.ratingBarValue = newValue),
           itemBuilder: (context, index) => Icon(
             Icons.star_rounded,
-            color: Color(0xFF39D2C0),
+            color: FlutterFlowTheme.of(context).primary,
           ),
           direction: Axis.horizontal,
           initialRating: _model.ratingBarValue ??=
@@ -65,7 +65,7 @@ class _RatingbarWidgetState extends State<RatingbarWidget> {
           unratedColor: Color(0xFFE0E3E7),
           itemCount: 5,
           itemSize: 18.0,
-          glowColor: Color(0xFF39D2C0),
+          glowColor: FlutterFlowTheme.of(context).primary,
         ),
       ),
     );

@@ -115,8 +115,8 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                     buttonSize: 50.0,
                                     icon: Icon(
                                       Icons.close_rounded,
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
                                       size: 24.0,
                                     ),
                                     onPressed: () async {
@@ -209,7 +209,8 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
-                                      fontSize: 18.0,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                 validator: _model.textController1Validator
                                     .asValidator(context),
@@ -282,7 +283,8 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
-                                      fontSize: 18.0,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                 validator: _model.textController2Validator
                                     .asValidator(context),
@@ -361,7 +363,8 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
-                                      fontSize: 18.0,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                 validator: _model.textController3Validator
                                     .asValidator(context),
@@ -434,7 +437,8 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
-                                      fontSize: 18.0,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                 validator: _model.textController4Validator
                                     .asValidator(context),
@@ -496,7 +500,8 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
-                                      fontSize: 18.0,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                 validator: _model.textController5Validator
                                     .asValidator(context),
@@ -569,7 +574,8 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
-                                      fontSize: 18.0,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                 validator: _model.textController6Validator
                                     .asValidator(context),
@@ -622,6 +628,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                     20.0, 4.0, 12.0, 4.0),
                                 hidesUnderline: true,
                                 isSearchable: true,
+                                isMultiSelect: false,
                               ),
                             ),
                             Padding(
@@ -670,6 +677,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                     20.0, 4.0, 12.0, 4.0),
                                 hidesUnderline: true,
                                 isSearchable: true,
+                                isMultiSelect: false,
                               ),
                             ),
                             AuthUserStreamWidget(
@@ -831,6 +839,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                     20.0, 4.0, 12.0, 4.0),
                                 hidesUnderline: true,
                                 isSearchable: true,
+                                isMultiSelect: false,
                               ),
                             ),
                             Padding(
@@ -892,7 +901,8 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
-                                      fontSize: 18.0,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                 maxLines: 4,
                                 validator: _model.textController7Validator
@@ -961,7 +971,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                       fontFamily: 'Open Sans',
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
-                                      fontSize: 18.0,
+                                      fontSize: 16.0,
                                     ),
                                 maxLines: 4,
                                 validator: _model.textController8Validator

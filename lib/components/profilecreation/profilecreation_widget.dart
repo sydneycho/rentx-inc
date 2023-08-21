@@ -45,7 +45,7 @@ class _ProfilecreationWidgetState extends State<ProfilecreationWidget> {
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),
       child: Container(
-        width: MediaQuery.sizeOf(context).width * 0.6,
+        width: MediaQuery.sizeOf(context).width * 0.8,
         height: 400.0,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -186,7 +186,7 @@ class _ProfilecreationWidgetState extends State<ProfilecreationWidget> {
                         color: Colors.transparent,
                         width: 1.0,
                       ),
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(4.0),
                     ),
                   ),
                 ),

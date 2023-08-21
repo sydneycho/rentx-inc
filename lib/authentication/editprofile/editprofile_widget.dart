@@ -654,6 +654,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                               20.0, 4.0, 12.0, 4.0),
                           hidesUnderline: true,
                           isSearchable: true,
+                          isMultiSelect: false,
                         ),
                       ),
                     ),

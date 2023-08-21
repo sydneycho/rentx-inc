@@ -301,7 +301,7 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                                       Icon(
                                         Icons.send_rounded,
                                         color: FlutterFlowTheme.of(context)
-                                            .secondary,
+                                            .primary,
                                         size: 28.0,
                                       ),
                                     ],

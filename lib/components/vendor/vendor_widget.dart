@@ -1,7 +1,7 @@
 import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -71,24 +71,43 @@ class _VendorWidgetState extends State<VendorWidget> {
             width: MediaQuery.sizeOf(context).width * 0.8,
             decoration: BoxDecoration(
               color: FlutterFlowTheme.of(context).secondaryBackground,
-              borderRadius: BorderRadius.circular(12.0),
+              borderRadius: BorderRadius.circular(10.0),
             ),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 10.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0),
-                      child: Image.network(
-                        containerCarRecord.vendorPhoto,
-                        width: MediaQuery.sizeOf(context).width * 0.8,
-                        height: MediaQuery.sizeOf(context).height * 0.3,
-                        fit: BoxFit.cover,
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            10.0, 10.0, 10.0, 10.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(2.0),
+                          child: Image.network(
+                            containerCarRecord.vendorPhoto,
+                            width: MediaQuery.sizeOf(context).width * 0.8,
+                            height: MediaQuery.sizeOf(context).height * 0.3,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ),
+                      FlutterFlowIconButton(
+                        borderRadius: 20.0,
+                        buttonSize: 40.0,
+                        icon: Icon(
+                          Icons.cancel_presentation,
+                          color: FlutterFlowTheme.of(context).primary,
+                          size: 24.0,
+                        ),
+                        onPressed: () async {
+                          logFirebaseEvent(
+                              'VENDOR_cancel_presentation_ICN_ON_TAP');
+                          logFirebaseEvent('IconButton_bottom_sheet');
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
                   ),
                   Padding(
                     padding:
@@ -140,37 +159,6 @@ class _VendorWidgetState extends State<VendorWidget> {
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
-                    child: FFButtonWidget(
-                      onPressed: () async {
-                        logFirebaseEvent('VENDOR_COMP_GO_BACK_BTN_ON_TAP');
-                        logFirebaseEvent('Button_navigate_back');
-                        context.safePop();
-                      },
-                      text: 'Go back',
-                      options: FFButtonOptions(
-                        height: 40.0,
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            24.0, 0.0, 24.0, 0.0),
-                        iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: FlutterFlowTheme.of(context).primary,
-                        textStyle:
-                            FlutterFlowTheme.of(context).titleSmall.override(
-                                  fontFamily: 'Open Sans',
-                                  color: Colors.white,
-                                ),
-                        elevation: 3.0,
-                        borderSide: BorderSide(
-                          color: Colors.transparent,
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
                     ),
                   ),
                 ],

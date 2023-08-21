@@ -1,3 +1,4 @@
+import '/components/contact/contact_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -851,9 +852,24 @@ class _HelpWidgetState extends State<HelpWidget> {
                                     logFirebaseEvent(
                                         'HELP_PAGE_materialList_Item_4_ON_TAP');
                                     logFirebaseEvent(
-                                        'materialList_Item_4_navigate_to');
-
-                                    context.pushNamed('Contact');
+                                        'materialList_Item_4_bottom_sheet');
+                                    await showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      enableDrag: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return GestureDetector(
+                                          onTap: () => FocusScope.of(context)
+                                              .requestFocus(_model.unfocusNode),
+                                          child: Padding(
+                                            padding: MediaQuery.viewInsetsOf(
+                                                context),
+                                            child: ContactWidget(),
+                                          ),
+                                        );
+                                      },
+                                    ).then((value) => setState(() {}));
                                   },
                                   child: Container(
                                     width: double.infinity,

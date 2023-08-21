@@ -89,10 +89,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               appStateNotifier.loggedIn ? NavBarPage() : SigninWidget(),
           routes: [
             FFRoute(
-              name: 'Cardetails',
-              path: 'cardetails',
+              name: 'Detail',
+              path: 'detail',
               requireAuth: true,
-              builder: (context, params) => CardetailsWidget(
+              builder: (context, params) => DetailWidget(
                 productref: params.getParam(
                     'productref', ParamType.DocumentReference, false, ['Car']),
               ),
@@ -127,27 +127,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'Wallet',
               path: 'wallet',
               requireAuth: true,
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'Wallet')
-                  : WalletWidget(),
+              builder: (context, params) => WalletWidget(),
             ),
             FFRoute(
               name: 'Hostinventory',
               path: 'hostinventory',
               requireAuth: true,
-              builder: (context, params) => HostinventoryWidget(),
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'Hostinventory')
+                  : HostinventoryWidget(),
             ),
             FFRoute(
               name: 'Help',
               path: 'help',
               requireAuth: true,
               builder: (context, params) => HelpWidget(),
-            ),
-            FFRoute(
-              name: 'Contact',
-              path: 'contact',
-              requireAuth: true,
-              builder: (context, params) => ContactWidget(),
             ),
             FFRoute(
               name: 'About_rentz',
@@ -247,12 +241,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => params.isEmpty
                   ? NavBarPage(initialPage: 'AllChatsPage')
                   : AllChatsPageWidget(),
-            ),
-            FFRoute(
-              name: 'search',
-              path: 'search',
-              requireAuth: true,
-              builder: (context, params) => SearchWidget(),
             ),
             FFRoute(
               name: 'Edit_car',

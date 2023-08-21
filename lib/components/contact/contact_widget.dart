@@ -1,7 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -24,14 +23,17 @@ class ContactWidget extends StatefulWidget {
 class _ContactWidgetState extends State<ContactWidget> {
   late ContactModel _model;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => ContactModel());
 
-    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Contact'});
     _model.yourNameController ??= TextEditingController(
         text:
             '${valueOrDefault(currentUserDocument?.firstName, '')}  ${valueOrDefault(currentUserDocument?.lastName, '')}');
@@ -40,7 +42,7 @@ class _ContactWidgetState extends State<ContactWidget> {
 
   @override
   void dispose() {
-    _model.dispose();
+    _model.maybeDispose();
 
     super.dispose();
   }
@@ -49,64 +51,62 @@ class _ContactWidgetState extends State<ContactWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-      appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primary,
-        automaticallyImplyLeading: false,
-        leading: FlutterFlowIconButton(
-          borderColor: Colors.transparent,
-          borderRadius: 30.0,
-          borderWidth: 1.0,
-          buttonSize: 50.0,
-          icon: Icon(
-            Icons.arrow_back_rounded,
-            color: FlutterFlowTheme.of(context).secondaryBackground,
-            size: 24.0,
-          ),
-          onPressed: () async {
-            logFirebaseEvent('CONTACT_arrow_back_rounded_ICN_ON_TAP');
-            logFirebaseEvent('IconButton_navigate_to');
-
-            context.pushNamed(
-              'Help',
-              extra: <String, dynamic>{
-                kTransitionInfoKey: TransitionInfo(
-                  hasTransition: true,
-                  transitionType: PageTransitionType.leftToRight,
-                  duration: Duration(milliseconds: 300),
-                ),
-              },
-            );
-          },
+    return Semantics(
+      label: 'Contact form',
+      child: Container(
+        width: () {
+          if (MediaQuery.sizeOf(context).width < kBreakpointSmall) {
+            return 380.0;
+          } else if (MediaQuery.sizeOf(context).width < kBreakpointMedium) {
+            return 500.0;
+          } else if (MediaQuery.sizeOf(context).width < kBreakpointLarge) {
+            return 600.0;
+          } else {
+            return 380.0;
+          }
+        }(),
+        decoration: BoxDecoration(
+          color: FlutterFlowTheme.of(context).secondaryBackground,
+          borderRadius: BorderRadius.circular(8.0),
         ),
-        title: Text(
-          'Contact',
-          style: FlutterFlowTheme.of(context).headlineMedium.override(
-                fontFamily: 'Open Sans',
-                color: FlutterFlowTheme.of(context).secondaryBackground,
-                fontSize: 18.0,
-              ),
-        ),
-        actions: [],
-        centerTitle: true,
-        elevation: 0.0,
-      ),
-      body: SafeArea(
-        top: true,
         child: Semantics(
           label: 'Contact rentz form',
           child: Form(
             key: _model.formKey,
             autovalidateMode: AutovalidateMode.disabled,
             child: Align(
-              alignment: AlignmentDirectional(0.0, 0.0),
+              alignment: AlignmentDirectional(0.0, -1.0),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                          20.0, 40.0, 20.0, 20.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              logFirebaseEvent(
+                                  'CONTACT_COMP_Icon_c7x980fq_ON_TAP');
+                              logFirebaseEvent('Icon_bottom_sheet');
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.cancel_rounded,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 25.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 16.0),
@@ -120,8 +120,12 @@ class _ContactWidgetState extends State<ContactWidget> {
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Your Name',
-                              labelStyle:
-                                  FlutterFlowTheme.of(context).labelMedium,
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .override(
+                                    fontFamily: 'Open Sans',
+                                    fontSize: 16.0,
+                                  ),
                               hintStyle:
                                   FlutterFlowTheme.of(context).labelMedium,
                               enabledBorder: OutlineInputBorder(
@@ -164,6 +168,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                                   fontFamily: 'Open Sans',
                                   color: FlutterFlowTheme.of(context)
                                       .secondaryText,
+                                  fontSize: 16.0,
                                 ),
                             cursorColor: FlutterFlowTheme.of(context).accent3,
                             validator: _model.yourNameControllerValidator
@@ -202,6 +207,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                               20.0, 4.0, 12.0, 4.0),
                           hidesUnderline: true,
                           isSearchable: false,
+                          isMultiSelect: false,
                         ),
                       ),
                     ),
@@ -243,6 +249,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                               20.0, 4.0, 12.0, 4.0),
                           hidesUnderline: true,
                           isSearchable: false,
+                          isMultiSelect: false,
                         ),
                       ),
                     ),
@@ -257,8 +264,12 @@ class _ContactWidgetState extends State<ContactWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'Describe',
-                            labelStyle:
-                                FlutterFlowTheme.of(context).labelMedium,
+                            labelStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: 'Open Sans',
+                                  fontSize: 16.0,
+                                ),
                             hintText: 'Describe your  query',
                             hintStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
@@ -301,7 +312,11 @@ class _ContactWidgetState extends State<ContactWidget> {
                             contentPadding: EdgeInsetsDirectional.fromSTEB(
                                 20.0, 24.0, 0.0, 24.0),
                           ),
-                          style: FlutterFlowTheme.of(context).bodyMedium,
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Open Sans',
+                                    fontSize: 16.0,
+                                  ),
                           textAlign: TextAlign.start,
                           maxLines: 3,
                           validator: _model.descriptionControllerValidator
@@ -318,50 +333,10 @@ class _ContactWidgetState extends State<ContactWidget> {
                           label: 'Send  equiry button',
                           child: FFButtonWidget(
                             onPressed: () async {
-                              logFirebaseEvent('CONTACT_PAGE_SEND_BTN_ON_TAP');
+                              logFirebaseEvent('CONTACT_COMP_SEND_BTN_ON_TAP');
                               logFirebaseEvent('Button_validate_form');
                               if (_model.formKey.currentState == null ||
                                   !_model.formKey.currentState!.validate()) {
-                                return;
-                              }
-                              if (_model.userValue == null) {
-                                await showDialog(
-                                  context: context,
-                                  builder: (alertDialogContext) {
-                                    return AlertDialog(
-                                      title: Text('User type'),
-                                      content: Text(
-                                          'Select your user type from the list .'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(alertDialogContext),
-                                          child: Text('Ok'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                                return;
-                              }
-                              if (_model.serviceTypeValue == null) {
-                                await showDialog(
-                                  context: context,
-                                  builder: (alertDialogContext) {
-                                    return AlertDialog(
-                                      title: Text('Service type'),
-                                      content: Text(
-                                          'Select yourservice type from the list .'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(alertDialogContext),
-                                          child: Text('Ok'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
                                 return;
                               }
                               logFirebaseEvent('Button_backend_call');
@@ -392,19 +367,10 @@ class _ContactWidgetState extends State<ContactWidget> {
                                   duration: Duration(milliseconds: 4000),
                                   backgroundColor: FlutterFlowTheme.of(context)
                                       .primaryBackground,
-                                  action: SnackBarAction(
-                                    label: 'Go home',
-                                    textColor: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    onPressed: () async {
-                                      context.pushNamed('Home');
-                                    },
-                                  ),
                                 ),
                               );
-                              logFirebaseEvent('Button_navigate_to');
-
-                              context.goNamed('Home');
+                              logFirebaseEvent('Button_bottom_sheet');
+                              Navigator.pop(context);
                             },
                             text: 'Send',
                             options: FFButtonOptions(

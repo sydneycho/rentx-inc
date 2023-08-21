@@ -109,8 +109,14 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: const [
         Locale('en'),
       ],
-      theme: ThemeData(brightness: Brightness.light),
-      darkTheme: ThemeData(brightness: Brightness.dark),
+      theme: ThemeData(
+        brightness: Brightness.light,
+        scrollbarTheme: ScrollbarThemeData(),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        scrollbarTheme: ScrollbarThemeData(),
+      ),
       themeMode: _themeMode,
       routerConfig: _router,
     );
@@ -143,7 +149,7 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'Home': HomeWidget(),
-      'Wallet': WalletWidget(),
+      'Hostinventory': HostinventoryWidget(),
       'AllChatsPage': AllChatsPageWidget(),
       'Profile': ProfileWidget(),
     };
@@ -166,22 +172,18 @@ class _NavBarPageState extends State<NavBarPage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.home_outlined,
+              Icons.home_work,
               size: 24.0,
             ),
             label: 'Home',
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.account_balance_wallet,
+            icon: FaIcon(
+              FontAwesomeIcons.car,
               size: 24.0,
             ),
-            activeIcon: FaIcon(
-              FontAwesomeIcons.moneyCheckAlt,
-              size: 24.0,
-            ),
-            label: 'wallet',
+            label: 'Activities',
             tooltip: '',
           ),
           BottomNavigationBarItem(

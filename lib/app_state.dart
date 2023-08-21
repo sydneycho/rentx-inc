@@ -44,6 +44,11 @@ class FFAppState extends ChangeNotifier {
     await _safeInitAsync(() async {
       _userRef = (await secureStorage.getString('ff_userRef'))?.ref ?? _userRef;
     });
+    await _safeInitAsync(() async {
+      _notifications =
+          (await secureStorage.getString('ff_notifications'))?.ref ??
+              _notifications;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -241,6 +246,20 @@ class FFAppState extends ChangeNotifier {
 
   void deleteUserRef() {
     secureStorage.delete(key: 'ff_userRef');
+  }
+
+  DocumentReference? _notifications =
+      FirebaseFirestore.instance.doc('/Notification/notification');
+  DocumentReference? get notifications => _notifications;
+  set notifications(DocumentReference? _value) {
+    _notifications = _value;
+    _value != null
+        ? secureStorage.setString('ff_notifications', _value.path)
+        : secureStorage.remove('ff_notifications');
+  }
+
+  void deleteNotifications() {
+    secureStorage.delete(key: 'ff_notifications');
   }
 
   final _paidadvertsManager = StreamRequestManager<List<PaidAdvertsRecord>>();

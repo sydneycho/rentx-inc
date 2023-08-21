@@ -107,12 +107,12 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
         title: Stack(
           children: [
             Text(
-              '${widget.chatUser?.firstName}',
+              '${widget.chatUser?.firstName} ${widget.chatUser?.lastName}',
               style: FlutterFlowTheme.of(context).bodyMedium.override(
                     fontFamily: 'Lexend Deca',
                     color: FlutterFlowTheme.of(context).primaryBackground,
                     fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                   ),
             ),
           ],

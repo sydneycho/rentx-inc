@@ -9,7 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'referral_model.dart';
@@ -296,23 +295,24 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                                                 .primaryText,
                                           ),
                                     ),
-                                    Icon(
-                                      Icons.facebook,
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      size: 24.0,
-                                    ),
-                                    FaIcon(
-                                      FontAwesomeIcons.instagram,
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      size: 24.0,
-                                    ),
-                                    FaIcon(
-                                      FontAwesomeIcons.tiktok,
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      size: 24.0,
+                                    InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        logFirebaseEvent(
+                                            'REFERRAL_PAGE_Icon_23aoy581_ON_TAP');
+                                        logFirebaseEvent('Icon_launch_u_r_l');
+                                        await launchURL(
+                                            'https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttps%253A%252F%252Fplay.google.com%252Fstore%252Fapps%252Fdetails%253Fid%253Dcom.Rentx.client%2526pcampaignid%253Dweb_share&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=en_GB');
+                                      },
+                                      child: Icon(
+                                        Icons.facebook,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        size: 24.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -364,7 +364,13 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                                           [])
                                       .toList();
                               if (referrals.isEmpty) {
-                                return ReferralsWidget();
+                                return Center(
+                                  child: Container(
+                                    height:
+                                        MediaQuery.sizeOf(context).height * 0.3,
+                                    child: ReferralsWidget(),
+                                  ),
+                                );
                               }
                               return ListView.separated(
                                 padding: EdgeInsets.symmetric(vertical: 8.0),

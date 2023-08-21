@@ -1,21 +1,20 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/booking/booking_widget.dart';
 import '/components/empty/empty_widget.dart';
 import '/components/review/review_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_button_tabbar.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'hostinventory_model.dart';
 export 'hostinventory_model.dart';
 
@@ -157,6 +156,16 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
 
     logFirebaseEvent('screen_view',
         parameters: {'screen_name': 'Hostinventory'});
+    _model.tabBarController1 = TabController(
+      vsync: this,
+      length: 2,
+      initialIndex: 0,
+    );
+    _model.tabBarController2 = TabController(
+      vsync: this,
+      length: 3,
+      initialIndex: 0,
+    );
   }
 
   @override
@@ -228,32 +237,6 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
-          leading: FlutterFlowIconButton(
-            borderColor: Colors.transparent,
-            borderRadius: 25.0,
-            borderWidth: 1.0,
-            buttonSize: 50.0,
-            icon: Icon(
-              Icons.arrow_back_rounded,
-              color: FlutterFlowTheme.of(context).primaryBackground,
-              size: 24.0,
-            ),
-            onPressed: () async {
-              logFirebaseEvent('HOSTINVENTORY_arrow_back_rounded_ICN_ON_');
-              logFirebaseEvent('IconButton_navigate_to');
-
-              context.pushNamed(
-                'Profile',
-                extra: <String, dynamic>{
-                  kTransitionInfoKey: TransitionInfo(
-                    hasTransition: true,
-                    transitionType: PageTransitionType.leftToRight,
-                    duration: Duration(milliseconds: 300),
-                  ),
-                },
-              );
-            },
-          ),
           title: Text(
             'Activites',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
@@ -436,155 +419,508 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 12.0, 0.0, 20.0),
                                 child: AuthUserStreamWidget(
-                                  builder: (context) => DefaultTabController(
-                                    length: 2,
-                                    initialIndex: 0,
-                                    child: Column(
-                                      children: [
-                                        Align(
-                                          alignment: Alignment(0.0, 0),
-                                          child: FlutterFlowButtonTabBar(
-                                            useToggleButtonStyle: true,
-                                            isScrollable: true,
-                                            labelStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelLarge,
-                                            unselectedLabelStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelLarge,
-                                            labelColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                            unselectedLabelColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondaryText,
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .accent3,
-                                            borderColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                            unselectedBorderColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .accent3,
-                                            borderWidth: 1.0,
-                                            borderRadius: 8.0,
-                                            elevation: 0.0,
-                                            labelPadding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    20.0, 0.0, 20.0, 0.0),
-                                            buttonMargin:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    8.0, 4.0, 8.0, 4.0),
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 6.0, 0.0, 6.0),
-                                            tabs: [
-                                              Tab(
-                                                text: 'My cars',
-                                              ),
-                                              Tab(
-                                                text: 'Booked',
-                                              ),
-                                            ],
-                                          ),
+                                  builder: (context) => Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment(0.0, 0),
+                                        child: FlutterFlowButtonTabBar(
+                                          useToggleButtonStyle: true,
+                                          isScrollable: true,
+                                          labelStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelLarge,
+                                          unselectedLabelStyle: TextStyle(),
+                                          labelColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                          unselectedLabelColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryText,
+                                          backgroundColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .accent3,
+                                          borderColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                          unselectedBorderColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .accent3,
+                                          borderWidth: 1.0,
+                                          borderRadius: 8.0,
+                                          elevation: 0.0,
+                                          labelPadding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  20.0, 0.0, 20.0, 0.0),
+                                          buttonMargin:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  8.0, 4.0, 8.0, 4.0),
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 6.0, 0.0, 6.0),
+                                          tabs: [
+                                            Tab(
+                                              text: 'My cars',
+                                            ),
+                                            Tab(
+                                              text: 'Booked',
+                                            ),
+                                          ],
+                                          controller: _model.tabBarController1,
+                                          onTap: (value) => setState(() {}),
                                         ),
-                                        Expanded(
-                                          child: TabBarView(
-                                            children: [
-                                              StreamBuilder<List<CarRecord>>(
-                                                stream: queryCarRecord(
-                                                  queryBuilder: (carRecord) =>
-                                                      carRecord.where('uid',
-                                                          isEqualTo:
-                                                              currentUserReference),
-                                                ),
-                                                builder: (context, snapshot) {
-                                                  // Customize what your widget looks like when it's loading.
-                                                  if (!snapshot.hasData) {
-                                                    return Center(
-                                                      child: SizedBox(
-                                                        width: 100.0,
-                                                        height: 100.0,
-                                                        child: SpinKitDualRing(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          size: 100.0,
-                                                        ),
+                                      ),
+                                      Expanded(
+                                        child: TabBarView(
+                                          controller: _model.tabBarController1,
+                                          children: [
+                                            StreamBuilder<List<CarRecord>>(
+                                              stream: queryCarRecord(
+                                                queryBuilder: (carRecord) =>
+                                                    carRecord.where('uid',
+                                                        isEqualTo:
+                                                            currentUserReference),
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 100.0,
+                                                      height: 100.0,
+                                                      child: SpinKitDualRing(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        size: 100.0,
                                                       ),
-                                                    );
-                                                  }
-                                                  List<CarRecord>
-                                                      listViewCarRecordList =
-                                                      snapshot.data!;
-                                                  if (listViewCarRecordList
-                                                      .isEmpty) {
-                                                    return EmptyWidget();
-                                                  }
-                                                  return ListView.builder(
-                                                    padding: EdgeInsets.zero,
-                                                    scrollDirection:
-                                                        Axis.vertical,
-                                                    itemCount:
-                                                        listViewCarRecordList
-                                                            .length,
-                                                    itemBuilder: (context,
-                                                        listViewIndex) {
-                                                      final listViewCarRecord =
-                                                          listViewCarRecordList[
-                                                              listViewIndex];
-                                                      return Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    4.0,
-                                                                    12.0,
-                                                                    4.0,
-                                                                    0.0),
-                                                        child: InkWell(
-                                                          splashColor: Colors
-                                                              .transparent,
-                                                          focusColor: Colors
-                                                              .transparent,
-                                                          hoverColor: Colors
-                                                              .transparent,
-                                                          highlightColor: Colors
-                                                              .transparent,
-                                                          onTap: () async {
-                                                            logFirebaseEvent(
-                                                                'HOSTINVENTORY_PAGE_cardProduct40_ON_TAP');
-                                                            logFirebaseEvent(
-                                                                'cardProduct40_navigate_to');
+                                                    ),
+                                                  );
+                                                }
+                                                List<CarRecord>
+                                                    listViewCarRecordList =
+                                                    snapshot.data!;
+                                                if (listViewCarRecordList
+                                                    .isEmpty) {
+                                                  return EmptyWidget();
+                                                }
+                                                return ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemCount:
+                                                      listViewCarRecordList
+                                                          .length,
+                                                  itemBuilder:
+                                                      (context, listViewIndex) {
+                                                    final listViewCarRecord =
+                                                        listViewCarRecordList[
+                                                            listViewIndex];
+                                                    return Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  4.0,
+                                                                  12.0,
+                                                                  4.0,
+                                                                  0.0),
+                                                      child: InkWell(
+                                                        splashColor:
+                                                            Colors.transparent,
+                                                        focusColor:
+                                                            Colors.transparent,
+                                                        hoverColor:
+                                                            Colors.transparent,
+                                                        highlightColor:
+                                                            Colors.transparent,
+                                                        onTap: () async {
+                                                          logFirebaseEvent(
+                                                              'HOSTINVENTORY_PAGE_cardProduct40_ON_TAP');
+                                                          logFirebaseEvent(
+                                                              'cardProduct40_navigate_to');
 
-                                                            context.pushNamed(
-                                                              'Edit_car',
-                                                              queryParameters: {
-                                                                'editcar':
-                                                                    serializeParam(
-                                                                  listViewCarRecord
-                                                                      .reference,
-                                                                  ParamType
-                                                                      .DocumentReference,
+                                                          context.pushNamed(
+                                                            'Edit_car',
+                                                            queryParameters: {
+                                                              'editcar':
+                                                                  serializeParam(
+                                                                listViewCarRecord
+                                                                    .reference,
+                                                                ParamType
+                                                                    .DocumentReference,
+                                                              ),
+                                                            }.withoutNulls,
+                                                            extra: <String,
+                                                                dynamic>{
+                                                              kTransitionInfoKey:
+                                                                  TransitionInfo(
+                                                                hasTransition:
+                                                                    true,
+                                                                transitionType:
+                                                                    PageTransitionType
+                                                                        .rightToLeft,
+                                                                duration: Duration(
+                                                                    milliseconds:
+                                                                        300),
+                                                              ),
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                blurRadius: 2.0,
+                                                                color: Color(
+                                                                    0x520E151B),
+                                                                offset: Offset(
+                                                                    0.0, 1.0),
+                                                              )
+                                                            ],
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12.0),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        0.0,
+                                                                        16.0,
+                                                                        0.0),
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              12.0),
+                                                                  child: Image
+                                                                      .network(
+                                                                    listViewCarRecord
+                                                                        .carPhotos
+                                                                        .first,
+                                                                    width:
+                                                                        120.0,
+                                                                    height:
+                                                                        120.0,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
                                                                 ),
-                                                              }.withoutNulls,
-                                                              extra: <String,
-                                                                  dynamic>{
-                                                                kTransitionInfoKey:
-                                                                    TransitionInfo(
-                                                                  hasTransition:
-                                                                      true,
-                                                                  transitionType:
-                                                                      PageTransitionType
-                                                                          .rightToLeft,
-                                                                  duration: Duration(
-                                                                      milliseconds:
-                                                                          300),
+                                                                Expanded(
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            16.0,
+                                                                            0.0,
+                                                                            16.0,
+                                                                            0.0),
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              4.0),
+                                                                          child:
+                                                                              Text(
+                                                                            listViewCarRecord.carName,
+                                                                            style: FlutterFlowTheme.of(context).titleLarge.override(
+                                                                                  fontFamily: 'Open Sans',
+                                                                                  fontSize: 18.0,
+                                                                                ),
+                                                                          ),
+                                                                        ),
+                                                                        Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              0.0,
+                                                                              4.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Text(
+                                                                            listViewCarRecord.location,
+                                                                            style:
+                                                                                FlutterFlowTheme.of(context).labelMedium,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
                                                                 ),
-                                                              },
+                                                                Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          10.0),
+                                                                      child:
+                                                                          InkWell(
+                                                                        splashColor:
+                                                                            Colors.transparent,
+                                                                        focusColor:
+                                                                            Colors.transparent,
+                                                                        hoverColor:
+                                                                            Colors.transparent,
+                                                                        highlightColor:
+                                                                            Colors.transparent,
+                                                                        onTap:
+                                                                            () async {
+                                                                          logFirebaseEvent(
+                                                                              'HOSTINVENTORY_PAGE_Icon_dcpcdfsb_ON_TAP');
+                                                                          logFirebaseEvent(
+                                                                              'Icon_navigate_to');
+
+                                                                          context
+                                                                              .pushNamed(
+                                                                            'Edit_car',
+                                                                            queryParameters:
+                                                                                {
+                                                                              'editcar': serializeParam(
+                                                                                listViewCarRecord.reference,
+                                                                                ParamType.DocumentReference,
+                                                                              ),
+                                                                            }.withoutNulls,
+                                                                            extra: <String,
+                                                                                dynamic>{
+                                                                              kTransitionInfoKey: TransitionInfo(
+                                                                                hasTransition: true,
+                                                                                transitionType: PageTransitionType.rightToLeft,
+                                                                                duration: Duration(milliseconds: 300),
+                                                                              ),
+                                                                            },
+                                                                          );
+                                                                        },
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .edit,
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).secondaryText,
+                                                                          size:
+                                                                              24.0,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      ' K ${formatNumber(
+                                                                        listViewCarRecord
+                                                                            .costPerDay,
+                                                                        formatType:
+                                                                            FormatType.custom,
+                                                                        format:
+                                                                            '00.00',
+                                                                        locale:
+                                                                            '',
+                                                                      )}',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .end,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .headlineSmall,
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                                                          0.0,
+                                                                          20.0,
+                                                                          0.0,
+                                                                          10.0),
+                                                                      child:
+                                                                          FFButtonWidget(
+                                                                        onPressed:
+                                                                            () async {
+                                                                          logFirebaseEvent(
+                                                                              'HOSTINVENTORY_PAGE_DELETE_BTN_ON_TAP');
+                                                                          logFirebaseEvent(
+                                                                              'Button_backend_call');
+                                                                          await listViewCarRecord
+                                                                              .reference
+                                                                              .delete();
+                                                                        },
+                                                                        text:
+                                                                            'Delete',
+                                                                        options:
+                                                                            FFButtonOptions(
+                                                                          height:
+                                                                              30.0,
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              24.0,
+                                                                              0.0,
+                                                                              24.0,
+                                                                              0.0),
+                                                                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).primary,
+                                                                          textStyle: FlutterFlowTheme.of(context)
+                                                                              .titleSmall
+                                                                              .override(
+                                                                                fontFamily: 'Open Sans',
+                                                                                color: Colors.white,
+                                                                                fontSize: 14.0,
+                                                                              ),
+                                                                          elevation:
+                                                                              3.0,
+                                                                          borderSide:
+                                                                              BorderSide(
+                                                                            color:
+                                                                                Colors.transparent,
+                                                                            width:
+                                                                                1.0,
+                                                                          ),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(2.0),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ).animateOnPageLoad(
+                                                          animationsMap[
+                                                              'containerOnPageLoadAnimation1']!),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                            StreamBuilder<List<CarRecord>>(
+                                              stream: queryCarRecord(
+                                                queryBuilder: (carRecord) =>
+                                                    carRecord
+                                                        .where('uid',
+                                                            isEqualTo:
+                                                                currentUserReference)
+                                                        .where('booking_status',
+                                                            isEqualTo:
+                                                                'booked'),
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 100.0,
+                                                      height: 100.0,
+                                                      child: SpinKitDualRing(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        size: 100.0,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                List<CarRecord>
+                                                    listViewCarRecordList =
+                                                    snapshot.data!;
+                                                if (listViewCarRecordList
+                                                    .isEmpty) {
+                                                  return EmptyWidget();
+                                                }
+                                                return ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemCount:
+                                                      listViewCarRecordList
+                                                          .length,
+                                                  itemBuilder:
+                                                      (context, listViewIndex) {
+                                                    final listViewCarRecord =
+                                                        listViewCarRecordList[
+                                                            listViewIndex];
+                                                    return Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  4.0,
+                                                                  12.0,
+                                                                  4.0,
+                                                                  0.0),
+                                                      child: StreamBuilder<
+                                                          List<BookingRecord>>(
+                                                        stream:
+                                                            queryBookingRecord(
+                                                          parent:
+                                                              listViewCarRecord
+                                                                  .reference,
+                                                          singleRecord: true,
+                                                        ),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          // Customize what your widget looks like when it's loading.
+                                                          if (!snapshot
+                                                              .hasData) {
+                                                            return Center(
+                                                              child: SizedBox(
+                                                                width: 100.0,
+                                                                height: 100.0,
+                                                                child:
+                                                                    SpinKitDualRing(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                  size: 100.0,
+                                                                ),
+                                                              ),
                                                             );
-                                                          },
-                                                          child: Container(
+                                                          }
+                                                          List<BookingRecord>
+                                                              cardProduct40BookingRecordList =
+                                                              snapshot.data!;
+                                                          // Return an empty Container when the item does not exist.
+                                                          if (snapshot
+                                                              .data!.isEmpty) {
+                                                            return Container();
+                                                          }
+                                                          final cardProduct40BookingRecord =
+                                                              cardProduct40BookingRecordList
+                                                                      .isNotEmpty
+                                                                  ? cardProduct40BookingRecordList
+                                                                      .first
+                                                                  : null;
+                                                          return Container(
                                                             width:
                                                                 double.infinity,
                                                             decoration:
@@ -667,7 +1003,7 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                               listViewCarRecord.carName,
                                                                               style: FlutterFlowTheme.of(context).titleLarge.override(
                                                                                     fontFamily: 'Open Sans',
-                                                                                    fontSize: 18.0,
+                                                                                    fontSize: 16.0,
                                                                                   ),
                                                                             ),
                                                                           ),
@@ -679,7 +1015,23 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                                 0.0),
                                                                             child:
                                                                                 Text(
-                                                                              listViewCarRecord.location,
+                                                                              'Enddate :  ${dateTimeFormat(
+                                                                                'd/M/y',
+                                                                                cardProduct40BookingRecord?.enddate,
+                                                                                locale: FFLocalizations.of(context).languageCode,
+                                                                              )}',
+                                                                              style: FlutterFlowTheme.of(context).labelMedium,
+                                                                            ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                0.0,
+                                                                                4.0,
+                                                                                0.0,
+                                                                                0.0),
+                                                                            child:
+                                                                                Text(
+                                                                              'Rentee :${cardProduct40BookingRecord?.renteePhoneNumber}',
                                                                               style: FlutterFlowTheme.of(context).labelMedium,
                                                                             ),
                                                                           ),
@@ -687,388 +1039,50 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                  Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
+                                                                  Text(
+                                                                    formatNumber(
+                                                                      cardProduct40BookingRecord!
+                                                                          .totalcost,
+                                                                      formatType:
+                                                                          FormatType
+                                                                              .custom,
+                                                                      currency:
+                                                                          'K',
+                                                                      format:
+                                                                          '00.00',
+                                                                      locale:
+                                                                          '',
+                                                                    ),
+                                                                    textAlign:
+                                                                        TextAlign
                                                                             .end,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            10.0),
-                                                                        child:
-                                                                            InkWell(
-                                                                          splashColor:
-                                                                              Colors.transparent,
-                                                                          focusColor:
-                                                                              Colors.transparent,
-                                                                          hoverColor:
-                                                                              Colors.transparent,
-                                                                          highlightColor:
-                                                                              Colors.transparent,
-                                                                          onTap:
-                                                                              () async {
-                                                                            logFirebaseEvent('HOSTINVENTORY_PAGE_Icon_dcpcdfsb_ON_TAP');
-                                                                            logFirebaseEvent('Icon_navigate_to');
-
-                                                                            context.pushNamed(
-                                                                              'Edit_car',
-                                                                              queryParameters: {
-                                                                                'editcar': serializeParam(
-                                                                                  listViewCarRecord.reference,
-                                                                                  ParamType.DocumentReference,
-                                                                                ),
-                                                                              }.withoutNulls,
-                                                                              extra: <String, dynamic>{
-                                                                                kTransitionInfoKey: TransitionInfo(
-                                                                                  hasTransition: true,
-                                                                                  transitionType: PageTransitionType.rightToLeft,
-                                                                                  duration: Duration(milliseconds: 300),
-                                                                                ),
-                                                                              },
-                                                                            );
-                                                                          },
-                                                                          child:
-                                                                              Icon(
-                                                                            Icons.edit,
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).secondaryText,
-                                                                            size:
-                                                                                24.0,
-                                                                          ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .headlineSmall
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Open Sans',
+                                                                          fontSize:
+                                                                              12.0,
                                                                         ),
-                                                                      ),
-                                                                      Text(
-                                                                        ' K ${formatNumber(
-                                                                          listViewCarRecord
-                                                                              .costPerDay,
-                                                                          formatType:
-                                                                              FormatType.custom,
-                                                                          format:
-                                                                              '00.00',
-                                                                          locale:
-                                                                              '',
-                                                                        )}',
-                                                                        textAlign:
-                                                                            TextAlign.end,
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .headlineSmall,
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                                                            0.0,
-                                                                            20.0,
-                                                                            0.0,
-                                                                            10.0),
-                                                                        child:
-                                                                            FFButtonWidget(
-                                                                          onPressed:
-                                                                              () async {
-                                                                            logFirebaseEvent('HOSTINVENTORY_PAGE_DELETE_BTN_ON_TAP');
-                                                                            logFirebaseEvent('Button_backend_call');
-                                                                            await listViewCarRecord.reference.delete();
-                                                                          },
-                                                                          text:
-                                                                              'Delete',
-                                                                          options:
-                                                                              FFButtonOptions(
-                                                                            height:
-                                                                                30.0,
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                24.0,
-                                                                                0.0,
-                                                                                24.0,
-                                                                                0.0),
-                                                                            iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                                                                0.0,
-                                                                                0.0,
-                                                                                0.0,
-                                                                                0.0),
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).primary,
-                                                                            textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                                                                  fontFamily: 'Open Sans',
-                                                                                  color: Colors.white,
-                                                                                  fontSize: 14.0,
-                                                                                ),
-                                                                            elevation:
-                                                                                3.0,
-                                                                            borderSide:
-                                                                                BorderSide(
-                                                                              color: Colors.transparent,
-                                                                              width: 1.0,
-                                                                            ),
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(50.0),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ],
                                                                   ),
                                                                 ],
                                                               ),
                                                             ),
-                                                          ),
-                                                        ).animateOnPageLoad(
-                                                            animationsMap[
-                                                                'containerOnPageLoadAnimation1']!),
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                              StreamBuilder<List<CarRecord>>(
-                                                stream: queryCarRecord(
-                                                  queryBuilder: (carRecord) =>
-                                                      carRecord
-                                                          .where(
-                                                              'uid',
-                                                              isEqualTo:
-                                                                  currentUserReference)
-                                                          .where(
-                                                              'booking_status',
-                                                              isEqualTo:
-                                                                  'booked'),
-                                                ),
-                                                builder: (context, snapshot) {
-                                                  // Customize what your widget looks like when it's loading.
-                                                  if (!snapshot.hasData) {
-                                                    return Center(
-                                                      child: SizedBox(
-                                                        width: 100.0,
-                                                        height: 100.0,
-                                                        child: SpinKitDualRing(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          size: 100.0,
-                                                        ),
+                                                          ).animateOnPageLoad(
+                                                              animationsMap[
+                                                                  'containerOnPageLoadAnimation2']!);
+                                                        },
                                                       ),
                                                     );
-                                                  }
-                                                  List<CarRecord>
-                                                      listViewCarRecordList =
-                                                      snapshot.data!;
-                                                  if (listViewCarRecordList
-                                                      .isEmpty) {
-                                                    return EmptyWidget();
-                                                  }
-                                                  return ListView.builder(
-                                                    padding: EdgeInsets.zero,
-                                                    scrollDirection:
-                                                        Axis.vertical,
-                                                    itemCount:
-                                                        listViewCarRecordList
-                                                            .length,
-                                                    itemBuilder: (context,
-                                                        listViewIndex) {
-                                                      final listViewCarRecord =
-                                                          listViewCarRecordList[
-                                                              listViewIndex];
-                                                      return Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    4.0,
-                                                                    12.0,
-                                                                    4.0,
-                                                                    0.0),
-                                                        child: StreamBuilder<
-                                                            List<
-                                                                BookingRecord>>(
-                                                          stream:
-                                                              queryBookingRecord(
-                                                            parent:
-                                                                listViewCarRecord
-                                                                    .reference,
-                                                            singleRecord: true,
-                                                          ),
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            // Customize what your widget looks like when it's loading.
-                                                            if (!snapshot
-                                                                .hasData) {
-                                                              return Center(
-                                                                child: SizedBox(
-                                                                  width: 100.0,
-                                                                  height: 100.0,
-                                                                  child:
-                                                                      SpinKitDualRing(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    size: 100.0,
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            }
-                                                            List<BookingRecord>
-                                                                cardProduct40BookingRecordList =
-                                                                snapshot.data!;
-                                                            // Return an empty Container when the item does not exist.
-                                                            if (snapshot.data!
-                                                                .isEmpty) {
-                                                              return Container();
-                                                            }
-                                                            final cardProduct40BookingRecord =
-                                                                cardProduct40BookingRecordList
-                                                                        .isNotEmpty
-                                                                    ? cardProduct40BookingRecordList
-                                                                        .first
-                                                                    : null;
-                                                            return Container(
-                                                              width: double
-                                                                  .infinity,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondaryBackground,
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                    blurRadius:
-                                                                        2.0,
-                                                                    color: Color(
-                                                                        0x520E151B),
-                                                                    offset:
-                                                                        Offset(
-                                                                            0.0,
-                                                                            1.0),
-                                                                  )
-                                                                ],
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            12.0),
-                                                              ),
-                                                              child: Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            16.0,
-                                                                            0.0),
-                                                                child: Row(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  children: [
-                                                                    ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              12.0),
-                                                                      child: Image
-                                                                          .network(
-                                                                        listViewCarRecord
-                                                                            .carPhotos
-                                                                            .first,
-                                                                        width:
-                                                                            120.0,
-                                                                        height:
-                                                                            120.0,
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                                    ),
-                                                                    Expanded(
-                                                                      child:
-                                                                          Padding(
-                                                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                                                            16.0,
-                                                                            0.0,
-                                                                            16.0,
-                                                                            0.0),
-                                                                        child:
-                                                                            Column(
-                                                                          mainAxisSize:
-                                                                              MainAxisSize.max,
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.center,
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            Padding(
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0),
-                                                                              child: Text(
-                                                                                listViewCarRecord.carName,
-                                                                                style: FlutterFlowTheme.of(context).titleLarge.override(
-                                                                                      fontFamily: 'Open Sans',
-                                                                                      fontSize: 16.0,
-                                                                                    ),
-                                                                              ),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                              child: Text(
-                                                                                'Enddate :  ${dateTimeFormat(
-                                                                                  'd/M/y',
-                                                                                  cardProduct40BookingRecord?.enddate,
-                                                                                  locale: FFLocalizations.of(context).languageCode,
-                                                                                )}',
-                                                                                style: FlutterFlowTheme.of(context).labelMedium,
-                                                                              ),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                              child: Text(
-                                                                                'Rentee :${cardProduct40BookingRecord?.renteePhoneNumber}',
-                                                                                style: FlutterFlowTheme.of(context).labelMedium,
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      formatNumber(
-                                                                        cardProduct40BookingRecord!
-                                                                            .totalcost,
-                                                                        formatType:
-                                                                            FormatType.custom,
-                                                                        currency:
-                                                                            'K',
-                                                                        format:
-                                                                            '00.00',
-                                                                        locale:
-                                                                            '',
-                                                                      ),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .end,
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .headlineSmall
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Open Sans',
-                                                                            fontSize:
-                                                                                12.0,
-                                                                          ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ).animateOnPageLoad(
-                                                                animationsMap[
-                                                                    'containerOnPageLoadAnimation2']!);
-                                                          },
-                                                        ),
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                            ],
-                                          ),
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -1084,151 +1098,184 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 12.0, 0.0, 20.0),
                                 child: AuthUserStreamWidget(
-                                  builder: (context) => DefaultTabController(
-                                    length: 3,
-                                    initialIndex: 0,
-                                    child: Column(
-                                      children: [
-                                        Align(
-                                          alignment: Alignment(0.0, 0),
-                                          child: FlutterFlowButtonTabBar(
-                                            useToggleButtonStyle: false,
-                                            isScrollable: true,
-                                            labelStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelLarge,
-                                            unselectedLabelStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelLarge,
-                                            labelColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                            unselectedLabelColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondaryText,
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .accent3,
-                                            borderColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                            unselectedBorderColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .accent3,
-                                            borderWidth: 0.0,
-                                            borderRadius: 6.0,
-                                            elevation: 0.0,
-                                            labelPadding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    20.0, 0.0, 20.0, 0.0),
-                                            buttonMargin:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    8.0, 4.0, 8.0, 6.0),
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 6.0, 0.0, 6.0),
-                                            tabs: [
-                                              Tab(
-                                                text: 'Current booking',
-                                              ),
-                                              Tab(
-                                                text: 'Older booking',
-                                              ),
-                                              Tab(
-                                                text: 'Reserved',
-                                              ),
-                                            ],
-                                          ),
+                                  builder: (context) => Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment(0.0, 0),
+                                        child: TabBar(
+                                          isScrollable: true,
+                                          labelColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                          unselectedLabelColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryText,
+                                          labelPadding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  20.0, 0.0, 20.0, 0.0),
+                                          labelStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelLarge,
+                                          unselectedLabelStyle: TextStyle(),
+                                          indicatorColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryText,
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 6.0, 0.0, 6.0),
+                                          tabs: [
+                                            Tab(
+                                              text: 'Current booking',
+                                            ),
+                                            Tab(
+                                              text: 'Older booking',
+                                            ),
+                                            Tab(
+                                              text: 'Reserved',
+                                            ),
+                                          ],
+                                          controller: _model.tabBarController2,
+                                          onTap: (value) => setState(() {}),
                                         ),
-                                        Expanded(
-                                          child: TabBarView(
-                                            children: [
-                                              StreamBuilder<
-                                                  List<BookingRecord>>(
-                                                stream: queryBookingRecord(
-                                                  queryBuilder: (bookingRecord) =>
-                                                      bookingRecord
-                                                          .where('uid',
-                                                              isEqualTo:
-                                                                  currentUserReference)
-                                                          .where('enddate',
-                                                              isGreaterThanOrEqualTo:
-                                                                  getCurrentTimestamp)
-                                                          .where(
-                                                              'booking_status',
-                                                              isEqualTo:
-                                                                  'booked'),
-                                                ),
-                                                builder: (context, snapshot) {
-                                                  // Customize what your widget looks like when it's loading.
-                                                  if (!snapshot.hasData) {
-                                                    return Center(
-                                                      child: SizedBox(
-                                                        width: 100.0,
-                                                        height: 100.0,
-                                                        child: SpinKitDualRing(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          size: 100.0,
-                                                        ),
+                                      ),
+                                      Expanded(
+                                        child: TabBarView(
+                                          controller: _model.tabBarController2,
+                                          children: [
+                                            StreamBuilder<List<BookingRecord>>(
+                                              stream: queryBookingRecord(
+                                                queryBuilder: (bookingRecord) =>
+                                                    bookingRecord
+                                                        .where('uid',
+                                                            isEqualTo:
+                                                                currentUserReference)
+                                                        .where('enddate',
+                                                            isGreaterThanOrEqualTo:
+                                                                getCurrentTimestamp)
+                                                        .where('booking_status',
+                                                            isEqualTo:
+                                                                'booked'),
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 100.0,
+                                                      height: 100.0,
+                                                      child: SpinKitDualRing(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        size: 100.0,
                                                       ),
-                                                    );
-                                                  }
-                                                  List<BookingRecord>
-                                                      listViewBookingRecordList =
-                                                      snapshot.data!;
-                                                  if (listViewBookingRecordList
-                                                      .isEmpty) {
-                                                    return EmptyWidget();
-                                                  }
-                                                  return ListView.builder(
-                                                    padding: EdgeInsets.zero,
-                                                    scrollDirection:
-                                                        Axis.vertical,
-                                                    itemCount:
-                                                        listViewBookingRecordList
-                                                            .length,
-                                                    itemBuilder: (context,
-                                                        listViewIndex) {
-                                                      final listViewBookingRecord =
-                                                          listViewBookingRecordList[
-                                                              listViewIndex];
-                                                      return Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    4.0,
-                                                                    12.0,
-                                                                    4.0,
-                                                                    0.0),
-                                                        child: StreamBuilder<
-                                                            CarRecord>(
-                                                          stream: CarRecord.getDocument(
-                                                              listViewBookingRecord
-                                                                  .parentReference),
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            // Customize what your widget looks like when it's loading.
-                                                            if (!snapshot
-                                                                .hasData) {
-                                                              return Center(
-                                                                child: SizedBox(
-                                                                  width: 100.0,
-                                                                  height: 100.0,
-                                                                  child:
-                                                                      SpinKitDualRing(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    size: 100.0,
-                                                                  ),
+                                                    ),
+                                                  );
+                                                }
+                                                List<BookingRecord>
+                                                    listViewBookingRecordList =
+                                                    snapshot.data!;
+                                                if (listViewBookingRecordList
+                                                    .isEmpty) {
+                                                  return EmptyWidget();
+                                                }
+                                                return ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemCount:
+                                                      listViewBookingRecordList
+                                                          .length,
+                                                  itemBuilder:
+                                                      (context, listViewIndex) {
+                                                    final listViewBookingRecord =
+                                                        listViewBookingRecordList[
+                                                            listViewIndex];
+                                                    return Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  4.0,
+                                                                  12.0,
+                                                                  4.0,
+                                                                  0.0),
+                                                      child: StreamBuilder<
+                                                          CarRecord>(
+                                                        stream: CarRecord.getDocument(
+                                                            listViewBookingRecord
+                                                                .parentReference),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          // Customize what your widget looks like when it's loading.
+                                                          if (!snapshot
+                                                              .hasData) {
+                                                            return Center(
+                                                              child: SizedBox(
+                                                                width: 100.0,
+                                                                height: 100.0,
+                                                                child:
+                                                                    SpinKitDualRing(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                  size: 100.0,
                                                                 ),
-                                                              );
-                                                            }
-                                                            final cardProduct40CarRecord =
-                                                                snapshot.data!;
-                                                            return Container(
+                                                              ),
+                                                            );
+                                                          }
+                                                          final cardProduct40CarRecord =
+                                                              snapshot.data!;
+                                                          return InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              logFirebaseEvent(
+                                                                  'HOSTINVENTORY_PAGE_cardProduct40_ON_TAP');
+                                                              logFirebaseEvent(
+                                                                  'cardProduct40_bottom_sheet');
+                                                              await showModalBottomSheet(
+                                                                isScrollControlled:
+                                                                    true,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                enableDrag:
+                                                                    false,
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return GestureDetector(
+                                                                    onTap: () => FocusScope.of(
+                                                                            context)
+                                                                        .requestFocus(
+                                                                            _model.unfocusNode),
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: MediaQuery
+                                                                          .viewInsetsOf(
+                                                                              context),
+                                                                      child:
+                                                                          BookingWidget(
+                                                                        booking:
+                                                                            listViewBookingRecord.reference,
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              ).then((value) =>
+                                                                  setState(
+                                                                      () {}));
+                                                            },
+                                                            child: Container(
                                                               width: double
                                                                   .infinity,
                                                               decoration:
@@ -1281,75 +1328,6 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                             fit:
                                                                                 BoxFit.cover,
                                                                           ),
-                                                                        ),
-                                                                        StreamBuilder<
-                                                                            UserRecord>(
-                                                                          stream:
-                                                                              _model.host(
-                                                                            requestFn: () =>
-                                                                                UserRecord.getDocument(cardProduct40CarRecord.uid!),
-                                                                          ),
-                                                                          builder:
-                                                                              (context, snapshot) {
-                                                                            // Customize what your widget looks like when it's loading.
-                                                                            if (!snapshot.hasData) {
-                                                                              return Center(
-                                                                                child: SizedBox(
-                                                                                  width: 100.0,
-                                                                                  height: 100.0,
-                                                                                  child: SpinKitDualRing(
-                                                                                    color: FlutterFlowTheme.of(context).primary,
-                                                                                    size: 100.0,
-                                                                                  ),
-                                                                                ),
-                                                                              );
-                                                                            }
-                                                                            final rowUserRecord =
-                                                                                snapshot.data!;
-                                                                            return InkWell(
-                                                                              splashColor: Colors.transparent,
-                                                                              focusColor: Colors.transparent,
-                                                                              hoverColor: Colors.transparent,
-                                                                              highlightColor: Colors.transparent,
-                                                                              onTap: () async {
-                                                                                logFirebaseEvent('HOSTINVENTORY_PAGE_Row_c0r1u1cq_ON_TAP');
-                                                                                logFirebaseEvent('Row_navigate_to');
-
-                                                                                context.pushNamed(
-                                                                                  'ChatPage',
-                                                                                  queryParameters: {
-                                                                                    'chatUser': serializeParam(
-                                                                                      rowUserRecord,
-                                                                                      ParamType.Document,
-                                                                                    ),
-                                                                                  }.withoutNulls,
-                                                                                  extra: <String, dynamic>{
-                                                                                    'chatUser': rowUserRecord,
-                                                                                  },
-                                                                                );
-                                                                              },
-                                                                              child: Row(
-                                                                                mainAxisSize: MainAxisSize.max,
-                                                                                children: [
-                                                                                  Padding(
-                                                                                    padding: EdgeInsetsDirectional.fromSTEB(6.0, 6.0, 0.0, 0.0),
-                                                                                    child: Icon(
-                                                                                      Icons.chat_bubble,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
-                                                                                      size: 24.0,
-                                                                                    ),
-                                                                                  ),
-                                                                                  Padding(
-                                                                                    padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
-                                                                                    child: Text(
-                                                                                      'Host',
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium,
-                                                                                    ),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            );
-                                                                          },
                                                                         ),
                                                                       ],
                                                                     ),
@@ -1415,158 +1393,515 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                           style:
                                                                               FlutterFlowTheme.of(context).headlineSmall,
                                                                         ),
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              0.0,
-                                                                              20.0,
-                                                                              0.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              FFButtonWidget(
-                                                                            onPressed:
-                                                                                () async {
-                                                                              logFirebaseEvent('HOSTINVENTORY_PAGE_CANCEL_BTN_ON_TAP');
-                                                                              logFirebaseEvent('Button_send_s_m_s');
-                                                                              if (isiOS) {
-                                                                                await launchUrl(Uri.parse("sms:${cardProduct40CarRecord.vendorPhoneNumber}&body=${Uri.encodeComponent('Booking of ${cardProduct40CarRecord.carName} has been cancelled by the rentee.The money for this cancelled  booking will be refunded back to rentee.')}"));
-                                                                              } else {
-                                                                                await launchUrl(Uri(
-                                                                                  scheme: 'sms',
-                                                                                  path: cardProduct40CarRecord.vendorPhoneNumber,
-                                                                                  queryParameters: <String, String>{
-                                                                                    'body': 'Booking of ${cardProduct40CarRecord.carName} has been cancelled by the rentee.The money for this cancelled  booking will be refunded back to rentee.',
-                                                                                  },
-                                                                                ));
-                                                                              }
-
-                                                                              logFirebaseEvent('Button_backend_call');
-
-                                                                              await listViewBookingRecord.reference.update(createBookingRecordData(
-                                                                                bookingStatus: 'cancelled',
-                                                                              ));
-                                                                            },
-                                                                            text:
-                                                                                'Cancel',
-                                                                            options:
-                                                                                FFButtonOptions(
-                                                                              height: 30.0,
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
-                                                                              iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                              color: FlutterFlowTheme.of(context).primary,
-                                                                              textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                                                                    fontFamily: 'Open Sans',
-                                                                                    color: Colors.white,
-                                                                                  ),
-                                                                              elevation: 3.0,
-                                                                              borderSide: BorderSide(
-                                                                                color: Colors.transparent,
-                                                                                width: 1.0,
-                                                                              ),
-                                                                              borderRadius: BorderRadius.circular(50.0),
-                                                                            ),
-                                                                          ),
-                                                                        ),
                                                                       ],
                                                                     ),
                                                                   ],
                                                                 ),
                                                               ),
-                                                            ).animateOnPageLoad(
-                                                                animationsMap[
-                                                                    'containerOnPageLoadAnimation3']!);
-                                                          },
-                                                        ),
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                              StreamBuilder<
-                                                  List<BookingRecord>>(
-                                                stream: queryBookingRecord(
-                                                  queryBuilder: (bookingRecord) =>
-                                                      bookingRecord
-                                                          .where('uid',
-                                                              isEqualTo:
-                                                                  currentUserReference)
-                                                          .where('enddate',
-                                                              isLessThan:
-                                                                  getCurrentTimestamp)
-                                                          .where(
-                                                              'booking_status',
-                                                              isEqualTo:
-                                                                  'booked'),
-                                                ),
-                                                builder: (context, snapshot) {
-                                                  // Customize what your widget looks like when it's loading.
-                                                  if (!snapshot.hasData) {
-                                                    return Center(
-                                                      child: SizedBox(
-                                                        width: 100.0,
-                                                        height: 100.0,
-                                                        child: SpinKitDualRing(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          size: 100.0,
-                                                        ),
+                                                            ),
+                                                          ).animateOnPageLoad(
+                                                              animationsMap[
+                                                                  'containerOnPageLoadAnimation3']!);
+                                                        },
                                                       ),
                                                     );
-                                                  }
-                                                  List<BookingRecord>
-                                                      listViewBookingRecordList =
-                                                      snapshot.data!;
-                                                  if (listViewBookingRecordList
-                                                      .isEmpty) {
-                                                    return EmptyWidget();
-                                                  }
-                                                  return ListView.builder(
-                                                    padding: EdgeInsets.zero,
-                                                    scrollDirection:
-                                                        Axis.vertical,
-                                                    itemCount:
-                                                        listViewBookingRecordList
-                                                            .length,
-                                                    itemBuilder: (context,
-                                                        listViewIndex) {
-                                                      final listViewBookingRecord =
-                                                          listViewBookingRecordList[
-                                                              listViewIndex];
-                                                      return Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    4.0,
-                                                                    12.0,
-                                                                    4.0,
-                                                                    0.0),
-                                                        child: StreamBuilder<
-                                                            CarRecord>(
-                                                          stream: CarRecord.getDocument(
-                                                              listViewBookingRecord
-                                                                  .parentReference),
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            // Customize what your widget looks like when it's loading.
-                                                            if (!snapshot
-                                                                .hasData) {
-                                                              return Center(
-                                                                child: SizedBox(
-                                                                  width: 100.0,
-                                                                  height: 100.0,
-                                                                  child:
-                                                                      SpinKitDualRing(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    size: 100.0,
-                                                                  ),
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                            StreamBuilder<List<BookingRecord>>(
+                                              stream: queryBookingRecord(
+                                                queryBuilder: (bookingRecord) =>
+                                                    bookingRecord
+                                                        .where('uid',
+                                                            isEqualTo:
+                                                                currentUserReference)
+                                                        .where('enddate',
+                                                            isLessThan:
+                                                                getCurrentTimestamp)
+                                                        .where('booking_status',
+                                                            isEqualTo:
+                                                                'booked'),
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 100.0,
+                                                      height: 100.0,
+                                                      child: SpinKitDualRing(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        size: 100.0,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                List<BookingRecord>
+                                                    listViewBookingRecordList =
+                                                    snapshot.data!;
+                                                if (listViewBookingRecordList
+                                                    .isEmpty) {
+                                                  return EmptyWidget();
+                                                }
+                                                return ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemCount:
+                                                      listViewBookingRecordList
+                                                          .length,
+                                                  itemBuilder:
+                                                      (context, listViewIndex) {
+                                                    final listViewBookingRecord =
+                                                        listViewBookingRecordList[
+                                                            listViewIndex];
+                                                    return Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  4.0,
+                                                                  12.0,
+                                                                  4.0,
+                                                                  0.0),
+                                                      child: StreamBuilder<
+                                                          CarRecord>(
+                                                        stream: CarRecord.getDocument(
+                                                            listViewBookingRecord
+                                                                .parentReference),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          // Customize what your widget looks like when it's loading.
+                                                          if (!snapshot
+                                                              .hasData) {
+                                                            return Center(
+                                                              child: SizedBox(
+                                                                width: 100.0,
+                                                                height: 100.0,
+                                                                child:
+                                                                    SpinKitDualRing(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                  size: 100.0,
                                                                 ),
+                                                              ),
+                                                            );
+                                                          }
+                                                          final cardProduct40CarRecord =
+                                                              snapshot.data!;
+                                                          return Container(
+                                                            width:
+                                                                double.infinity,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .secondaryBackground,
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  blurRadius:
+                                                                      2.0,
+                                                                  color: Color(
+                                                                      0x520E151B),
+                                                                  offset:
+                                                                      Offset(
+                                                                          0.0,
+                                                                          1.0),
+                                                                )
+                                                              ],
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12.0),
+                                                            ),
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          16.0,
+                                                                          0.0),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  Stack(
+                                                                    children: [
+                                                                      ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(12.0),
+                                                                        child: Image
+                                                                            .network(
+                                                                          cardProduct40CarRecord
+                                                                              .carPhotos
+                                                                              .first,
+                                                                          width:
+                                                                              120.0,
+                                                                          height:
+                                                                              120.0,
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        ),
+                                                                      ),
+                                                                      StreamBuilder<
+                                                                          UserRecord>(
+                                                                        stream:
+                                                                            _model.host(
+                                                                          requestFn: () =>
+                                                                              UserRecord.getDocument(cardProduct40CarRecord.uid!),
+                                                                        ),
+                                                                        builder:
+                                                                            (context,
+                                                                                snapshot) {
+                                                                          // Customize what your widget looks like when it's loading.
+                                                                          if (!snapshot
+                                                                              .hasData) {
+                                                                            return Center(
+                                                                              child: SizedBox(
+                                                                                width: 100.0,
+                                                                                height: 100.0,
+                                                                                child: SpinKitDualRing(
+                                                                                  color: FlutterFlowTheme.of(context).primary,
+                                                                                  size: 100.0,
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          }
+                                                                          final rowUserRecord =
+                                                                              snapshot.data!;
+                                                                          return InkWell(
+                                                                            splashColor:
+                                                                                Colors.transparent,
+                                                                            focusColor:
+                                                                                Colors.transparent,
+                                                                            hoverColor:
+                                                                                Colors.transparent,
+                                                                            highlightColor:
+                                                                                Colors.transparent,
+                                                                            onTap:
+                                                                                () async {
+                                                                              logFirebaseEvent('HOSTINVENTORY_PAGE_Row_1snk5led_ON_TAP');
+                                                                              logFirebaseEvent('Row_navigate_to');
+
+                                                                              context.pushNamed(
+                                                                                'ChatPage',
+                                                                                queryParameters: {
+                                                                                  'chatUser': serializeParam(
+                                                                                    rowUserRecord,
+                                                                                    ParamType.Document,
+                                                                                  ),
+                                                                                }.withoutNulls,
+                                                                                extra: <String, dynamic>{
+                                                                                  'chatUser': rowUserRecord,
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                            child:
+                                                                                Row(
+                                                                              mainAxisSize: MainAxisSize.max,
+                                                                              children: [
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional.fromSTEB(6.0, 6.0, 0.0, 0.0),
+                                                                                  child: Icon(
+                                                                                    Icons.chat_bubble,
+                                                                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                    size: 24.0,
+                                                                                  ),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
+                                                                                  child: Text(
+                                                                                    'Host',
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Expanded(
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                                                          16.0,
+                                                                          0.0,
+                                                                          16.0,
+                                                                          0.0),
+                                                                      child:
+                                                                          Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.max,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0,
+                                                                                4.0),
+                                                                            child:
+                                                                                Text(
+                                                                              cardProduct40CarRecord.carName,
+                                                                              style: FlutterFlowTheme.of(context).titleLarge.override(
+                                                                                    fontFamily: 'Open Sans',
+                                                                                    fontSize: 16.0,
+                                                                                  ),
+                                                                            ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                0.0,
+                                                                                4.0,
+                                                                                0.0,
+                                                                                0.0),
+                                                                            child:
+                                                                                Text(
+                                                                              'Enddate :  ${dateTimeFormat(
+                                                                                'd/M/y',
+                                                                                listViewBookingRecord.enddate,
+                                                                                locale: FFLocalizations.of(context).languageCode,
+                                                                              )}',
+                                                                              style: FlutterFlowTheme.of(context).labelMedium,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    children: [
+                                                                      Text(
+                                                                        formatNumber(
+                                                                          listViewBookingRecord
+                                                                              .totalcost,
+                                                                          formatType:
+                                                                              FormatType.custom,
+                                                                          currency:
+                                                                              'K',
+                                                                          format:
+                                                                              '00.00',
+                                                                          locale:
+                                                                              '',
+                                                                        ),
+                                                                        textAlign:
+                                                                            TextAlign.end,
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .headlineSmall
+                                                                            .override(
+                                                                              fontFamily: 'Open Sans',
+                                                                              fontSize: 12.0,
+                                                                            ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            20.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            FFButtonWidget(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            logFirebaseEvent('HOSTINVENTORY_PAGE_RATE_IT_BTN_ON_TAP');
+                                                                            logFirebaseEvent('Button_bottom_sheet');
+                                                                            await showModalBottomSheet(
+                                                                              isScrollControlled: true,
+                                                                              backgroundColor: Colors.transparent,
+                                                                              enableDrag: false,
+                                                                              context: context,
+                                                                              builder: (context) {
+                                                                                return GestureDetector(
+                                                                                  onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+                                                                                  child: Padding(
+                                                                                    padding: MediaQuery.viewInsetsOf(context),
+                                                                                    child: Container(
+                                                                                      height: MediaQuery.sizeOf(context).height * 0.5,
+                                                                                      child: ReviewWidget(
+                                                                                        carref: listViewBookingRecord.parentReference,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              },
+                                                                            ).then((value) =>
+                                                                                setState(() {}));
+                                                                          },
+                                                                          text:
+                                                                              'Rate it',
+                                                                          options:
+                                                                              FFButtonOptions(
+                                                                            height:
+                                                                                30.0,
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                24.0,
+                                                                                0.0,
+                                                                                24.0,
+                                                                                0.0),
+                                                                            iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0),
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).primary,
+                                                                            textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                                                                                  fontFamily: 'Open Sans',
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                            elevation:
+                                                                                3.0,
+                                                                            borderSide:
+                                                                                BorderSide(
+                                                                              color: Colors.transparent,
+                                                                              width: 1.0,
+                                                                            ),
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(50.0),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ).animateOnPageLoad(
+                                                              animationsMap[
+                                                                  'containerOnPageLoadAnimation4']!);
+                                                        },
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                            StreamBuilder<List<ReservedRecord>>(
+                                              stream: queryReservedRecord(
+                                                queryBuilder: (reservedRecord) =>
+                                                    reservedRecord
+                                                        .where('booking_status',
+                                                            isEqualTo:
+                                                                'reserved')
+                                                        .where('uid',
+                                                            isEqualTo:
+                                                                currentUserReference),
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 100.0,
+                                                      height: 100.0,
+                                                      child: SpinKitDualRing(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        size: 100.0,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                List<ReservedRecord>
+                                                    listViewReservedRecordList =
+                                                    snapshot.data!;
+                                                if (listViewReservedRecordList
+                                                    .isEmpty) {
+                                                  return EmptyWidget();
+                                                }
+                                                return ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemCount:
+                                                      listViewReservedRecordList
+                                                          .length,
+                                                  itemBuilder:
+                                                      (context, listViewIndex) {
+                                                    final listViewReservedRecord =
+                                                        listViewReservedRecordList[
+                                                            listViewIndex];
+                                                    return Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  4.0,
+                                                                  12.0,
+                                                                  4.0,
+                                                                  0.0),
+                                                      child: StreamBuilder<
+                                                          CarRecord>(
+                                                        stream: CarRecord.getDocument(
+                                                            listViewReservedRecord
+                                                                .parentReference),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          // Customize what your widget looks like when it's loading.
+                                                          if (!snapshot
+                                                              .hasData) {
+                                                            return Center(
+                                                              child: SizedBox(
+                                                                width: 100.0,
+                                                                height: 100.0,
+                                                                child:
+                                                                    SpinKitDualRing(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                  size: 100.0,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                          final cardProduct40CarRecord =
+                                                              snapshot.data!;
+                                                          return InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              logFirebaseEvent(
+                                                                  'HOSTINVENTORY_PAGE_cardProduct40_ON_TAP');
+                                                              logFirebaseEvent(
+                                                                  'cardProduct40_navigate_to');
+
+                                                              context.pushNamed(
+                                                                'Detail',
+                                                                queryParameters:
+                                                                    {
+                                                                  'productref':
+                                                                      serializeParam(
+                                                                    listViewReservedRecord
+                                                                        .parentReference,
+                                                                    ParamType
+                                                                        .DocumentReference,
+                                                                  ),
+                                                                }.withoutNulls,
                                                               );
-                                                            }
-                                                            final cardProduct40CarRecord =
-                                                                snapshot.data!;
-                                                            return Container(
+                                                            },
+                                                            child: Container(
                                                               width: double
                                                                   .infinity,
                                                               decoration:
@@ -1604,92 +1939,22 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                       MainAxisSize
                                                                           .max,
                                                                   children: [
-                                                                    Stack(
-                                                                      children: [
-                                                                        ClipRRect(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(12.0),
-                                                                          child:
-                                                                              Image.network(
-                                                                            cardProduct40CarRecord.carPhotos.first,
-                                                                            width:
-                                                                                120.0,
-                                                                            height:
-                                                                                120.0,
-                                                                            fit:
-                                                                                BoxFit.cover,
-                                                                          ),
-                                                                        ),
-                                                                        StreamBuilder<
-                                                                            UserRecord>(
-                                                                          stream:
-                                                                              _model.host(
-                                                                            requestFn: () =>
-                                                                                UserRecord.getDocument(cardProduct40CarRecord.uid!),
-                                                                          ),
-                                                                          builder:
-                                                                              (context, snapshot) {
-                                                                            // Customize what your widget looks like when it's loading.
-                                                                            if (!snapshot.hasData) {
-                                                                              return Center(
-                                                                                child: SizedBox(
-                                                                                  width: 100.0,
-                                                                                  height: 100.0,
-                                                                                  child: SpinKitDualRing(
-                                                                                    color: FlutterFlowTheme.of(context).primary,
-                                                                                    size: 100.0,
-                                                                                  ),
-                                                                                ),
-                                                                              );
-                                                                            }
-                                                                            final rowUserRecord =
-                                                                                snapshot.data!;
-                                                                            return InkWell(
-                                                                              splashColor: Colors.transparent,
-                                                                              focusColor: Colors.transparent,
-                                                                              hoverColor: Colors.transparent,
-                                                                              highlightColor: Colors.transparent,
-                                                                              onTap: () async {
-                                                                                logFirebaseEvent('HOSTINVENTORY_PAGE_Row_1snk5led_ON_TAP');
-                                                                                logFirebaseEvent('Row_navigate_to');
-
-                                                                                context.pushNamed(
-                                                                                  'ChatPage',
-                                                                                  queryParameters: {
-                                                                                    'chatUser': serializeParam(
-                                                                                      rowUserRecord,
-                                                                                      ParamType.Document,
-                                                                                    ),
-                                                                                  }.withoutNulls,
-                                                                                  extra: <String, dynamic>{
-                                                                                    'chatUser': rowUserRecord,
-                                                                                  },
-                                                                                );
-                                                                              },
-                                                                              child: Row(
-                                                                                mainAxisSize: MainAxisSize.max,
-                                                                                children: [
-                                                                                  Padding(
-                                                                                    padding: EdgeInsetsDirectional.fromSTEB(6.0, 6.0, 0.0, 0.0),
-                                                                                    child: Icon(
-                                                                                      Icons.chat_bubble,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
-                                                                                      size: 24.0,
-                                                                                    ),
-                                                                                  ),
-                                                                                  Padding(
-                                                                                    padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
-                                                                                    child: Text(
-                                                                                      'Host',
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium,
-                                                                                    ),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            );
-                                                                          },
-                                                                        ),
-                                                                      ],
+                                                                    ClipRRect(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              12.0),
+                                                                      child: Image
+                                                                          .network(
+                                                                        cardProduct40CarRecord
+                                                                            .carPhotos
+                                                                            .first,
+                                                                        width:
+                                                                            120.0,
+                                                                        height:
+                                                                            120.0,
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      ),
                                                                     ),
                                                                     Expanded(
                                                                       child:
@@ -1723,7 +1988,7 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                               child: Text(
                                                                                 'Enddate :  ${dateTimeFormat(
                                                                                   'd/M/y',
-                                                                                  listViewBookingRecord.enddate,
+                                                                                  listViewReservedRecord.enddate,
                                                                                   locale: FFLocalizations.of(context).languageCode,
                                                                                 )}',
                                                                                 style: FlutterFlowTheme.of(context).labelMedium,
@@ -1740,7 +2005,7 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                       children: [
                                                                         Text(
                                                                           formatNumber(
-                                                                            listViewBookingRecord.totalcost,
+                                                                            listViewReservedRecord.totalcost,
                                                                             formatType:
                                                                                 FormatType.custom,
                                                                             currency:
@@ -1762,51 +2027,38 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                         Padding(
                                                                           padding: EdgeInsetsDirectional.fromSTEB(
                                                                               0.0,
-                                                                              20.0,
+                                                                              10.0,
                                                                               0.0,
                                                                               0.0),
                                                                           child:
                                                                               FFButtonWidget(
                                                                             onPressed:
                                                                                 () async {
-                                                                              logFirebaseEvent('HOSTINVENTORY_PAGE_RATE_IT_BTN_ON_TAP');
-                                                                              logFirebaseEvent('Button_bottom_sheet');
-                                                                              await showModalBottomSheet(
-                                                                                isScrollControlled: true,
-                                                                                backgroundColor: Colors.transparent,
-                                                                                enableDrag: false,
-                                                                                context: context,
-                                                                                builder: (context) {
-                                                                                  return GestureDetector(
-                                                                                    onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
-                                                                                    child: Padding(
-                                                                                      padding: MediaQuery.viewInsetsOf(context),
-                                                                                      child: Container(
-                                                                                        height: MediaQuery.sizeOf(context).height * 0.5,
-                                                                                        child: ReviewWidget(
-                                                                                          carref: listViewBookingRecord.parentReference,
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  );
-                                                                                },
-                                                                              ).then((value) => setState(() {}));
+                                                                              logFirebaseEvent('HOSTINVENTORY_PAGE__BTN_ON_TAP');
+                                                                              logFirebaseEvent('Button_backend_call');
+                                                                              await listViewReservedRecord.reference.delete();
                                                                             },
                                                                             text:
-                                                                                'Rate it',
+                                                                                '',
+                                                                            icon:
+                                                                                Icon(
+                                                                              Icons.delete_forever,
+                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              size: 15.0,
+                                                                            ),
                                                                             options:
                                                                                 FFButtonOptions(
                                                                               height: 30.0,
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
                                                                               iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              color: FlutterFlowTheme.of(context).accent3,
                                                                               textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                     fontFamily: 'Open Sans',
                                                                                     color: Colors.white,
                                                                                   ),
                                                                               elevation: 3.0,
                                                                               borderSide: BorderSide(
-                                                                                color: Colors.transparent,
+                                                                                color: FlutterFlowTheme.of(context).primary,
                                                                                 width: 1.0,
                                                                               ),
                                                                               borderRadius: BorderRadius.circular(50.0),
@@ -1818,300 +2070,21 @@ class _HostinventoryWidgetState extends State<HostinventoryWidget>
                                                                   ],
                                                                 ),
                                                               ),
-                                                            ).animateOnPageLoad(
-                                                                animationsMap[
-                                                                    'containerOnPageLoadAnimation4']!);
-                                                          },
-                                                        ),
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                              StreamBuilder<
-                                                  List<ReservedRecord>>(
-                                                stream: queryReservedRecord(
-                                                  queryBuilder: (reservedRecord) =>
-                                                      reservedRecord
-                                                          .where(
-                                                              'booking_status',
-                                                              isEqualTo:
-                                                                  'reserved')
-                                                          .where('uid',
-                                                              isEqualTo:
-                                                                  currentUserReference),
-                                                ),
-                                                builder: (context, snapshot) {
-                                                  // Customize what your widget looks like when it's loading.
-                                                  if (!snapshot.hasData) {
-                                                    return Center(
-                                                      child: SizedBox(
-                                                        width: 100.0,
-                                                        height: 100.0,
-                                                        child: SpinKitDualRing(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          size: 100.0,
-                                                        ),
+                                                            ),
+                                                          ).animateOnPageLoad(
+                                                              animationsMap[
+                                                                  'containerOnPageLoadAnimation5']!);
+                                                        },
                                                       ),
                                                     );
-                                                  }
-                                                  List<ReservedRecord>
-                                                      listViewReservedRecordList =
-                                                      snapshot.data!;
-                                                  if (listViewReservedRecordList
-                                                      .isEmpty) {
-                                                    return EmptyWidget();
-                                                  }
-                                                  return ListView.builder(
-                                                    padding: EdgeInsets.zero,
-                                                    scrollDirection:
-                                                        Axis.vertical,
-                                                    itemCount:
-                                                        listViewReservedRecordList
-                                                            .length,
-                                                    itemBuilder: (context,
-                                                        listViewIndex) {
-                                                      final listViewReservedRecord =
-                                                          listViewReservedRecordList[
-                                                              listViewIndex];
-                                                      return Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    4.0,
-                                                                    12.0,
-                                                                    4.0,
-                                                                    0.0),
-                                                        child: StreamBuilder<
-                                                            CarRecord>(
-                                                          stream: CarRecord.getDocument(
-                                                              listViewReservedRecord
-                                                                  .parentReference),
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            // Customize what your widget looks like when it's loading.
-                                                            if (!snapshot
-                                                                .hasData) {
-                                                              return Center(
-                                                                child: SizedBox(
-                                                                  width: 100.0,
-                                                                  height: 100.0,
-                                                                  child:
-                                                                      SpinKitDualRing(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    size: 100.0,
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            }
-                                                            final cardProduct40CarRecord =
-                                                                snapshot.data!;
-                                                            return InkWell(
-                                                              splashColor: Colors
-                                                                  .transparent,
-                                                              focusColor: Colors
-                                                                  .transparent,
-                                                              hoverColor: Colors
-                                                                  .transparent,
-                                                              highlightColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              onTap: () async {
-                                                                logFirebaseEvent(
-                                                                    'HOSTINVENTORY_PAGE_cardProduct40_ON_TAP');
-                                                                logFirebaseEvent(
-                                                                    'cardProduct40_navigate_to');
-
-                                                                context
-                                                                    .pushNamed(
-                                                                  'Cardetails',
-                                                                  queryParameters:
-                                                                      {
-                                                                    'productref':
-                                                                        serializeParam(
-                                                                      listViewReservedRecord
-                                                                          .parentReference,
-                                                                      ParamType
-                                                                          .DocumentReference,
-                                                                    ),
-                                                                  }.withoutNulls,
-                                                                );
-                                                              },
-                                                              child: Container(
-                                                                width: double
-                                                                    .infinity,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryBackground,
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                      blurRadius:
-                                                                          2.0,
-                                                                      color: Color(
-                                                                          0x520E151B),
-                                                                      offset: Offset(
-                                                                          0.0,
-                                                                          1.0),
-                                                                    )
-                                                                  ],
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12.0),
-                                                                ),
-                                                                child: Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                                  child: Row(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(12.0),
-                                                                        child: Image
-                                                                            .network(
-                                                                          cardProduct40CarRecord
-                                                                              .carPhotos
-                                                                              .first,
-                                                                          width:
-                                                                              120.0,
-                                                                          height:
-                                                                              120.0,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
-                                                                      Expanded(
-                                                                        child:
-                                                                            Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              16.0,
-                                                                              0.0,
-                                                                              16.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              Column(
-                                                                            mainAxisSize:
-                                                                                MainAxisSize.max,
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.center,
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment.start,
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0),
-                                                                                child: Text(
-                                                                                  cardProduct40CarRecord.carName,
-                                                                                  style: FlutterFlowTheme.of(context).titleLarge.override(
-                                                                                        fontFamily: 'Open Sans',
-                                                                                        fontSize: 16.0,
-                                                                                      ),
-                                                                                ),
-                                                                              ),
-                                                                              Padding(
-                                                                                padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                                child: Text(
-                                                                                  'Enddate :  ${dateTimeFormat(
-                                                                                    'd/M/y',
-                                                                                    listViewReservedRecord.enddate,
-                                                                                    locale: FFLocalizations.of(context).languageCode,
-                                                                                  )}',
-                                                                                  style: FlutterFlowTheme.of(context).labelMedium,
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Column(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        children: [
-                                                                          Text(
-                                                                            formatNumber(
-                                                                              listViewReservedRecord.totalcost,
-                                                                              formatType: FormatType.custom,
-                                                                              currency: 'K',
-                                                                              format: '00.00',
-                                                                              locale: '',
-                                                                            ),
-                                                                            textAlign:
-                                                                                TextAlign.end,
-                                                                            style: FlutterFlowTheme.of(context).headlineSmall.override(
-                                                                                  fontFamily: 'Open Sans',
-                                                                                  fontSize: 12.0,
-                                                                                ),
-                                                                          ),
-                                                                          Padding(
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                0.0,
-                                                                                10.0,
-                                                                                0.0,
-                                                                                0.0),
-                                                                            child:
-                                                                                FFButtonWidget(
-                                                                              onPressed: () async {
-                                                                                logFirebaseEvent('HOSTINVENTORY_PAGE__BTN_ON_TAP');
-                                                                                logFirebaseEvent('Button_backend_call');
-                                                                                await listViewReservedRecord.reference.delete();
-                                                                              },
-                                                                              text: '',
-                                                                              icon: Icon(
-                                                                                Icons.delete_forever,
-                                                                                color: FlutterFlowTheme.of(context).primary,
-                                                                                size: 15.0,
-                                                                              ),
-                                                                              options: FFButtonOptions(
-                                                                                height: 30.0,
-                                                                                padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
-                                                                                iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                color: FlutterFlowTheme.of(context).accent3,
-                                                                                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                                                                      fontFamily: 'Open Sans',
-                                                                                      color: Colors.white,
-                                                                                    ),
-                                                                                elevation: 3.0,
-                                                                                borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).primary,
-                                                                                  width: 1.0,
-                                                                                ),
-                                                                                borderRadius: BorderRadius.circular(50.0),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ).animateOnPageLoad(
-                                                                animationsMap[
-                                                                    'containerOnPageLoadAnimation5']!);
-                                                          },
-                                                        ),
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                            ],
-                                          ),
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),

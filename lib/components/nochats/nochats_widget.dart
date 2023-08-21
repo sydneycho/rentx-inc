@@ -53,17 +53,18 @@ class _NochatsWidgetState extends State<NochatsWidget> {
           children: [
             Icon(
               Icons.wechat,
-              color: FlutterFlowTheme.of(context).secondaryText,
+              color: FlutterFlowTheme.of(context).primary,
               size: 50.0,
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
               child: Text(
-                'Opps ! you have no active chats',
+                'Opps ! no active chats',
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).headlineSmall.override(
                       fontFamily: 'Open Sans',
                       color: FlutterFlowTheme.of(context).primaryText,
+                      fontSize: 18.0,
                     ),
               ),
             ),

@@ -59,7 +59,7 @@ class _ReferralsWidgetState extends State<ReferralsWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
               child: Text(
-                'Opps ! you have no active referrals',
+                'Opps !  you have no active referrals',
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).headlineSmall.override(
                       fontFamily: 'Open Sans',

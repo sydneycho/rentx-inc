@@ -42,33 +42,37 @@ class _NoreviewsWidgetState extends State<NoreviewsWidget> {
 
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),
-      child: Container(
-        width: MediaQuery.sizeOf(context).width * 0.9,
-        height: 300.0,
-        decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).secondaryBackground,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.car_crash,
-              color: FlutterFlowTheme.of(context).secondaryText,
-              size: 50.0,
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
-              child: Text(
-                'Opps ! you have no Reviews',
-                textAlign: TextAlign.center,
-                style: FlutterFlowTheme.of(context).headlineSmall.override(
-                      fontFamily: 'Open Sans',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                    ),
+      child: Semantics(
+        label: 'No reviews ',
+        child: Container(
+          width: MediaQuery.sizeOf(context).width * 1.0,
+          height: 300.0,
+          decoration: BoxDecoration(
+            color: FlutterFlowTheme.of(context).secondaryBackground,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.reviews,
+                color: FlutterFlowTheme.of(context).primary,
+                size: 50.0,
               ),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                child: Text(
+                  'Opps ! No Reviews',
+                  textAlign: TextAlign.center,
+                  style: FlutterFlowTheme.of(context).headlineSmall.override(
+                        fontFamily: 'Open Sans',
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        fontSize: 18.0,
+                      ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -51,7 +51,7 @@ class _EmptyWidgetState extends State<EmptyWidget> {
         children: [
           Icon(
             Icons.car_crash,
-            color: FlutterFlowTheme.of(context).secondaryText,
+            color: FlutterFlowTheme.of(context).primary,
             size: 50.0,
           ),
           Padding(
@@ -62,6 +62,7 @@ class _EmptyWidgetState extends State<EmptyWidget> {
               style: FlutterFlowTheme.of(context).headlineSmall.override(
                     fontFamily: 'Open Sans',
                     color: FlutterFlowTheme.of(context).primaryText,
+                    fontSize: 18.0,
                   ),
             ),
           ),

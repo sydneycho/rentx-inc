@@ -229,7 +229,7 @@ class _PhotouploadWidgetState extends State<PhotouploadWidget> {
                           color: Colors.transparent,
                           width: 1.0,
                         ),
-                        borderRadius: BorderRadius.circular(50.0),
+                        borderRadius: BorderRadius.circular(4.0),
                       ),
                     ),
                     FFButtonWidget(
@@ -252,7 +252,7 @@ class _PhotouploadWidgetState extends State<PhotouploadWidget> {
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         iconPadding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: Color(0xFF4B39EF),
+                        color: FlutterFlowTheme.of(context).primary,
                         textStyle:
                             FlutterFlowTheme.of(context).titleSmall.override(
                                   fontFamily: 'Lexend Deca',
@@ -265,7 +265,7 @@ class _PhotouploadWidgetState extends State<PhotouploadWidget> {
                           color: Colors.transparent,
                           width: 1.0,
                         ),
-                        borderRadius: BorderRadius.circular(50.0),
+                        borderRadius: BorderRadius.circular(2.0),
                       ),
                     ),
                   ],

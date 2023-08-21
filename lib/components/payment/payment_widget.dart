@@ -610,7 +610,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                                 color: FlutterFlowTheme.of(context).primary,
                                 width: 0.0,
                               ),
-                              borderRadius: BorderRadius.circular(100.0),
+                              borderRadius: BorderRadius.circular(6.0),
                             ),
                           ),
                         ),

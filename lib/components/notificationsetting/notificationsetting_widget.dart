@@ -362,7 +362,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                             color: Colors.transparent,
                             width: 1.0,
                           ),
-                          borderRadius: BorderRadius.circular(50.0),
+                          borderRadius: BorderRadius.circular(6.0),
                         ),
                       ),
                     ],

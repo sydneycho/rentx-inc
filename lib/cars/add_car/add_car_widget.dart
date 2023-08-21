@@ -90,8 +90,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                                 buttonSize: 50.0,
                                 icon: Icon(
                                   Icons.close_rounded,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
+                                  color: FlutterFlowTheme.of(context).primary,
                                   size: 24.0,
                                 ),
                                 onPressed: () async {
@@ -540,6 +539,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                                 20.0, 4.0, 12.0, 4.0),
                             hidesUnderline: true,
                             isSearchable: true,
+                            isMultiSelect: false,
                           ),
                         ),
                         Padding(
@@ -582,6 +582,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                                 20.0, 4.0, 12.0, 4.0),
                             hidesUnderline: true,
                             isSearchable: true,
+                            isMultiSelect: false,
                           ),
                         ),
                         AuthUserStreamWidget(
@@ -741,6 +742,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                                 20.0, 4.0, 12.0, 4.0),
                             hidesUnderline: true,
                             isSearchable: true,
+                            isMultiSelect: false,
                           ),
                         ),
                         Padding(

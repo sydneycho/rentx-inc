@@ -109,7 +109,7 @@ class ParameterData {
 
 final parametersBuilderMap =
     <String, Future<ParameterData> Function(Map<String, dynamic>)>{
-  'Cardetails': (data) async => ParameterData(
+  'Detail': (data) async => ParameterData(
         allParams: {
           'productref': getParameter<DocumentReference>(data, 'productref'),
         },
@@ -121,7 +121,6 @@ final parametersBuilderMap =
   'Wallet': ParameterData.none(),
   'Hostinventory': ParameterData.none(),
   'Help': ParameterData.none(),
-  'Contact': ParameterData.none(),
   'About_rentz': ParameterData.none(),
   'Policy': ParameterData.none(),
   'Terms': ParameterData.none(),
@@ -151,7 +150,6 @@ final parametersBuilderMap =
         },
       ),
   'AllChatsPage': ParameterData.none(),
-  'search': ParameterData.none(),
   'Edit_car': (data) async => ParameterData(
         allParams: {
           'editcar': getParameter<DocumentReference>(data, 'editcar'),

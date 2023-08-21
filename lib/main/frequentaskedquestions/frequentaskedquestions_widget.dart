@@ -1,3 +1,4 @@
+import '/components/contact/contact_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -191,7 +192,7 @@ class _FrequentaskedquestionsWidgetState
                                     decoration: BoxDecoration(
                                       color:
                                           FlutterFlowTheme.of(context).primary,
-                                      borderRadius: BorderRadius.circular(12.0),
+                                      borderRadius: BorderRadius.circular(4.0),
                                       border: Border.all(
                                         color: FlutterFlowTheme.of(context)
                                             .primary,
@@ -288,7 +289,7 @@ class _FrequentaskedquestionsWidgetState
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .primaryBackground,
-                                borderRadius: BorderRadius.circular(12.0),
+                                borderRadius: BorderRadius.circular(2.0),
                                 border: Border.all(
                                   color: FlutterFlowTheme.of(context).accent3,
                                 ),
@@ -356,7 +357,7 @@ class _FrequentaskedquestionsWidgetState
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .primaryBackground,
-                                borderRadius: BorderRadius.circular(12.0),
+                                borderRadius: BorderRadius.circular(2.0),
                                 border: Border.all(
                                   color: FlutterFlowTheme.of(context).accent3,
                                 ),
@@ -414,7 +415,7 @@ class _FrequentaskedquestionsWidgetState
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .primaryBackground,
-                                borderRadius: BorderRadius.circular(12.0),
+                                borderRadius: BorderRadius.circular(2.0),
                                 border: Border.all(
                                   color: FlutterFlowTheme.of(context).accent3,
                                 ),
@@ -482,7 +483,7 @@ class _FrequentaskedquestionsWidgetState
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .primaryBackground,
-                                borderRadius: BorderRadius.circular(12.0),
+                                borderRadius: BorderRadius.circular(2.0),
                                 border: Border.all(
                                   color: FlutterFlowTheme.of(context).accent3,
                                 ),
@@ -540,7 +541,7 @@ class _FrequentaskedquestionsWidgetState
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .primaryBackground,
-                                borderRadius: BorderRadius.circular(12.0),
+                                borderRadius: BorderRadius.circular(2.0),
                                 border: Border.all(
                                   color: FlutterFlowTheme.of(context).accent3,
                                 ),
@@ -608,7 +609,7 @@ class _FrequentaskedquestionsWidgetState
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .primaryBackground,
-                                borderRadius: BorderRadius.circular(12.0),
+                                borderRadius: BorderRadius.circular(2.0),
                                 border: Border.all(
                                   color: FlutterFlowTheme.of(context).accent3,
                                 ),
@@ -666,7 +667,7 @@ class _FrequentaskedquestionsWidgetState
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .primaryBackground,
-                                borderRadius: BorderRadius.circular(12.0),
+                                borderRadius: BorderRadius.circular(2.0),
                                 border: Border.all(
                                   color: FlutterFlowTheme.of(context).accent3,
                                 ),
@@ -734,6 +735,7 @@ class _FrequentaskedquestionsWidgetState
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .primaryBackground,
+                                borderRadius: BorderRadius.circular(2.0),
                                 border: Border.all(
                                   color: FlutterFlowTheme.of(context).accent3,
                                 ),
@@ -799,13 +801,27 @@ class _FrequentaskedquestionsWidgetState
                             onTap: () async {
                               logFirebaseEvent(
                                   'FREQUENTASKEDQUESTIONS_Icon_1s08elam_ON_');
-                              logFirebaseEvent('Icon_navigate_to');
-
-                              context.pushNamed('Contact');
+                              logFirebaseEvent('Icon_bottom_sheet');
+                              await showModalBottomSheet(
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                enableDrag: false,
+                                context: context,
+                                builder: (context) {
+                                  return GestureDetector(
+                                    onTap: () => FocusScope.of(context)
+                                        .requestFocus(_model.unfocusNode),
+                                    child: Padding(
+                                      padding: MediaQuery.viewInsetsOf(context),
+                                      child: ContactWidget(),
+                                    ),
+                                  );
+                                },
+                              ).then((value) => setState(() {}));
                             },
                             child: Icon(
                               Icons.mail_outline_rounded,
-                              color: FlutterFlowTheme.of(context).primaryText,
+                              color: FlutterFlowTheme.of(context).primary,
                               size: 24.0,
                             ),
                           ),

@@ -1,5 +1,5 @@
 // Export pages
-export '/cars/cardetails/cardetails_widget.dart' show CardetailsWidget;
+export '/cars/detail/detail_widget.dart' show DetailWidget;
 export '/main/profile/profile_widget.dart' show ProfileWidget;
 export '/authentication/passwordreset/passwordreset_widget.dart'
     show PasswordresetWidget;
@@ -10,7 +10,6 @@ export '/authentication/editprofile/editprofile_widget.dart'
 export '/main/wallet/wallet_widget.dart' show WalletWidget;
 export '/cars/hostinventory/hostinventory_widget.dart' show HostinventoryWidget;
 export '/main/help/help_widget.dart' show HelpWidget;
-export '/main/contact/contact_widget.dart' show ContactWidget;
 export '/main/about_rentz/about_rentz_widget.dart' show AboutRentzWidget;
 export '/main/policy/policy_widget.dart' show PolicyWidget;
 export '/main/terms/terms_widget.dart' show TermsWidget;
@@ -29,6 +28,5 @@ export '/main/advertise/advertise_widget.dart' show AdvertiseWidget;
 export '/main/chat_page/chat_page_widget.dart' show ChatPageWidget;
 export '/main/all_chats_page/all_chats_page_widget.dart'
     show AllChatsPageWidget;
-export '/main/search/search_widget.dart' show SearchWidget;
 export '/cars/edit_car/edit_car_widget.dart' show EditCarWidget;
 export '/cars/add_car/add_car_widget.dart' show AddCarWidget;
