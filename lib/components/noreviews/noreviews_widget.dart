@@ -41,7 +41,7 @@ class _NoreviewsWidgetState extends State<NoreviewsWidget> {
     context.watch<FFAppState>();
 
     return Align(
-      alignment: AlignmentDirectional(0.0, 0.0),
+      alignment: AlignmentDirectional(0.00, 0.00),
       child: Semantics(
         label: 'No reviews ',
         child: Container(
@@ -67,7 +67,7 @@ class _NoreviewsWidgetState extends State<NoreviewsWidget> {
                   style: FlutterFlowTheme.of(context).headlineSmall.override(
                         fontFamily: 'Open Sans',
                         color: FlutterFlowTheme.of(context).primaryText,
-                        fontSize: 18.0,
+                        fontSize: 16.0,
                       ),
                 ),
               ),

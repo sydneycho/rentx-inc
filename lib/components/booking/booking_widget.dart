@@ -52,7 +52,7 @@ class _BookingWidgetState extends State<BookingWidget> {
     context.watch<FFAppState>();
 
     return Align(
-      alignment: AlignmentDirectional(0.0, 0.0),
+      alignment: AlignmentDirectional(0.00, 0.00),
       child: StreamBuilder<BookingRecord>(
         stream: BookingRecord.getDocument(widget.booking!),
         builder: (context, snapshot) {
@@ -107,7 +107,12 @@ class _BookingWidgetState extends State<BookingWidget> {
                             offset: Offset(0.0, 2.0),
                           )
                         ],
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20.0),
+                          bottomRight: Radius.circular(0.0),
+                          topLeft: Radius.circular(0.0),
+                          topRight: Radius.circular(20.0),
+                        ),
                       ),
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
@@ -126,8 +131,13 @@ class _BookingWidgetState extends State<BookingWidget> {
                                 children: [
                                   Text(
                                     'Booking',
-                                    style:
-                                        FlutterFlowTheme.of(context).titleLarge,
+                                    style: FlutterFlowTheme.of(context)
+                                        .titleLarge
+                                        .override(
+                                          fontFamily: 'Open Sans',
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                   ),
                                   InkWell(
                                     splashColor: Colors.transparent,
@@ -157,13 +167,13 @@ class _BookingWidgetState extends State<BookingWidget> {
                               children: [
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 12.0),
+                                      0.0, 12.0, 0.0, 12.0),
                                   child: Container(
                                     width:
                                         MediaQuery.sizeOf(context).width * 1.0,
                                     decoration: BoxDecoration(
                                       color:
-                                          FlutterFlowTheme.of(context).accent3,
+                                          FlutterFlowTheme.of(context).accent4,
                                       boxShadow: [
                                         BoxShadow(
                                           blurRadius: 0.0,
@@ -173,7 +183,39 @@ class _BookingWidgetState extends State<BookingWidget> {
                                         )
                                       ],
                                       borderRadius: BorderRadius.circular(0.0),
+                                      border: Border.all(
+                                        color: FlutterFlowTheme.of(context)
+                                            .accent4,
+                                        width: 0.0,
+                                      ),
                                     ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 10.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Aggreement form',
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .override(
+                                              fontFamily: 'Open Sans',
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                      ),
+                                      Icon(
+                                        Icons.cloud_download_outlined,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        size: 24.0,
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 Container(
@@ -245,10 +287,14 @@ class _BookingWidgetState extends State<BookingWidget> {
                                                                   0.0,
                                                                   0.0),
                                                       child: RichText(
+                                                        textScaleFactor:
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .textScaleFactor,
                                                         text: TextSpan(
                                                           children: [
                                                             TextSpan(
-                                                              text: 'Size: ',
+                                                              text: 'EndDate: ',
                                                               style:
                                                                   TextStyle(),
                                                             ),
@@ -294,7 +340,7 @@ class _BookingWidgetState extends State<BookingWidget> {
                                                         .override(
                                                           fontFamily:
                                                               'Open Sans',
-                                                          fontSize: 20.0,
+                                                          fontSize: 18.0,
                                                         ),
                                               ),
                                             ),
@@ -442,18 +488,18 @@ class _BookingWidgetState extends State<BookingWidget> {
                                                       .antiAliasWithSaveLayer,
                                                   color: FlutterFlowTheme.of(
                                                           context)
-                                                      .secondaryBackground,
+                                                      .primary,
                                                   elevation: 4.0,
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            8.0),
+                                                            50.0),
                                                   ),
                                                   child: Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
-                                                            .fromSTEB(6.0, 2.0,
-                                                                6.0, 2.0),
+                                                            .fromSTEB(6.0, 6.0,
+                                                                6.0, 6.0),
                                                     child: Text(
                                                       'Message  Host',
                                                       style:
@@ -465,7 +511,7 @@ class _BookingWidgetState extends State<BookingWidget> {
                                                                     'Open Sans',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .secondaryText,
+                                                                    .primaryBackground,
                                                                 fontSize: 12.0,
                                                               ),
                                                     ),

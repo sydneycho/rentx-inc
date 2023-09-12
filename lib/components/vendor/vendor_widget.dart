@@ -49,7 +49,7 @@ class _VendorWidgetState extends State<VendorWidget> {
     context.watch<FFAppState>();
 
     return Align(
-      alignment: AlignmentDirectional(0.0, 0.0),
+      alignment: AlignmentDirectional(0.00, 0.00),
       child: StreamBuilder<CarRecord>(
         stream: CarRecord.getDocument(widget.vendorDetails!),
         builder: (context, snapshot) {
@@ -68,7 +68,7 @@ class _VendorWidgetState extends State<VendorWidget> {
           }
           final containerCarRecord = snapshot.data!;
           return Container(
-            width: MediaQuery.sizeOf(context).width * 0.8,
+            width: MediaQuery.sizeOf(context).width * 0.9,
             decoration: BoxDecoration(
               color: FlutterFlowTheme.of(context).secondaryBackground,
               borderRadius: BorderRadius.circular(10.0),
@@ -86,7 +86,7 @@ class _VendorWidgetState extends State<VendorWidget> {
                           borderRadius: BorderRadius.circular(2.0),
                           child: Image.network(
                             containerCarRecord.vendorPhoto,
-                            width: MediaQuery.sizeOf(context).width * 0.8,
+                            width: MediaQuery.sizeOf(context).width * 0.9,
                             height: MediaQuery.sizeOf(context).height * 0.3,
                             fit: BoxFit.cover,
                           ),
@@ -96,13 +96,13 @@ class _VendorWidgetState extends State<VendorWidget> {
                         borderRadius: 20.0,
                         buttonSize: 40.0,
                         icon: Icon(
-                          Icons.cancel_presentation,
+                          Icons.cancel_outlined,
                           color: FlutterFlowTheme.of(context).primary,
                           size: 24.0,
                         ),
                         onPressed: () async {
                           logFirebaseEvent(
-                              'VENDOR_cancel_presentation_ICN_ON_TAP');
+                              'VENDOR_COMP_cancel_outlined_ICN_ON_TAP');
                           logFirebaseEvent('IconButton_bottom_sheet');
                           Navigator.pop(context);
                         },
@@ -121,7 +121,7 @@ class _VendorWidgetState extends State<VendorWidget> {
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 8.0, 0.0, 8.0),
+                              0.0, 4.0, 0.0, 4.0),
                           child: Text(
                             containerCarRecord.vendorName,
                             style: FlutterFlowTheme.of(context)
@@ -137,7 +137,7 @@ class _VendorWidgetState extends State<VendorWidget> {
                           style: FlutterFlowTheme.of(context).bodyMedium,
                         ),
                         Align(
-                          alignment: AlignmentDirectional(-1.0, 0.0),
+                          alignment: AlignmentDirectional(-1.00, 0.00),
                           child: Text(
                             'Description',
                             style:
@@ -148,7 +148,7 @@ class _VendorWidgetState extends State<VendorWidget> {
                           ),
                         ),
                         Align(
-                          alignment: AlignmentDirectional(-1.0, 0.0),
+                          alignment: AlignmentDirectional(-1.00, 0.00),
                           child: Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 8.0, 0.0, 12.0),

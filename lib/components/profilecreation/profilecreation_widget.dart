@@ -43,13 +43,13 @@ class _ProfilecreationWidgetState extends State<ProfilecreationWidget> {
     context.watch<FFAppState>();
 
     return Align(
-      alignment: AlignmentDirectional(0.0, 0.0),
+      alignment: AlignmentDirectional(0.00, 0.00),
       child: Container(
-        width: MediaQuery.sizeOf(context).width * 0.8,
+        width: MediaQuery.sizeOf(context).width * 0.9,
         height: 400.0,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(20.0),
           border: Border.all(
             color: FlutterFlowTheme.of(context).accent3,
           ),
@@ -123,7 +123,7 @@ class _ProfilecreationWidgetState extends State<ProfilecreationWidget> {
                         width: 100.0,
                         height: 100.0,
                         decoration: BoxDecoration(
-                          color: Color(0xFFDBE2E7),
+                          color: FlutterFlowTheme.of(context).primary,
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: Image.asset(
@@ -134,7 +134,7 @@ class _ProfilecreationWidgetState extends State<ProfilecreationWidget> {
                         ),
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              4.0, 4.0, 4.0, 4.0),
+                              8.0, 8.0, 8.0, 8.0),
                           child: AuthUserStreamWidget(
                             builder: (context) => Container(
                               width: 120.0,
@@ -163,7 +163,16 @@ class _ProfilecreationWidgetState extends State<ProfilecreationWidget> {
                       Navigator.pop(context);
                       logFirebaseEvent('Button_navigate_to');
 
-                      context.goNamed('signin');
+                      context.goNamed(
+                        'signin',
+                        extra: <String, dynamic>{
+                          kTransitionInfoKey: TransitionInfo(
+                            hasTransition: true,
+                            transitionType: PageTransitionType.leftToRight,
+                            duration: Duration(milliseconds: 250),
+                          ),
+                        },
+                      );
                     },
                     text: 'Go home',
                     options: FFButtonOptions(

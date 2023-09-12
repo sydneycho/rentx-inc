@@ -3,6 +3,7 @@ import '/backend/backend.dart';
 import '/backend/push_notifications/push_notifications_util.dart';
 import '/backend/stripe/payment_manager.dart';
 import '/components/empty/empty_widget.dart';
+import '/components/loader/loader_widget.dart';
 import '/components/noreviews/noreviews_widget.dart';
 import '/components/payok/payok_widget.dart';
 import '/components/ratingbar/ratingbar_widget.dart';
@@ -194,22 +195,15 @@ class _DetailWidgetState extends State<DetailWidget>
     context.watch<FFAppState>();
 
     return StreamBuilder<CarRecord>(
-      stream: CarRecord.getDocument(widget.productref!),
+      stream: FFAppState().carDetails(
+        requestFn: () => CarRecord.getDocument(widget.productref!),
+      ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).primary,
-            body: Center(
-              child: SizedBox(
-                width: 100.0,
-                height: 100.0,
-                child: SpinKitDualRing(
-                  color: FlutterFlowTheme.of(context).primary,
-                  size: 100.0,
-                ),
-              ),
-            ),
+            body: LoaderWidget(),
           );
         }
         final detailCarRecord = snapshot.data!;
@@ -246,487 +240,597 @@ class _DetailWidgetState extends State<DetailWidget>
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 12.0, 0.0, 12.0),
-                          child: Builder(
-                            builder: (context) {
-                              final car = detailCarRecord.carPhotos.toList();
-                              return Container(
-                                width: MediaQuery.sizeOf(context).width * 0.95,
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.35,
-                                child: Stack(
-                                  children: [
-                                    PageView.builder(
-                                      controller: _model.pageViewController ??=
-                                          PageController(
-                                              initialPage:
-                                                  min(0, car.length - 1)),
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: car.length,
-                                      itemBuilder: (context, carIndex) {
-                                        final carItem = car[carIndex];
-                                        return ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          child: CachedNetworkImage(
-                                            fadeInDuration:
-                                                Duration(milliseconds: 500),
-                                            fadeOutDuration:
-                                                Duration(milliseconds: 500),
-                                            imageUrl: carItem,
-                                            width: 300.0,
-                                            height: 200.0,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    Align(
-                                      alignment: AlignmentDirectional(0.0, 1.0),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 0.0, 0.0, 16.0),
-                                        child: smooth_page_indicator
-                                            .SmoothPageIndicator(
+                  Material(
+                    color: Colors.transparent,
+                    elevation: 6.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30.0),
+                        bottomRight: Radius.circular(30.0),
+                        topLeft: Radius.circular(0.0),
+                        topRight: Radius.circular(0.0),
+                      ),
+                    ),
+                    child: Container(
+                      height: MediaQuery.sizeOf(context).height * 0.51,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).primary,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30.0),
+                          bottomRight: Radius.circular(30.0),
+                          topLeft: Radius.circular(0.0),
+                          topRight: Radius.circular(0.0),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Stack(
+                            children: [
+                              Builder(
+                                builder: (context) {
+                                  final car =
+                                      detailCarRecord.carPhotos.toList();
+                                  return Container(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 1.0,
+                                    height:
+                                        MediaQuery.sizeOf(context).height * 0.5,
+                                    child: Stack(
+                                      children: [
+                                        PageView.builder(
                                           controller: _model
                                                   .pageViewController ??=
                                               PageController(
                                                   initialPage:
                                                       min(0, car.length - 1)),
-                                          count: car.length,
-                                          axisDirection: Axis.horizontal,
-                                          onDotClicked: (i) async {
-                                            await _model.pageViewController!
-                                                .animateToPage(
-                                              i,
-                                              duration:
-                                                  Duration(milliseconds: 500),
-                                              curve: Curves.ease,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: car.length,
+                                          itemBuilder: (context, carIndex) {
+                                            final carItem = car[carIndex];
+                                            return ClipRRect(
+                                              borderRadius: BorderRadius.only(
+                                                bottomLeft:
+                                                    Radius.circular(30.0),
+                                                bottomRight:
+                                                    Radius.circular(30.0),
+                                                topLeft: Radius.circular(0.0),
+                                                topRight: Radius.circular(0.0),
+                                              ),
+                                              child: CachedNetworkImage(
+                                                fadeInDuration:
+                                                    Duration(milliseconds: 500),
+                                                fadeOutDuration:
+                                                    Duration(milliseconds: 500),
+                                                imageUrl: carItem,
+                                                width: 300.0,
+                                                height: 200.0,
+                                                fit: BoxFit.cover,
+                                              ),
                                             );
                                           },
-                                          effect: smooth_page_indicator
-                                              .ExpandingDotsEffect(
-                                            expansionFactor: 3.0,
-                                            spacing: 8.0,
-                                            radius: 16.0,
-                                            dotWidth: 8.0,
-                                            dotHeight: 6.0,
-                                            dotColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .accent1,
-                                            activeDotColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                            paintStyle: PaintingStyle.fill,
+                                        ),
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(0.00, 1.00),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    16.0, 0.0, 0.0, 16.0),
+                                            child: smooth_page_indicator
+                                                .SmoothPageIndicator(
+                                              controller: _model
+                                                      .pageViewController ??=
+                                                  PageController(
+                                                      initialPage: min(
+                                                          0, car.length - 1)),
+                                              count: car.length,
+                                              axisDirection: Axis.horizontal,
+                                              onDotClicked: (i) async {
+                                                await _model.pageViewController!
+                                                    .animateToPage(
+                                                  i,
+                                                  duration: Duration(
+                                                      milliseconds: 500),
+                                                  curve: Curves.ease,
+                                                );
+                                              },
+                                              effect: smooth_page_indicator
+                                                  .ExpandingDotsEffect(
+                                                expansionFactor: 3.0,
+                                                spacing: 8.0,
+                                                radius: 16.0,
+                                                dotWidth: 8.0,
+                                                dotHeight: 6.0,
+                                                dotColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryBackground,
+                                                activeDotColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                paintStyle: PaintingStyle.fill,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ).animateOnPageLoad(
-                        animationsMap['rowOnPageLoadAnimation1']!),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-                    child: Material(
-                      color: Colors.transparent,
-                      elevation: 4.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                      ),
-                      child: Container(
-                        width: MediaQuery.sizeOf(context).width * 0.96,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.circular(6.0),
-                          border: Border.all(
-                            color: FlutterFlowTheme.of(context).accent3,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              8.0, 8.0, 8.0, 8.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    15.0, 15.0, 15.0, 15.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      detailCarRecord.carName,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Open Sans',
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            fontSize: 18.0,
-                                          ),
-                                    ),
-                                  ],
-                                ),
+                                  );
+                                },
                               ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    10.0, 10.0, 10.0, 10.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        valueOrDefault<String>(
-                                          detailCarRecord.description,
-                                          'Introducing the sleek and reliable \"SwiftDrive\" - your ideal companion for the road! This compact car is designed to provide an exceptional driving experience, perfect for both city adventures and weekend getaways. With its fuel-efficient engine and smooth handling, \"SwiftDrive\" guarantees a comfortable ride and easy maneuverability through traffic.  Equipped with modern features and safety technology, you can enjoy seamless connectivity with Bluetooth integration and a user-friendly infotainment system. Feel at ease knowing that \"SwiftDrive\" prioritizes your safety with advanced safety features like adaptive cruise control, lane departure warning, and multiple airbags.',
-                                        ).maybeHandleOverflow(maxChars: 300),
-                                        textAlign: TextAlign.justify,
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodySmall,
+                              Align(
+                                alignment: AlignmentDirectional(-1.00, -1.00),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      10.0, 10.0, 0.0, 0.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      FlutterFlowIconButton(
+                                        borderRadius: 20.0,
+                                        borderWidth: 1.0,
+                                        buttonSize: 40.0,
+                                        icon: Icon(
+                                          Icons.arrow_circle_right,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondary,
+                                          size: 28.0,
+                                        ),
+                                        onPressed: () async {
+                                          logFirebaseEvent(
+                                              'DETAIL_arrow_circle_right_ICN_ON_TAP');
+                                          logFirebaseEvent(
+                                              'IconButton_page_view');
+                                          await _model.pageViewController
+                                              ?.nextPage(
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            curve: Curves.ease,
+                                          );
+                                        },
                                       ),
-                                    ),
-                                  ],
+                                      FlutterFlowIconButton(
+                                        borderRadius: 20.0,
+                                        borderWidth: 1.0,
+                                        buttonSize: 40.0,
+                                        icon: Icon(
+                                          Icons.arrow_circle_left,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          size: 28.0,
+                                        ),
+                                        onPressed: () async {
+                                          logFirebaseEvent(
+                                              'DETAIL_PAGE_arrow_circle_left_ICN_ON_TAP');
+                                          logFirebaseEvent(
+                                              'IconButton_page_view');
+                                          await _model.pageViewController
+                                              ?.previousPage(
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            curve: Curves.ease,
+                                          );
+                                        },
+                                      ),
+                                    ].divide(SizedBox(height: 10.0)),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
+                        ],
+                      ).animateOnPageLoad(
+                          animationsMap['rowOnPageLoadAnimation1']!),
+                    ),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                        child: Material(
+                          color: Colors.transparent,
+                          elevation: 0.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          child: Container(
+                            width: MediaQuery.sizeOf(context).width * 0.96,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).primary,
+                              borderRadius: BorderRadius.circular(6.0),
+                              border: Border.all(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  8.0, 8.0, 8.0, 8.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        15.0, 15.0, 15.0, 15.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          detailCarRecord.carName,
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Open Sans',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryBackground,
+                                                fontSize: 18.0,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10.0, 10.0, 10.0, 10.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            valueOrDefault<String>(
+                                              detailCarRecord.description,
+                                              'Introducing the sleek and reliable \"SwiftDrive\" - your ideal companion for the road! This compact car is designed to provide an exceptional driving experience, perfect for both city adventures and weekend getaways. With its fuel-efficient engine and smooth handling, \"SwiftDrive\" guarantees a comfortable ride and easy maneuverability through traffic.  Equipped with modern features and safety technology, you can enjoy seamless connectivity with Bluetooth integration and a user-friendly infotainment system. Feel at ease knowing that \"SwiftDrive\" prioritizes your safety with advanced safety features like adaptive cruise control, lane departure warning, and multiple airbags.',
+                                            ).maybeHandleOverflow(
+                                                maxChars: 300),
+                                            textAlign: TextAlign.justify,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodySmall
+                                                .override(
+                                                  fontFamily: 'Open Sans',
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ).animateOnPageLoad(
+                            animationsMap['containerOnPageLoadAnimation1']!),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            10.0, 10.0, 10.0, 10.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  10.0, 0.0, 0.0, 0.0),
+                              child: Text(
+                                'Car Specification',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Open Sans',
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
+                                      fontSize: 16.0,
+                                    ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ).animateOnPageLoad(
-                        animationsMap['containerOnPageLoadAnimation1']!),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 10.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              10.0, 0.0, 0.0, 0.0),
-                          child: Text(
-                            'Car Specification',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Open Sans',
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                  fontSize: 16.0,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 10.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Material(
-                          color: Colors.transparent,
-                          elevation: 4.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.0),
-                          ),
-                          child: Container(
-                            width: 100.0,
-                            height: 100.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).accent4,
-                              borderRadius: BorderRadius.circular(6.0),
-                              border: Border.all(
-                                color: FlutterFlowTheme.of(context).accent3,
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            10.0, 10.0, 10.0, 10.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Material(
+                              color: Colors.transparent,
+                              elevation: 1.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6.0),
                               ),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Card(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  elevation: 4.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        10.0, 8.0, 10.0, 8.0),
-                                    child: Icon(
-                                      Icons.room_preferences_rounded,
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      size: 25.0,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'Fuel type',
-                                  style:
-                                      FlutterFlowTheme.of(context).bodyMedium,
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 4.0),
-                                  child: Text(
-                                    detailCarRecord.fuelType,
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Open Sans',
-                                          fontSize: 12.0,
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Material(
-                          color: Colors.transparent,
-                          elevation: 4.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.0),
-                          ),
-                          child: Container(
-                            width: 100.0,
-                            height: 100.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).accent4,
-                              borderRadius: BorderRadius.circular(6.0),
-                              border: Border.all(
-                                color: FlutterFlowTheme.of(context).accent3,
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Card(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  elevation: 4.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        10.0, 8.0, 10.0, 8.0),
-                                    child: Icon(
-                                      Icons.location_pin,
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      size: 25.0,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'Location',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Open Sans',
-                                        fontSize: 13.0,
-                                      ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 4.0),
-                                  child: Text(
-                                    detailCarRecord.district,
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Open Sans',
-                                          fontSize: 12.0,
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Material(
-                          color: Colors.transparent,
-                          elevation: 6.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.0),
-                          ),
-                          child: Container(
-                            width: 100.0,
-                            height: 100.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).accent4,
-                              borderRadius: BorderRadius.circular(6.0),
-                              border: Border.all(
-                                color: FlutterFlowTheme.of(context).accent3,
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Card(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  elevation: 4.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        10.0, 8.0, 10.0, 8.0),
-                                    child: Icon(
-                                      Icons.autorenew,
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      size: 25.0,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'Transmission',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Open Sans',
-                                        fontSize: 13.0,
-                                      ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 4.0),
-                                  child: Text(
-                                    '${detailCarRecord.transmissionType}',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Open Sans',
-                                          fontSize: 12.0,
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 15.0, 10.0, 15.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Flexible(
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 1.0),
-                            child: InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                logFirebaseEvent(
-                                    'DETAIL_PAGE_taskDetails_ON_TAP');
-                                logFirebaseEvent('taskDetails_bottom_sheet');
-                                await showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                  enableDrag: false,
-                                  context: context,
-                                  builder: (context) {
-                                    return GestureDetector(
-                                      onTap: () => FocusScope.of(context)
-                                          .requestFocus(_model.unfocusNode),
-                                      child: Padding(
-                                        padding:
-                                            MediaQuery.viewInsetsOf(context),
-                                        child: VendorWidget(
-                                          vendorDetails: widget.productref!,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ).then((value) => setState(() {}));
-                              },
                               child: Container(
-                                width: double.infinity,
+                                width: 100.0,
+                                height: 100.0,
                                 decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0xFFF1F4F8),
-                                      offset: Offset(0.0, 1.0),
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.circular(100.0),
+                                  color: FlutterFlowTheme.of(context).accent4,
+                                  borderRadius: BorderRadius.circular(6.0),
                                   border: Border.all(
-                                    color: FlutterFlowTheme.of(context).accent4,
-                                    width: 0.0,
+                                    color: FlutterFlowTheme.of(context).accent3,
                                   ),
                                 ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      12.0, 8.0, 12.0, 8.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      ClipRRect(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Card(
+                                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      elevation: 4.0,
+                                      shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(100.0),
-                                        child: Image.network(
-                                          detailCarRecord.vendorPhoto,
-                                          width: 90.0,
-                                          height: 90.0,
-                                          fit: BoxFit.cover,
+                                            BorderRadius.circular(50.0),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            10.0, 8.0, 10.0, 8.0),
+                                        child: Icon(
+                                          Icons.room_preferences_rounded,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          size: 25.0,
                                         ),
                                       ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  12.0, 12.0, 12.0, 12.0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Vendor',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
+                                    ),
+                                    Text(
+                                      'Fuel type',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 0.0, 4.0),
+                                      child: Text(
+                                        detailCarRecord.fuelType,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Open Sans',
+                                              fontSize: 12.0,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Material(
+                              color: Colors.transparent,
+                              elevation: 1.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6.0),
+                              ),
+                              child: Container(
+                                width: 100.0,
+                                height: 100.0,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context).accent4,
+                                  borderRadius: BorderRadius.circular(6.0),
+                                  border: Border.all(
+                                    color: FlutterFlowTheme.of(context).accent3,
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Card(
+                                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      elevation: 4.0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            10.0, 8.0, 10.0, 8.0),
+                                        child: Icon(
+                                          Icons.location_pin,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          size: 25.0,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      'Location',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Open Sans',
+                                            fontSize: 13.0,
+                                          ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 0.0, 4.0),
+                                      child: Text(
+                                        detailCarRecord.district,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Open Sans',
+                                              fontSize: 12.0,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Material(
+                              color: Colors.transparent,
+                              elevation: 1.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6.0),
+                              ),
+                              child: Container(
+                                width: 100.0,
+                                height: 100.0,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context).accent4,
+                                  borderRadius: BorderRadius.circular(6.0),
+                                  border: Border.all(
+                                    color: FlutterFlowTheme.of(context).accent3,
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Card(
+                                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      elevation: 4.0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            10.0, 8.0, 10.0, 8.0),
+                                        child: Icon(
+                                          Icons.autorenew,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          size: 25.0,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      'Transmission',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Open Sans',
+                                            fontSize: 13.0,
+                                          ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 0.0, 4.0),
+                                      child: Text(
+                                        '${detailCarRecord.transmissionType}',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Open Sans',
+                                              fontSize: 12.0,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            10.0, 15.0, 10.0, 15.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Flexible(
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 1.0),
+                                child: InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () async {
+                                    logFirebaseEvent(
+                                        'DETAIL_PAGE_taskDetails_ON_TAP');
+                                    logFirebaseEvent(
+                                        'taskDetails_bottom_sheet');
+                                    await showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      enableDrag: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return GestureDetector(
+                                          onTap: () => FocusScope.of(context)
+                                              .requestFocus(_model.unfocusNode),
+                                          child: Padding(
+                                            padding: MediaQuery.viewInsetsOf(
+                                                context),
+                                            child: VendorWidget(
+                                              vendorDetails: widget.productref!,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ).then((value) => setState(() {}));
+                                  },
+                                  child: Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color(0xFFF1F4F8),
+                                          offset: Offset(0.0, 1.0),
+                                        )
+                                      ],
+                                      borderRadius:
+                                          BorderRadius.circular(100.0),
+                                      border: Border.all(
+                                        color: FlutterFlowTheme.of(context)
+                                            .accent4,
+                                        width: 0.0,
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          12.0, 0.0, 12.0, 0.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(100.0),
+                                            child: Image.network(
+                                              detailCarRecord.vendorPhoto,
+                                              width: 80.0,
+                                              height: 80.0,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      12.0, 12.0, 12.0, 12.0),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Vendor',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
                                                         .headlineSmall
                                                         .override(
                                                           fontFamily: 'Outfit',
@@ -737,49 +841,51 @@ class _DetailWidgetState extends State<DetailWidget>
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 4.0, 0.0, 0.0),
-                                                child: Text(
-                                                  detailCarRecord.vendorName,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodySmall
-                                                      .override(
-                                                        fontFamily:
-                                                            'Plus Jakarta Sans',
-                                                        color:
-                                                            Color(0xFF4B39EF),
-                                                        fontSize: 12.0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 4.0, 0.0, 0.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  4.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      child: Text(
-                                                        detailCarRecord
-                                                            .district,
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 4.0,
+                                                                0.0, 0.0),
+                                                    child: Text(
+                                                      detailCarRecord
+                                                          .vendorName,
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodySmall
+                                                          .override(
+                                                            fontFamily:
+                                                                'Plus Jakarta Sans',
+                                                            color: Color(
+                                                                0xFF4B39EF),
+                                                            fontSize: 12.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 4.0,
+                                                                0.0, 0.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      4.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          child: Text(
+                                                            detailCarRecord
+                                                                .district,
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
@@ -793,896 +899,6 @@ class _DetailWidgetState extends State<DetailWidget>
                                                                       FontWeight
                                                                           .w500,
                                                                 ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 20.0, 0.0),
-                                        child: Icon(
-                                          Icons.directions_car,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          size: 24.0,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ).animateOnPageLoad(animationsMap[
-                                'containerOnPageLoadAnimation2']!),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Semantics(
-                    label: 'Start and end date picker',
-                    child: Form(
-                      key: _model.formKey,
-                      autovalidateMode: AutovalidateMode.disabled,
-                      child: Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(5.0, 10.0, 5.0, 0.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: MediaQuery.sizeOf(context).width * 0.96,
-                              height: 100.0,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
-                                borderRadius: BorderRadius.circular(6.0),
-                                border: Border.all(
-                                  color: FlutterFlowTheme.of(context).accent4,
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        4.0, 0.0, 0.0, 0.0),
-                                    child: Text(
-                                      '${formatNumber(
-                                        functions.numberofdays(
-                                            _model.datePicked1,
-                                            _model.datePicked2),
-                                        formatType: FormatType.custom,
-                                        format: '00',
-                                        locale: '',
-                                      )} :Days  ',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 5.0, 0.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 4.0, 4.0, 4.0),
-                                          child: Text(
-                                            'Choose the period of your reservation',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 4.0, 4.0, 4.0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 0.0, 8.0, 0.0),
-                                                child: InkWell(
-                                                  splashColor:
-                                                      Colors.transparent,
-                                                  focusColor:
-                                                      Colors.transparent,
-                                                  hoverColor:
-                                                      Colors.transparent,
-                                                  highlightColor:
-                                                      Colors.transparent,
-                                                  onTap: () async {
-                                                    logFirebaseEvent(
-                                                        'DETAIL_PAGE_Container_oac5p0xe_ON_TAP');
-                                                    logFirebaseEvent(
-                                                        'Container_date_time_picker');
-                                                    final _datePicked1Date =
-                                                        await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                          getCurrentTimestamp,
-                                                      firstDate:
-                                                          getCurrentTimestamp,
-                                                      lastDate: DateTime(2050),
-                                                    );
-
-                                                    if (_datePicked1Date !=
-                                                        null) {
-                                                      setState(() {
-                                                        _model.datePicked1 =
-                                                            DateTime(
-                                                          _datePicked1Date.year,
-                                                          _datePicked1Date
-                                                              .month,
-                                                          _datePicked1Date.day,
-                                                        );
-                                                      });
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.35,
-                                                    height: 40.0,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              2.0),
-                                                      border: Border.all(
-                                                        color:
-                                                            Color(0xFFCFD4DB),
-                                                        width: 1.0,
-                                                      ),
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  12.0,
-                                                                  5.0,
-                                                                  12.0,
-                                                                  5.0),
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Text(
-                                                            valueOrDefault<
-                                                                String>(
-                                                              dateTimeFormat(
-                                                                'd/M/y',
-                                                                _model
-                                                                    .datePicked1,
-                                                                locale: FFLocalizations.of(
-                                                                        context)
-                                                                    .languageCode,
-                                                              ),
-                                                              'Start Date',
-                                                            ),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .titleSmall
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Lexend Deca',
-                                                                  color: Color(
-                                                                      0xFF57636C),
-                                                                  fontSize:
-                                                                      14.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                ),
-                                                          ),
-                                                          Icon(
-                                                            Icons
-                                                                .date_range_outlined,
-                                                            color: Color(
-                                                                0xFF57636C),
-                                                            size: 24.0,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              InkWell(
-                                                splashColor: Colors.transparent,
-                                                focusColor: Colors.transparent,
-                                                hoverColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () async {
-                                                  logFirebaseEvent(
-                                                      'DETAIL_PAGE_Container_vr3bq3rv_ON_TAP');
-                                                  logFirebaseEvent(
-                                                      'Container_date_time_picker');
-                                                  final _datePicked2Date =
-                                                      await showDatePicker(
-                                                    context: context,
-                                                    initialDate:
-                                                        getCurrentTimestamp,
-                                                    firstDate:
-                                                        getCurrentTimestamp,
-                                                    lastDate: DateTime(2050),
-                                                  );
-
-                                                  if (_datePicked2Date !=
-                                                      null) {
-                                                    setState(() {
-                                                      _model.datePicked2 =
-                                                          DateTime(
-                                                        _datePicked2Date.year,
-                                                        _datePicked2Date.month,
-                                                        _datePicked2Date.day,
-                                                      );
-                                                    });
-                                                  }
-                                                },
-                                                child: Container(
-                                                  width:
-                                                      MediaQuery.sizeOf(context)
-                                                              .width *
-                                                          0.35,
-                                                  height: 40.0,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            2.0),
-                                                    border: Border.all(
-                                                      color: Color(0xFFCFD4DB),
-                                                      width: 1.0,
-                                                    ),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(12.0, 5.0,
-                                                                12.0, 5.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          valueOrDefault<
-                                                              String>(
-                                                            dateTimeFormat(
-                                                              'd/M/y',
-                                                              _model
-                                                                  .datePicked2,
-                                                              locale: FFLocalizations
-                                                                      .of(context)
-                                                                  .languageCode,
-                                                            ),
-                                                            'End Date',
-                                                          ),
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .titleSmall
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Lexend Deca',
-                                                                color: Color(
-                                                                    0xFF57636C),
-                                                                fontSize: 14.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                              ),
-                                                        ),
-                                                        Icon(
-                                                          Icons
-                                                              .date_range_outlined,
-                                                          color:
-                                                              Color(0xFF57636C),
-                                                          size: 24.0,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ).animateOnPageLoad(
-                            animationsMap['rowOnPageLoadAnimation2']!),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 10.0),
-                    child: Semantics(
-                      label: 'Number of past bookings',
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                10.0, 0.0, 0.0, 0.0),
-                            child: Icon(
-                              Icons.car_repair,
-                              color: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              size: 24.0,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                20.0, 0.0, 0.0, 0.0),
-                            child: FutureBuilder<int>(
-                              future: queryBookingRecordCount(
-                                parent: widget.productref,
-                              ),
-                              builder: (context, snapshot) {
-                                // Customize what your widget looks like when it's loading.
-                                if (!snapshot.hasData) {
-                                  return Center(
-                                    child: SizedBox(
-                                      width: 100.0,
-                                      height: 100.0,
-                                      child: SpinKitDualRing(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        size: 100.0,
-                                      ),
-                                    ),
-                                  );
-                                }
-                                int textCount = snapshot.data!;
-                                return Text(
-                                  '${formatNumber(
-                                    textCount,
-                                    formatType: FormatType.custom,
-                                    format: '00',
-                                    locale: '',
-                                  )}/ trips made',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Open Sans',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBackground,
-                                      ),
-                                );
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                20.0, 0.0, 0.0, 0.0),
-                            child: FutureBuilder<int>(
-                              future: queryBookingRecordCount(
-                                parent: widget.productref,
-                              ),
-                              builder: (context, snapshot) {
-                                // Customize what your widget looks like when it's loading.
-                                if (!snapshot.hasData) {
-                                  return Center(
-                                    child: SizedBox(
-                                      width: 100.0,
-                                      height: 100.0,
-                                      child: SpinKitDualRing(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        size: 100.0,
-                                      ),
-                                    ),
-                                  );
-                                }
-                                int textCount = snapshot.data!;
-                                return Text(
-                                  'Plate No :${detailCarRecord.plateNumber}',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Open Sans',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBackground,
-                                      ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ).animateOnPageLoad(
-                        animationsMap['rowOnPageLoadAnimation3']!),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 15.0, 10.0, 15.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 1.0),
-                            child: Material(
-                              color: Colors.transparent,
-                              elevation: 4.0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              child: Container(
-                                width: MediaQuery.sizeOf(context).width * 0.9,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0xFFF1F4F8),
-                                      offset: Offset(0.0, 1.0),
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 0.0,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      10.0, 5.0, 10.0, 5.0),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Note',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 10.0, 0.0, 0.0),
-                                        child: Text(
-                                          detailCarRecord.note,
-                                          textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Open Sans',
-                                                fontWeight: FontWeight.normal,
-                                              ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ).animateOnPageLoad(animationsMap[
-                                'containerOnPageLoadAnimation3']!),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(15.0, 10.0, 15.0, 10.0),
-                    child: Semantics(
-                      label: 'Reviews from past rentees',
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Reviews',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Open Sans',
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                  fontSize: 16.0,
-                                ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 15.0, 10.0, 0.0),
-                    child: Semantics(
-                      label: 'Reviews ',
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 1.0),
-                              child: Container(
-                                width: double.infinity,
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.25,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  border: Border.all(
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    width: 0.0,
-                                  ),
-                                ),
-                                child: StreamBuilder<List<RatingRecord>>(
-                                  stream: queryRatingRecord(
-                                    parent: detailCarRecord.reference,
-                                  ),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 100.0,
-                                          height: 100.0,
-                                          child: SpinKitDualRing(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            size: 100.0,
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    List<RatingRecord>
-                                        listViewRatingRecordList =
-                                        snapshot.data!;
-                                    if (listViewRatingRecordList.isEmpty) {
-                                      return Center(
-                                        child: NoreviewsWidget(),
-                                      );
-                                    }
-                                    return ListView.builder(
-                                      padding: EdgeInsets.zero,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount:
-                                          listViewRatingRecordList.length,
-                                      itemBuilder: (context, listViewIndex) {
-                                        final listViewRatingRecord =
-                                            listViewRatingRecordList[
-                                                listViewIndex];
-                                        return Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 8.0, 0.0),
-                                          child: Container(
-                                            width: 340.0,
-                                            height: 100.0,
-                                            constraints: BoxConstraints(
-                                              maxWidth: 1270.0,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryBackground,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  blurRadius: 4.0,
-                                                  color: Color(0x230E151B),
-                                                  offset: Offset(0.0, 2.0),
-                                                )
-                                              ],
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                              border: Border.all(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent3,
-                                                width: 1.0,
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      10.0, 8.0, 10.0, 8.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  if (responsiveVisibility(
-                                                    context: context,
-                                                    phone: false,
-                                                    tablet: false,
-                                                  ))
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  16.0,
-                                                                  0.0),
-                                                      child: Container(
-                                                        width: 100.0,
-                                                        height: 100.7,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              Color(0xFFF1F4F8),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      12.0),
-                                                        ),
-                                                        child: Visibility(
-                                                          visible:
-                                                              responsiveVisibility(
-                                                            context: context,
-                                                            phone: false,
-                                                            tablet: false,
-                                                          ),
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        4.0,
-                                                                        4.0,
-                                                                        4.0,
-                                                                        4.0),
-                                                            child: ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10.0),
-                                                              child:
-                                                                  CachedNetworkImage(
-                                                                fadeInDuration:
-                                                                    Duration(
-                                                                        milliseconds:
-                                                                            500),
-                                                                fadeOutDuration:
-                                                                    Duration(
-                                                                        milliseconds:
-                                                                            500),
-                                                                imageUrl:
-                                                                    'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjJ8fHByb2ZpbGV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60',
-                                                                width: 90.0,
-                                                                height: 90.0,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  Expanded(
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      4.0),
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          12.0,
-                                                                          0.0),
-                                                                  child: Text(
-                                                                    'Rating',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .headlineSmall
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Outfit',
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).secondaryText,
-                                                                          fontSize:
-                                                                              20.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            5.0,
-                                                                            0.0),
-                                                                child:
-                                                                    RatingbarWidget(
-                                                                  key: Key(
-                                                                      'Keyi9r_${listViewIndex}_of_${listViewRatingRecordList.length}'),
-                                                                  parameter1:
-                                                                      listViewRatingRecord
-                                                                          .rating,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      4.0,
-                                                                      0.0,
-                                                                      4.0),
-                                                          child: Text(
-                                                            listViewRatingRecord
-                                                                .review,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .labelLarge
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Readex Pro',
-                                                                  color: Color(
-                                                                      0xFF57636C),
-                                                                  fontSize:
-                                                                      16.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      12.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [
-                                                              if (responsiveVisibility(
-                                                                context:
-                                                                    context,
-                                                                tabletLandscape:
-                                                                    false,
-                                                                desktop: false,
-                                                              ))
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          12.0,
-                                                                          0.0),
-                                                                  child:
-                                                                      ClipRRect(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                    child: Image
-                                                                        .network(
-                                                                      listViewRatingRecord
-                                                                          .reviewPhoto,
-                                                                      width:
-                                                                          40.0,
-                                                                      height:
-                                                                          40.0,
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            8.0,
-                                                                            0.0),
-                                                                child: Text(
-                                                                  listViewRatingRecord
-                                                                      .reviewName,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Readex Pro',
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .primaryText,
-                                                                        fontSize:
-                                                                            14.0,
-                                                                        fontWeight:
-                                                                            FontWeight.normal,
-                                                                      ),
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                dateTimeFormat(
-                                                                  'MMMMEEEEd',
-                                                                  listViewRatingRecord
-                                                                      .createdTime!,
-                                                                  locale: FFLocalizations.of(
-                                                                          context)
-                                                                      .languageCode,
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Readex Pro',
-                                                                      color: Color(
-                                                                          0xFF57636C),
-                                                                      fontSize:
-                                                                          12.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                    ),
-                                                              ),
-                                                            ],
                                                           ),
                                                         ),
                                                       ],
@@ -1692,190 +908,177 @@ class _DetailWidgetState extends State<DetailWidget>
                                               ),
                                             ),
                                           ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ).animateOnPageLoad(animationsMap[
-                                  'containerOnPageLoadAnimation4']!),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 15.0, 10.0, 0.0),
-                    child: Semantics(
-                      label:
-                          'Recommendation based on  the car you have selected',
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 4.0, 0.0, 12.0),
-                              child: Container(
-                                width: double.infinity,
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.27,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(0.0),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          10.0, 12.0, 0.0, 12.0),
-                                      child: Text(
-                                        'Recommedations',
-                                        style: FlutterFlowTheme.of(context)
-                                            .headlineMedium
-                                            .override(
-                                              fontFamily: 'Outfit',
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 0.0, 20.0, 0.0),
+                                            child: Icon(
+                                              Icons.directions_car,
                                               color:
                                                   FlutterFlowTheme.of(context)
-                                                      .primaryBackground,
-                                              fontSize: 20.0,
-                                              fontWeight: FontWeight.normal,
+                                                      .secondaryText,
+                                              size: 24.0,
                                             ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    Expanded(
-                                      child: FutureBuilder<List<CarRecord>>(
-                                        future: _model.recommedations(
-                                          requestFn: () => queryCarRecordOnce(
-                                            queryBuilder: (carRecord) => carRecord
-                                                .where('car_status',
-                                                    isEqualTo: 'approved')
-                                                .where('district',
-                                                    isEqualTo: detailCarRecord
-                                                                .district !=
-                                                            ''
-                                                        ? detailCarRecord
-                                                            .district
-                                                        : null)
-                                                .where('car_name',
-                                                    isNotEqualTo:
-                                                        detailCarRecord
-                                                                    .carName !=
-                                                                ''
-                                                            ? detailCarRecord
-                                                                .carName
-                                                            : null),
-                                          ),
+                                  ),
+                                ).animateOnPageLoad(animationsMap[
+                                    'containerOnPageLoadAnimation2']!),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Semantics(
+                        label: 'Start and end date picker',
+                        child: Form(
+                          key: _model.formKey,
+                          autovalidateMode: AutovalidateMode.disabled,
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                5.0, 10.0, 5.0, 0.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.sizeOf(context).width * 0.96,
+                                  height: 100.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                    borderRadius: BorderRadius.circular(6.0),
+                                    border: Border.all(
+                                      color:
+                                          FlutterFlowTheme.of(context).accent4,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            4.0, 0.0, 0.0, 0.0),
+                                        child: Text(
+                                          '${formatNumber(
+                                            functions.numberofdays(
+                                                _model.datePicked1,
+                                                _model.datePicked2),
+                                            formatType: FormatType.custom,
+                                            format: '00',
+                                            locale: '',
+                                          )} :Days  ',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium,
                                         ),
-                                        builder: (context, snapshot) {
-                                          // Customize what your widget looks like when it's loading.
-                                          if (!snapshot.hasData) {
-                                            return Center(
-                                              child: LinearProgressIndicator(
-                                                color:
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 5.0, 0.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 4.0, 4.0, 4.0),
+                                              child: Text(
+                                                'Choose the period of your reservation',
+                                                style:
                                                     FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
+                                                        .bodyMedium,
                                               ),
-                                            );
-                                          }
-                                          List<CarRecord>
-                                              listViewCarRecordList =
-                                              snapshot.data!;
-                                          if (listViewCarRecordList.isEmpty) {
-                                            return EmptyWidget();
-                                          }
-                                          return ListView.builder(
-                                            padding: EdgeInsets.zero,
-                                            primary: false,
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount:
-                                                listViewCarRecordList.length,
-                                            itemBuilder:
-                                                (context, listViewIndex) {
-                                              final listViewCarRecord =
-                                                  listViewCarRecordList[
-                                                      listViewIndex];
-                                              return Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        10.0, 0.0, 0.0, 0.0),
-                                                child: Container(
-                                                  width: 230.0,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        blurRadius: 2.0,
-                                                        color:
-                                                            Color(0x520E151B),
-                                                        offset:
-                                                            Offset(0.0, 1.0),
-                                                      )
-                                                    ],
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6.0),
-                                                  ),
-                                                  child: Padding(
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 4.0, 4.0, 4.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
-                                                            .fromSTEB(2.0, 2.0,
-                                                                2.0, 2.0),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                            bottomLeft:
-                                                                Radius.circular(
-                                                                    0.0),
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                    0.0),
-                                                            topLeft:
-                                                                Radius.circular(
-                                                                    6.0),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    6.0),
-                                                          ),
-                                                          child: Image.network(
-                                                            detailCarRecord
-                                                                .carPhotos
-                                                                .first,
-                                                            width: MediaQuery
-                                                                        .sizeOf(
-                                                                            context)
+                                                            .fromSTEB(0.0, 0.0,
+                                                                8.0, 0.0),
+                                                    child: InkWell(
+                                                      splashColor:
+                                                          Colors.transparent,
+                                                      focusColor:
+                                                          Colors.transparent,
+                                                      hoverColor:
+                                                          Colors.transparent,
+                                                      highlightColor:
+                                                          Colors.transparent,
+                                                      onTap: () async {
+                                                        logFirebaseEvent(
+                                                            'DETAIL_PAGE_Container_oac5p0xe_ON_TAP');
+                                                        logFirebaseEvent(
+                                                            'Container_date_time_picker');
+                                                        final _datePicked1Date =
+                                                            await showDatePicker(
+                                                          context: context,
+                                                          initialDate:
+                                                              getCurrentTimestamp,
+                                                          firstDate:
+                                                              getCurrentTimestamp,
+                                                          lastDate:
+                                                              DateTime(2050),
+                                                        );
+
+                                                        if (_datePicked1Date !=
+                                                            null) {
+                                                          setState(() {
+                                                            _model.datePicked1 =
+                                                                DateTime(
+                                                              _datePicked1Date
+                                                                  .year,
+                                                              _datePicked1Date
+                                                                  .month,
+                                                              _datePicked1Date
+                                                                  .day,
+                                                            );
+                                                          });
+                                                        }
+                                                      },
+                                                      child: Container(
+                                                        width:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
                                                                     .width *
-                                                                1.0,
-                                                            height: MediaQuery
-                                                                        .sizeOf(
-                                                                            context)
-                                                                    .height *
-                                                                0.16,
-                                                            fit: BoxFit.cover,
+                                                                0.35,
+                                                        height: 40.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      2.0),
+                                                          border: Border.all(
+                                                            color: Color(
+                                                                0xFFCFD4DB),
+                                                            width: 1.0,
                                                           ),
                                                         ),
-                                                        Padding(
+                                                        child: Padding(
                                                           padding:
                                                               EdgeInsetsDirectional
                                                                   .fromSTEB(
-                                                                      16.0,
-                                                                      0.0,
-                                                                      16.0,
-                                                                      0.0),
+                                                                      12.0,
+                                                                      5.0,
+                                                                      12.0,
+                                                                      5.0),
                                                           child: Row(
                                                             mainAxisSize:
                                                                 MainAxisSize
@@ -1884,177 +1087,1112 @@ class _DetailWidgetState extends State<DetailWidget>
                                                                 MainAxisAlignment
                                                                     .spaceBetween,
                                                             children: [
-                                                              AutoSizeText(
-                                                                detailCarRecord
-                                                                    .carName,
+                                                              Text(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  dateTimeFormat(
+                                                                    'd/M/y',
+                                                                    _model
+                                                                        .datePicked1,
+                                                                    locale: FFLocalizations.of(
+                                                                            context)
+                                                                        .languageCode,
+                                                                  ),
+                                                                  'Start Date',
+                                                                ),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .bodyLarge
+                                                                    .titleSmall
                                                                     .override(
                                                                       fontFamily:
-                                                                          'Plus Jakarta Sans',
+                                                                          'Lexend Deca',
                                                                       color: Color(
-                                                                          0xFF14181B),
-                                                                      fontSize:
-                                                                          16.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                              ),
-                                                              AutoSizeText(
-                                                                '${formatNumber(
-                                                                  detailCarRecord
-                                                                      .costPerDay,
-                                                                  formatType:
-                                                                      FormatType
-                                                                          .custom,
-                                                                  currency: 'K',
-                                                                  format:
-                                                                      '00.00',
-                                                                  locale: '',
-                                                                )}',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .end,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .headlineSmall
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Outfit',
-                                                                      color: Color(
-                                                                          0xFF14181B),
+                                                                          0xFF57636C),
                                                                       fontSize:
                                                                           14.0,
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .w500,
+                                                                              .normal,
                                                                     ),
+                                                              ),
+                                                              Icon(
+                                                                Icons
+                                                                    .date_range_outlined,
+                                                                color: Color(
+                                                                    0xFF57636C),
+                                                                size: 24.0,
                                                               ),
                                                             ],
                                                           ),
                                                         ),
-                                                      ],
+                                                      ),
                                                     ),
                                                   ),
-                                                ).animateOnPageLoad(animationsMap[
-                                                    'containerOnPageLoadAnimation6']!),
-                                              );
-                                            },
-                                          );
-                                        },
+                                                  InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      logFirebaseEvent(
+                                                          'DETAIL_PAGE_Container_vr3bq3rv_ON_TAP');
+                                                      logFirebaseEvent(
+                                                          'Container_date_time_picker');
+                                                      final _datePicked2Date =
+                                                          await showDatePicker(
+                                                        context: context,
+                                                        initialDate:
+                                                            getCurrentTimestamp,
+                                                        firstDate:
+                                                            getCurrentTimestamp,
+                                                        lastDate:
+                                                            DateTime(2050),
+                                                      );
+
+                                                      if (_datePicked2Date !=
+                                                          null) {
+                                                        setState(() {
+                                                          _model.datePicked2 =
+                                                              DateTime(
+                                                            _datePicked2Date
+                                                                .year,
+                                                            _datePicked2Date
+                                                                .month,
+                                                            _datePicked2Date
+                                                                .day,
+                                                          );
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.35,
+                                                      height: 40.0,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(2.0),
+                                                        border: Border.all(
+                                                          color:
+                                                              Color(0xFFCFD4DB),
+                                                          width: 1.0,
+                                                        ),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    12.0,
+                                                                    5.0,
+                                                                    12.0,
+                                                                    5.0),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              valueOrDefault<
+                                                                  String>(
+                                                                dateTimeFormat(
+                                                                  'd/M/y',
+                                                                  _model
+                                                                      .datePicked2,
+                                                                  locale: FFLocalizations.of(
+                                                                          context)
+                                                                      .languageCode,
+                                                                ),
+                                                                'End Date',
+                                                              ),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .titleSmall
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Lexend Deca',
+                                                                    color: Color(
+                                                                        0xFF57636C),
+                                                                    fontSize:
+                                                                        14.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                  ),
+                                                            ),
+                                                            Icon(
+                                                              Icons
+                                                                  .date_range_outlined,
+                                                              color: Color(
+                                                                  0xFF57636C),
+                                                              size: 24.0,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ).animateOnPageLoad(
+                                animationsMap['rowOnPageLoadAnimation2']!),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            10.0, 10.0, 10.0, 10.0),
+                        child: Semantics(
+                          label: 'Number of past bookings',
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10.0, 0.0, 0.0, 0.0),
+                                child: Icon(
+                                  Icons.car_repair,
+                                  color: FlutterFlowTheme.of(context)
+                                      .primaryBackground,
+                                  size: 24.0,
                                 ),
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 15.0, 10.0, 30.0),
-                    child: Semantics(
-                      label: 'cost breakdown for the above car',
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 20.0, 0.0, 0.0),
-                              child: Material(
-                                color: Colors.transparent,
-                                elevation: 4.0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    border: Border.all(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    20.0, 0.0, 0.0, 0.0),
+                                child: FutureBuilder<int>(
+                                  future: FFAppState().trips(
+                                    requestFn: () => queryBookingRecordCount(
+                                      parent: widget.productref,
                                     ),
                                   ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 4.0, 16.0, 16.0),
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 20.0,
+                                          height: 20.0,
+                                          child: CircularProgressIndicator(
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    int textCount = snapshot.data!;
+                                    return Text(
+                                      '${formatNumber(
+                                        textCount,
+                                        formatType: FormatType.custom,
+                                        format: '00',
+                                        locale: '',
+                                      )}/ trips made',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Open Sans',
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryBackground,
+                                          ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    20.0, 0.0, 0.0, 0.0),
+                                child: Text(
+                                  'Plate No :${detailCarRecord.plateNumber}',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryBackground,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ).animateOnPageLoad(
+                            animationsMap['rowOnPageLoadAnimation3']!),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            10.0, 15.0, 10.0, 15.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 1.0),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  elevation: 1.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                  child: Container(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.9,
+                                    decoration: BoxDecoration(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color(0xFFF1F4F8),
+                                          offset: Offset(0.0, 1.0),
+                                        )
+                                      ],
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 0.0,
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          10.0, 5.0, 10.0, 5.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Note',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Open Sans',
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryBackground,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 10.0, 0.0, 0.0),
+                                            child: Text(
+                                              detailCarRecord.note,
+                                              textAlign: TextAlign.start,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Open Sans',
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                      ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ).animateOnPageLoad(animationsMap[
+                                    'containerOnPageLoadAnimation3']!),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            15.0, 10.0, 15.0, 10.0),
+                        child: Semantics(
+                          label: 'Reviews from past rentees',
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Reviews',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Open Sans',
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
+                                      fontSize: 16.0,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            10.0, 15.0, 10.0, 0.0),
+                        child: Semantics(
+                          label: 'Reviews ',
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 1.0),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.25,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      border: Border.all(
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                        width: 0.0,
+                                      ),
+                                    ),
+                                    child: StreamBuilder<List<RatingRecord>>(
+                                      stream: FFAppState().reviews(
+                                        requestFn: () => queryRatingRecord(
+                                          parent: detailCarRecord.reference,
+                                        ),
+                                      ),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 20.0,
+                                              height: 20.0,
+                                              child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        List<RatingRecord>
+                                            listViewRatingRecordList =
+                                            snapshot.data!;
+                                        if (listViewRatingRecordList.isEmpty) {
+                                          return Center(
+                                            child: NoreviewsWidget(),
+                                          );
+                                        }
+                                        return ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount:
+                                              listViewRatingRecordList.length,
+                                          itemBuilder:
+                                              (context, listViewIndex) {
+                                            final listViewRatingRecord =
+                                                listViewRatingRecordList[
+                                                    listViewIndex];
+                                            return Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 0.0, 8.0, 0.0),
+                                              child: Container(
+                                                width: 340.0,
+                                                height: 100.0,
+                                                constraints: BoxConstraints(
+                                                  maxWidth: 1270.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                  border: Border.all(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .accent3,
+                                                    width: 1.0,
+                                                  ),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          10.0, 8.0, 10.0, 8.0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      if (responsiveVisibility(
+                                                        context: context,
+                                                        phone: false,
+                                                        tablet: false,
+                                                      ))
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      0.0,
+                                                                      16.0,
+                                                                      0.0),
+                                                          child: Container(
+                                                            width: 100.0,
+                                                            height: 100.7,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color(
+                                                                  0xFFF1F4F8),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12.0),
+                                                            ),
+                                                            child: Visibility(
+                                                              visible:
+                                                                  responsiveVisibility(
+                                                                context:
+                                                                    context,
+                                                                phone: false,
+                                                                tablet: false,
+                                                              ),
+                                                              child: Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            4.0,
+                                                                            4.0,
+                                                                            4.0,
+                                                                            4.0),
+                                                                child:
+                                                                    ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10.0),
+                                                                  child:
+                                                                      CachedNetworkImage(
+                                                                    fadeInDuration:
+                                                                        Duration(
+                                                                            milliseconds:
+                                                                                500),
+                                                                    fadeOutDuration:
+                                                                        Duration(
+                                                                            milliseconds:
+                                                                                500),
+                                                                    imageUrl:
+                                                                        'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjJ8fHByb2ZpbGV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60',
+                                                                    width: 90.0,
+                                                                    height:
+                                                                        90.0,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      Expanded(
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          4.0),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Expanded(
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          12.0,
+                                                                          0.0),
+                                                                      child:
+                                                                          Text(
+                                                                        'Rating',
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .headlineSmall
+                                                                            .override(
+                                                                              fontFamily: 'Outfit',
+                                                                              color: FlutterFlowTheme.of(context).secondaryText,
+                                                                              fontSize: 20.0,
+                                                                              fontWeight: FontWeight.w500,
+                                                                            ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            5.0,
+                                                                            0.0),
+                                                                    child:
+                                                                        RatingbarWidget(
+                                                                      key: Key(
+                                                                          'Keyi9r_${listViewIndex}_of_${listViewRatingRecordList.length}'),
+                                                                      parameter1:
+                                                                          listViewRatingRecord
+                                                                              .rating,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          4.0,
+                                                                          0.0,
+                                                                          4.0),
+                                                              child: Text(
+                                                                listViewRatingRecord
+                                                                    .review,
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelLarge
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Readex Pro',
+                                                                      color: Color(
+                                                                          0xFF57636C),
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          12.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  if (responsiveVisibility(
+                                                                    context:
+                                                                        context,
+                                                                    tabletLandscape:
+                                                                        false,
+                                                                    desktop:
+                                                                        false,
+                                                                  ))
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          12.0,
+                                                                          0.0),
+                                                                      child:
+                                                                          ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8.0),
+                                                                        child: Image
+                                                                            .network(
+                                                                          listViewRatingRecord
+                                                                              .reviewPhoto,
+                                                                          width:
+                                                                              40.0,
+                                                                          height:
+                                                                              40.0,
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            8.0,
+                                                                            0.0),
+                                                                    child: Text(
+                                                                      listViewRatingRecord
+                                                                          .reviewName,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Readex Pro',
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).primaryText,
+                                                                            fontSize:
+                                                                                14.0,
+                                                                            fontWeight:
+                                                                                FontWeight.normal,
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    dateTimeFormat(
+                                                                      'MMMMEEEEd',
+                                                                      listViewRatingRecord
+                                                                          .createdTime!,
+                                                                      locale: FFLocalizations.of(
+                                                                              context)
+                                                                          .languageCode,
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelSmall
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Readex Pro',
+                                                                          color:
+                                                                              Color(0xFF57636C),
+                                                                          fontSize:
+                                                                              12.0,
+                                                                          fontWeight:
+                                                                              FontWeight.normal,
+                                                                        ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ).animateOnPageLoad(animationsMap[
+                                      'containerOnPageLoadAnimation4']!),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            10.0, 15.0, 10.0, 0.0),
+                        child: Semantics(
+                          label:
+                              'Recommendation based on  the car you have selected',
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 4.0, 0.0, 12.0),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.27,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(0.0),
+                                    ),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                              child: Container(
-                                                width: 60.0,
-                                                height: 4.0,
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xFFF1F4F8),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          2.0),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
                                         Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 12.0, 0.0, 0.0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 0.0, 12.0, 0.0),
-                                                child: FlutterFlowIconButton(
-                                                  borderColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryText,
-                                                  borderRadius: 30.0,
-                                                  borderWidth: 1.0,
-                                                  buttonSize: 40.0,
-                                                  icon: Icon(
-                                                    Icons.attach_money,
-                                                    color: Color(0xFF57636C),
-                                                    size: 20.0,
-                                                  ),
-                                                  onPressed: () {
-                                                    print(
-                                                        'IconButton pressed ...');
-                                                  },
+                                                  10.0, 12.0, 0.0, 12.0),
+                                          child: Text(
+                                            'Recommedations',
+                                            style: FlutterFlowTheme.of(context)
+                                                .headlineMedium
+                                                .override(
+                                                  fontFamily: 'Outfit',
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryBackground,
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.normal,
                                                 ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: FutureBuilder<List<CarRecord>>(
+                                            future: _model.recommedations(
+                                              requestFn: () =>
+                                                  queryCarRecordOnce(
+                                                queryBuilder: (carRecord) => carRecord
+                                                    .where('car_status',
+                                                        isEqualTo: 'approved')
+                                                    .where('district',
+                                                        isEqualTo: detailCarRecord
+                                                                    .district !=
+                                                                ''
+                                                            ? detailCarRecord
+                                                                .district
+                                                            : null)
+                                                    .where('car_name',
+                                                        isNotEqualTo:
+                                                            detailCarRecord
+                                                                        .carName !=
+                                                                    ''
+                                                                ? detailCarRecord
+                                                                    .carName
+                                                                : null),
                                               ),
-                                              Expanded(
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'Cost breakdown',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                            ),
+                                            builder: (context, snapshot) {
+                                              // Customize what your widget looks like when it's loading.
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                  child:
+                                                      LinearProgressIndicator(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryBackground,
+                                                  ),
+                                                );
+                                              }
+                                              List<CarRecord>
+                                                  listViewCarRecordList =
+                                                  snapshot.data!;
+                                              if (listViewCarRecordList
+                                                  .isEmpty) {
+                                                return EmptyWidget();
+                                              }
+                                              return ListView.builder(
+                                                padding: EdgeInsets.zero,
+                                                primary: false,
+                                                shrinkWrap: true,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount: listViewCarRecordList
+                                                    .length,
+                                                itemBuilder:
+                                                    (context, listViewIndex) {
+                                                  final listViewCarRecord =
+                                                      listViewCarRecordList[
+                                                          listViewIndex];
+                                                  return Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(10.0, 0.0,
+                                                                0.0, 6.0),
+                                                    child: Container(
+                                                      width: 230.0,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            blurRadius: 2.0,
+                                                            color: Color(
+                                                                0x520E151B),
+                                                            offset: Offset(
+                                                                0.0, 1.0),
+                                                          )
+                                                        ],
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(6.0),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    2.0,
+                                                                    2.0,
+                                                                    2.0,
+                                                                    2.0),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .only(
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        0.0),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        0.0),
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        6.0),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        6.0),
+                                                              ),
+                                                              child:
+                                                                  Image.network(
+                                                                detailCarRecord
+                                                                    .carPhotos
+                                                                    .first,
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    1.0,
+                                                                height: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .height *
+                                                                    0.15,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          16.0,
+                                                                          0.0,
+                                                                          16.0,
+                                                                          0.0),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  AutoSizeText(
+                                                                    detailCarRecord
+                                                                        .carName,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyLarge
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Plus Jakarta Sans',
+                                                                          color:
+                                                                              Color(0xFF14181B),
+                                                                          fontSize:
+                                                                              16.0,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
+                                                                  ),
+                                                                  AutoSizeText(
+                                                                    '${formatNumber(
+                                                                      detailCarRecord
+                                                                          .costPerDay,
+                                                                      formatType:
+                                                                          FormatType
+                                                                              .custom,
+                                                                      currency:
+                                                                          'K',
+                                                                      format:
+                                                                          '00.00',
+                                                                      locale:
+                                                                          '',
+                                                                    )}',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .end,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .headlineSmall
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Outfit',
+                                                                          color:
+                                                                              Color(0xFF14181B),
+                                                                          fontSize:
+                                                                              14.0,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ).animateOnPageLoad(
+                                                        animationsMap[
+                                                            'containerOnPageLoadAnimation6']!),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            10.0, 15.0, 10.0, 30.0),
+                        child: Semantics(
+                          label: 'cost breakdown for the above car',
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 20.0, 0.0, 0.0),
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    elevation: 1.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Container(
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        border: Border.all(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryBackground,
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 4.0, 16.0, 16.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 4.0, 0.0, 0.0),
+                                                  child: Container(
+                                                    width: 60.0,
+                                                    height: 4.0,
+                                                    decoration: BoxDecoration(
+                                                      color: Color(0xFFF1F4F8),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              2.0),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      0.0, 12.0, 0.0, 0.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 0.0,
+                                                                12.0, 0.0),
+                                                    child:
+                                                        FlutterFlowIconButton(
+                                                      borderRadius: 30.0,
+                                                      borderWidth: 1.0,
+                                                      buttonSize: 40.0,
+                                                      icon: Icon(
+                                                        Icons.attach_money,
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                        size: 24.0,
+                                                      ),
+                                                      onPressed: () {
+                                                        print(
+                                                            'IconButton pressed ...');
+                                                      },
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          'Cost breakdown',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .headlineSmall
                                                               .override(
                                                                 fontFamily:
@@ -2065,252 +2203,118 @@ class _DetailWidgetState extends State<DetailWidget>
                                                                 fontSize: 18.0,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w500,
+                                                                        .w600,
                                                               ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      4.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          child: Text(
+                                                            'Blow is the breakdown of the cost.',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .labelMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Plus Jakarta Sans',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground,
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  4.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      child: Text(
-                                                        'Blow is the breakdown of the cost.',
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Plus Jakarta Sans',
-                                                              color: Color(
-                                                                  0xFF57636C),
-                                                              fontSize: 12.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                        Divider(
-                                          height: 24.0,
-                                          thickness: 2.0,
-                                          color: FlutterFlowTheme.of(context)
-                                              .accent4,
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 32.0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 8.0, 12.0, 4.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Text(
-                                                      'Price Breakdown',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                            ),
+                                            Divider(
+                                              height: 24.0,
+                                              thickness: 2.0,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .accent4,
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      0.0, 0.0, 0.0, 32.0),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(12.0, 8.0,
+                                                                12.0, 4.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        Text(
+                                                          'Price Breakdown',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodySmall
                                                               .override(
                                                                 fontFamily:
                                                                     'Plus Jakarta Sans',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .primaryText,
+                                                                    .primaryBackground,
                                                                 fontSize: 12.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
                                                               ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 4.0, 12.0, 0.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Base Price',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Plus Jakarta Sans',
-                                                                color: Color(
-                                                                    0xFF57636C),
-                                                                fontSize: 14.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                              ),
-                                                    ),
-                                                    Text(
-                                                      valueOrDefault<String>(
-                                                        formatNumber(
-                                                          functions.subtotal(
-                                                              functions.numberofdays(
-                                                                  _model
-                                                                      .datePicked1,
-                                                                  _model
-                                                                      .datePicked2),
-                                                              detailCarRecord
-                                                                  .costPerDay),
-                                                          formatType:
-                                                              FormatType.custom,
-                                                          currency: 'K',
-                                                          format: '00.00',
-                                                          locale: '',
-                                                        ),
-                                                        'K00.00',
-                                                      ),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .titleLarge
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Outfit',
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondaryText,
-                                                                fontSize: 16.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 10.0, 12.0, 0.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Taxes',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Plus Jakarta Sans',
-                                                                color: Color(
-                                                                    0xFF57636C),
-                                                                fontSize: 14.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                              ),
-                                                    ),
-                                                    Text(
-                                                      '3%',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .titleLarge
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Outfit',
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondaryText,
-                                                                fontSize: 18.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 10.0, 12.0, 10.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Text(
-                                                          'Total',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .titleMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Plus Jakarta Sans',
-                                                                color: Color(
-                                                                    0xFF57636C),
-                                                                fontSize: 18.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                              ),
-                                                        ),
-                                                        FlutterFlowIconButton(
-                                                          borderColor: Colors
-                                                              .transparent,
-                                                          borderRadius: 30.0,
-                                                          borderWidth: 1.0,
-                                                          buttonSize: 36.0,
-                                                          icon: Icon(
-                                                            Icons.info_outlined,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primary,
-                                                            size: 18.0,
-                                                          ),
-                                                          onPressed: () {
-                                                            print(
-                                                                'IconButton pressed ...');
-                                                          },
                                                         ),
                                                       ],
                                                     ),
-                                                    Text(
-                                                      valueOrDefault<String>(
-                                                        '${formatNumber(
-                                                          functions.totalcost(
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(12.0, 4.0,
+                                                                12.0, 0.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Base Price',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .labelMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Plus Jakarta Sans',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryBackground,
+                                                                fontSize: 14.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
+                                                        ),
+                                                        Text(
+                                                          valueOrDefault<
+                                                              String>(
+                                                            formatNumber(
                                                               functions.subtotal(
                                                                   functions.numberofdays(
                                                                       _model
@@ -2319,537 +2323,713 @@ class _DetailWidgetState extends State<DetailWidget>
                                                                           .datePicked2),
                                                                   detailCarRecord
                                                                       .costPerDay),
-                                                              1.8),
-                                                          formatType:
-                                                              FormatType.custom,
-                                                          currency: 'K',
-                                                          format: '00.00',
-                                                          locale: '',
-                                                        )}',
-                                                        'K00.00',
-                                                      ),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                                              formatType:
+                                                                  FormatType
+                                                                      .custom,
+                                                              currency: 'K',
+                                                              format: '00.00',
+                                                              locale: '',
+                                                            ),
+                                                            'K00.00',
+                                                          ),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .titleLarge
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Outfit',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryBackground,
+                                                                fontSize: 16.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                12.0,
+                                                                10.0,
+                                                                12.0,
+                                                                0.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Taxes',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .labelMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Plus Jakarta Sans',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryBackground,
+                                                                fontSize: 14.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
+                                                        ),
+                                                        Text(
+                                                          '3%',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .titleLarge
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Outfit',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryBackground,
+                                                                fontSize: 18.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                12.0,
+                                                                10.0,
+                                                                12.0,
+                                                                10.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            Text(
+                                                              'Total',
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .titleMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Plus Jakarta Sans',
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primaryBackground,
+                                                                    fontSize:
+                                                                        18.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                  ),
+                                                            ),
+                                                            FlutterFlowIconButton(
+                                                              borderColor: Colors
+                                                                  .transparent,
+                                                              borderRadius:
+                                                                  30.0,
+                                                              borderWidth: 1.0,
+                                                              buttonSize: 36.0,
+                                                              icon: Icon(
+                                                                Icons
+                                                                    .info_outlined,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                                size: 18.0,
+                                                              ),
+                                                              onPressed: () {
+                                                                print(
+                                                                    'IconButton pressed ...');
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Text(
+                                                          valueOrDefault<
+                                                              String>(
+                                                            '${formatNumber(
+                                                              functions.totalcost(
+                                                                  functions.subtotal(
+                                                                      functions.numberofdays(
+                                                                          _model
+                                                                              .datePicked1,
+                                                                          _model
+                                                                              .datePicked2),
+                                                                      detailCarRecord
+                                                                          .costPerDay),
+                                                                  1.8),
+                                                              formatType:
+                                                                  FormatType
+                                                                      .custom,
+                                                              currency: 'K',
+                                                              format: '00.00',
+                                                              locale: '',
+                                                            )}',
+                                                            'K00.00',
+                                                          ),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .displaySmall
                                                               .override(
                                                                 fontFamily:
                                                                     'Outfit',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .secondaryText,
+                                                                    .primaryBackground,
                                                                 fontSize: 18.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600,
                                                               ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.sizeOf(context).width * 1.0,
-                    height: 100.0,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(0.0),
-                        bottomRight: Radius.circular(0.0),
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        FFButtonWidget(
-                          onPressed: () async {
-                            logFirebaseEvent('DETAIL_PAGE_RESERVE_BTN_ON_TAP');
-                            logFirebaseEvent('Button_validate_form');
-                            if (_model.formKey.currentState == null ||
-                                !_model.formKey.currentState!.validate()) {
-                              return;
-                            }
-                            if (_model.datePicked1 == null) {
-                              await showDialog(
-                                context: context,
-                                builder: (alertDialogContext) {
-                                  return AlertDialog(
-                                    title: Text('Start date'),
-                                    content: Text(
-                                        'Pick the start date of your resevation'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(alertDialogContext),
-                                        child: Text('Ok'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                              return;
-                            }
-                            if (_model.datePicked2 == null) {
-                              await showDialog(
-                                context: context,
-                                builder: (alertDialogContext) {
-                                  return AlertDialog(
-                                    title: Text('End date'),
-                                    content: Text(
-                                        'Pick the start date of your reservation'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(alertDialogContext),
-                                        child: Text('Ok'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                              return;
-                            }
-                            if (valueOrDefault<bool>(
-                                    currentUserDocument?.isHost, false) ==
-                                true) {
-                              logFirebaseEvent('Button_show_snack_bar');
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'You are not authorised to perfom this action.',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                    ),
-                                  ),
-                                  duration: Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).secondary,
-                                  action: SnackBarAction(
-                                    label: 'Go back',
-                                    textColor: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    onPressed: () async {
-                                      context.goNamed('Home');
+                      Container(
+                        width: MediaQuery.sizeOf(context).width * 1.0,
+                        height: 100.0,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(0.0),
+                            bottomRight: Radius.circular(0.0),
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            FFButtonWidget(
+                              onPressed: () async {
+                                logFirebaseEvent(
+                                    'DETAIL_PAGE_RESERVE_BTN_ON_TAP');
+                                logFirebaseEvent('Button_validate_form');
+                                if (_model.formKey.currentState == null ||
+                                    !_model.formKey.currentState!.validate()) {
+                                  return;
+                                }
+                                if (_model.datePicked1 == null) {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: Text('Start date'),
+                                        content: Text(
+                                            'Pick the start date of your resevation'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: Text('Ok'),
+                                          ),
+                                        ],
+                                      );
                                     },
-                                  ),
-                                ),
-                              );
-                            } else {
-                              logFirebaseEvent('Button_show_snack_bar');
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Car added to Reserve',
-                                    style: FlutterFlowTheme.of(context)
-                                        .titleMedium
-                                        .override(
-                                          fontFamily: 'Open Sans',
+                                  );
+                                  return;
+                                }
+                                if (_model.datePicked2 == null) {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: Text('End date'),
+                                        content: Text(
+                                            'Pick the start date of your reservation'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: Text('Ok'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  return;
+                                }
+                                if (valueOrDefault<bool>(
+                                        currentUserDocument?.isHost, false) ==
+                                    true) {
+                                  logFirebaseEvent('Button_show_snack_bar');
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'You are not authorised to perfom this action.',
+                                        style: TextStyle(
                                           color: FlutterFlowTheme.of(context)
                                               .primaryText,
                                         ),
-                                  ),
-                                  duration: Duration(milliseconds: 4050),
-                                  backgroundColor: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  action: SnackBarAction(
-                                    label: 'Go to reserve',
-                                    textColor: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    onPressed: () async {
-                                      context.goNamed(
-                                        'Hostinventory',
-                                        extra: <String, dynamic>{
-                                          kTransitionInfoKey: TransitionInfo(
-                                            hasTransition: true,
-                                            transitionType:
-                                                PageTransitionType.rightToLeft,
-                                            duration:
-                                                Duration(milliseconds: 300),
-                                          ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context)
+                                              .secondary,
+                                      action: SnackBarAction(
+                                        label: 'Go back',
+                                        textColor: FlutterFlowTheme.of(context)
+                                            .primaryBackground,
+                                        onPressed: () async {
+                                          context.goNamed('Home');
                                         },
-                                      );
-                                    },
-                                  ),
-                                ),
-                              );
-                              logFirebaseEvent('Button_backend_call');
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  logFirebaseEvent('Button_show_snack_bar');
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Car added to Reserve',
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleMedium
+                                            .override(
+                                              fontFamily: 'Open Sans',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                            ),
+                                      ),
+                                      duration: Duration(milliseconds: 4050),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                      action: SnackBarAction(
+                                        label: 'Go to reserve',
+                                        textColor: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        onPressed: () async {
+                                          context.goNamed(
+                                            'Hostinventory',
+                                            extra: <String, dynamic>{
+                                              kTransitionInfoKey:
+                                                  TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType
+                                                        .rightToLeft,
+                                                duration:
+                                                    Duration(milliseconds: 300),
+                                              ),
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                  logFirebaseEvent('Button_backend_call');
 
-                              await ReservedRecord.createDoc(widget.productref!)
-                                  .set(createReservedRecordData(
-                                bookingStatus: 'reserved',
-                                subtotal: functions.subtotal(
-                                    functions.numberofdays(
-                                        _model.datePicked1, _model.datePicked2),
-                                    detailCarRecord.costPerDay),
-                                startdate: _model.datePicked1,
-                                enddate: _model.datePicked2,
-                                totalcost: functions.totalcost(
-                                    functions.subtotal(
+                                  await ReservedRecord.createDoc(
+                                          widget.productref!)
+                                      .set(createReservedRecordData(
+                                    bookingStatus: 'reserved',
+                                    subtotal: functions.subtotal(
                                         functions.numberofdays(
                                             _model.datePicked1,
                                             _model.datePicked2),
                                         detailCarRecord.costPerDay),
-                                    1.8),
-                                numberofdays: functions.numberofdays(
-                                    _model.datePicked1, _model.datePicked2),
-                                uid: currentUserReference,
-                                renteeName:
-                                    '${valueOrDefault(currentUserDocument?.firstName, '')}     ${valueOrDefault(currentUserDocument?.lastName, '')}',
-                                renteeEmail: currentUserEmail,
-                                renteePhoneNumber: currentPhoneNumber,
-                                renteePhoto: currentUserPhoto,
-                              ));
-                            }
-                          },
-                          text: 'Reserve',
-                          options: FFButtonOptions(
-                            height: 40.0,
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                24.0, 0.0, 24.0, 0.0),
-                            iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                                  fontFamily: 'Open Sans',
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                            elevation: 3.0,
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).primary,
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.circular(50.0),
-                          ),
-                        ),
-                        FFButtonWidget(
-                          onPressed: () async {
-                            logFirebaseEvent('DETAIL_PAGE_BOOK_NOW_BTN_ON_TAP');
-                            logFirebaseEvent('Button_validate_form');
-                            if (_model.formKey.currentState == null ||
-                                !_model.formKey.currentState!.validate()) {
-                              return;
-                            }
-                            if (_model.datePicked1 == null) {
-                              await showDialog(
-                                context: context,
-                                builder: (alertDialogContext) {
-                                  return AlertDialog(
-                                    title: Text('Start date'),
-                                    content: Text(
-                                        'Pick the start date of your resevation'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(alertDialogContext),
-                                        child: Text('Ok'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                              return;
-                            }
-                            if (_model.datePicked2 == null) {
-                              await showDialog(
-                                context: context,
-                                builder: (alertDialogContext) {
-                                  return AlertDialog(
-                                    title: Text('End date'),
-                                    content: Text(
-                                        'Pick the start date of your reservation'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(alertDialogContext),
-                                        child: Text('Ok'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                              return;
-                            }
-                            if ((detailCarRecord.bookingStatus ==
-                                    'not booked') &&
-                                (valueOrDefault<bool>(
-                                        currentUserDocument?.isHost, false) ==
-                                    false)) {
-                              logFirebaseEvent('Button_stripe_payment');
-                              final paymentResponse =
-                                  await processStripePayment(
-                                context,
-                                amount: valueOrDefault<int>(
-                                  (valueOrDefault<double>(
-                                            functions.totalcost(
-                                                    functions.subtotal(
-                                                        functions.numberofdays(
-                                                            _model.datePicked1,
-                                                            _model.datePicked2),
-                                                        detailCarRecord
-                                                            .costPerDay),
-                                                    1.8)! *
-                                                100,
-                                            00.0,
-                                          ) /
-                                          17)
-                                      .round(),
-                                  00,
-                                ),
-                                currency: 'USD',
-                                customerEmail: currentUserEmail,
-                                customerName:
-                                    '${valueOrDefault(currentUserDocument?.firstName, '')} ${valueOrDefault(currentUserDocument?.lastName, '')}',
-                                description:
-                                    'Your booking for  ${detailCarRecord.carName} has been recieved  and you will recieve a message from the vendor who will send you  the pickup location of the vehicle.Thank you for trusting us. Rentz inc',
-                                allowGooglePay: false,
-                                allowApplePay: false,
-                                themeStyle: ThemeMode.system,
-                                buttonColor:
-                                    FlutterFlowTheme.of(context).primary,
-                                buttonTextColor: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
-                              );
-                              if (paymentResponse.paymentId == null) {
-                                if (paymentResponse.errorMessage != null) {
-                                  showSnackbar(
-                                    context,
-                                    'Payment failed',
-                                  );
-                                }
-                                return;
-                              }
-                              final stripePaymentId =
-                                  paymentResponse.paymentId!;
-
-                              logFirebaseEvent('Button_backend_call');
-
-                              await BookingRecord.createDoc(widget.productref!)
-                                  .set(createBookingRecordData(
-                                bookingStatus: 'booked',
-                                subtotal: functions.subtotal(
-                                    functions.numberofdays(
-                                        _model.datePicked1, _model.datePicked2),
-                                    detailCarRecord.costPerDay),
-                                startdate: _model.datePicked1,
-                                enddate: _model.datePicked2,
-                                totalcost: functions.totalcost(
-                                    functions.subtotal(
-                                        functions.numberofdays(
-                                            _model.datePicked1,
-                                            _model.datePicked2),
-                                        detailCarRecord.costPerDay),
-                                    1.8),
-                                numberofdays: functions.numberofdays(
-                                    _model.datePicked1, _model.datePicked2),
-                                uid: currentUserReference,
-                                renteeName:
-                                    '${valueOrDefault(currentUserDocument?.firstName, '')}    ${valueOrDefault(currentUserDocument?.lastName, '')}',
-                                renteeEmail: currentUserEmail,
-                                renteePhoneNumber: currentPhoneNumber,
-                                renteePhoto: currentUserPhoto,
-                              ));
-                              logFirebaseEvent('Button_show_snack_bar');
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Your car is booked successfully .',
-                                    style: FlutterFlowTheme.of(context)
-                                        .titleMedium
-                                        .override(
-                                          fontFamily: 'Open Sans',
-                                          color: Colors.white,
-                                        ),
-                                  ),
-                                  duration: Duration(milliseconds: 10000),
-                                  backgroundColor: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                ),
-                              );
-                              logFirebaseEvent('Button_backend_call');
-
-                              await widget.productref!
-                                  .update(createCarRecordData(
-                                bookingStatus: 'booked',
-                                availabilityStatus:
-                                    ' Ends on : ${dateTimeFormat(
-                                  'M/d H:mm',
-                                  _model.datePicked2,
-                                  locale:
-                                      FFLocalizations.of(context).languageCode,
-                                )}',
-                                numberofdays: functions.numberofdays(
-                                    _model.datePicked1, _model.datePicked2),
-                                enddate: _model.datePicked2,
-                              ));
-                              logFirebaseEvent('Button_send_email');
-                              await launchUrl(Uri(
-                                  scheme: 'mailto',
-                                  path: detailCarRecord.vendorEmail,
-                                  query: {
-                                    'subject': 'Car booking',
-                                    'body':
-                                        'Mr${valueOrDefault(currentUserDocument?.firstName, '')}has rented your car .check your inventory and contact the rentee immediately and send them the aggrement form which was sent to your email by rentx inc.',
-                                  }
-                                      .entries
-                                      .map((MapEntry<String, String> e) =>
-                                          '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-                                      .join('&')));
-                              logFirebaseEvent('Button_backend_call');
-
-                              await PaymentRecord.collection
-                                  .doc()
-                                  .set(createPaymentRecordData(
-                                    amount: functions.totalcost(
+                                    startdate: _model.datePicked1,
+                                    enddate: _model.datePicked2,
+                                    totalcost: functions.totalcost(
                                         functions.subtotal(
                                             functions.numberofdays(
                                                 _model.datePicked1,
                                                 _model.datePicked2),
                                             detailCarRecord.costPerDay),
                                         1.8),
-                                    carName: detailCarRecord.carName,
-                                    createdAt: getCurrentTimestamp,
+                                    numberofdays: functions.numberofdays(
+                                        _model.datePicked1, _model.datePicked2),
+                                    uid: currentUserReference,
+                                    renteeName:
+                                        '${valueOrDefault(currentUserDocument?.firstName, '')}     ${valueOrDefault(currentUserDocument?.lastName, '')}',
+                                    renteeEmail: currentUserEmail,
                                     renteePhoneNumber: currentPhoneNumber,
-                                    status: 'pending',
-                                    vendorEmail: detailCarRecord.vendorEmail,
-                                    vendorName: detailCarRecord.vendorName,
-                                    vendorPhoneNumber:
-                                        detailCarRecord.vendorPhoneNumber,
-                                    vendorPhoto: detailCarRecord.vendorPhoto,
                                     renteePhoto: currentUserPhoto,
-                                    reenteeName:
-                                        '${valueOrDefault(currentUserDocument?.firstName, '')}  ${valueOrDefault(currentUserDocument?.lastName, '')}',
                                   ));
-                              logFirebaseEvent(
-                                  'Button_trigger_push_notification');
-                              triggerPushNotification(
-                                notificationTitle: 'Booking',
-                                notificationText:
-                                    'Your car has been booked .Head to your dashboad and message the rentee .',
-                                notificationImageUrl:
-                                    detailCarRecord.carPhotos.first,
-                                notificationSound: 'default',
-                                userRefs: [detailCarRecord.uid!],
-                                initialPageName: 'Hostinventory',
-                                parameterData: {},
-                              );
-                              logFirebaseEvent('Button_bottom_sheet');
-                              await showModalBottomSheet(
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                enableDrag: false,
-                                context: context,
-                                builder: (context) {
-                                  return GestureDetector(
-                                    onTap: () => FocusScope.of(context)
-                                        .requestFocus(_model.unfocusNode),
-                                    child: Padding(
-                                      padding: MediaQuery.viewInsetsOf(context),
-                                      child: PayokWidget(),
+                                }
+                              },
+                              text: 'Reserve',
+                              options: FFButtonOptions(
+                                height: 40.0,
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    24.0, 0.0, 24.0, 0.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      fontFamily: 'Open Sans',
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                elevation: 3.0,
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(50.0),
+                              ),
+                            ),
+                            FFButtonWidget(
+                              onPressed: () async {
+                                logFirebaseEvent(
+                                    'DETAIL_PAGE_BOOK_NOW_BTN_ON_TAP');
+                                logFirebaseEvent('Button_validate_form');
+                                if (_model.formKey.currentState == null ||
+                                    !_model.formKey.currentState!.validate()) {
+                                  return;
+                                }
+                                if (_model.datePicked1 == null) {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: Text('Start date'),
+                                        content: Text(
+                                            'Pick the start date of your resevation'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: Text('Ok'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  return;
+                                }
+                                if (_model.datePicked2 == null) {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: Text('End date'),
+                                        content: Text(
+                                            'Pick the start date of your reservation'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: Text('Ok'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  return;
+                                }
+                                if ((detailCarRecord.bookingStatus ==
+                                        'not booked') &&
+                                    (valueOrDefault<bool>(
+                                            currentUserDocument?.isHost,
+                                            false) ==
+                                        false)) {
+                                  logFirebaseEvent('Button_stripe_payment');
+                                  final paymentResponse =
+                                      await processStripePayment(
+                                    context,
+                                    amount: valueOrDefault<int>(
+                                      (valueOrDefault<double>(
+                                                functions.totalcost(
+                                                        functions.subtotal(
+                                                            functions.numberofdays(
+                                                                _model
+                                                                    .datePicked1,
+                                                                _model
+                                                                    .datePicked2),
+                                                            detailCarRecord
+                                                                .costPerDay),
+                                                        1.8)! *
+                                                    100,
+                                                00.0,
+                                              ) /
+                                              17)
+                                          .round(),
+                                      00,
+                                    ),
+                                    currency: 'USD',
+                                    customerEmail: currentUserEmail,
+                                    customerName:
+                                        '${valueOrDefault(currentUserDocument?.firstName, '')} ${valueOrDefault(currentUserDocument?.lastName, '')}',
+                                    description:
+                                        'Your booking for  ${detailCarRecord.carName} has been recieved  and you will recieve a message from the vendor who will send you  the pickup location of the vehicle.Thank you for trusting us. Rentz inc',
+                                    allowGooglePay: false,
+                                    allowApplePay: false,
+                                    themeStyle: ThemeMode.system,
+                                    buttonColor:
+                                        FlutterFlowTheme.of(context).primary,
+                                    buttonTextColor:
+                                        FlutterFlowTheme.of(context)
+                                            .primaryBackground,
+                                  );
+                                  if (paymentResponse.paymentId == null) {
+                                    if (paymentResponse.errorMessage != null) {
+                                      showSnackbar(
+                                        context,
+                                        'Payment failed',
+                                      );
+                                    }
+                                    return;
+                                  }
+                                  final stripePaymentId =
+                                      paymentResponse.paymentId!;
+
+                                  logFirebaseEvent('Button_backend_call');
+
+                                  await BookingRecord.createDoc(
+                                          widget.productref!)
+                                      .set(createBookingRecordData(
+                                    bookingStatus: 'booked',
+                                    subtotal: functions.subtotal(
+                                        functions.numberofdays(
+                                            _model.datePicked1,
+                                            _model.datePicked2),
+                                        detailCarRecord.costPerDay),
+                                    startdate: _model.datePicked1,
+                                    enddate: _model.datePicked2,
+                                    totalcost: functions.totalcost(
+                                        functions.subtotal(
+                                            functions.numberofdays(
+                                                _model.datePicked1,
+                                                _model.datePicked2),
+                                            detailCarRecord.costPerDay),
+                                        1.8),
+                                    numberofdays: functions.numberofdays(
+                                        _model.datePicked1, _model.datePicked2),
+                                    uid: currentUserReference,
+                                    renteeName:
+                                        '${valueOrDefault(currentUserDocument?.firstName, '')}    ${valueOrDefault(currentUserDocument?.lastName, '')}',
+                                    renteeEmail: currentUserEmail,
+                                    renteePhoneNumber: currentPhoneNumber,
+                                    renteePhoto: currentUserPhoto,
+                                  ));
+                                  logFirebaseEvent('Button_show_snack_bar');
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Your car is booked successfully .',
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleMedium
+                                            .override(
+                                              fontFamily: 'Open Sans',
+                                              color: Colors.white,
+                                            ),
+                                      ),
+                                      duration: Duration(milliseconds: 10000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context)
+                                              .primaryBackground,
                                     ),
                                   );
-                                },
-                              ).then((value) => setState(() {}));
-                            } else {
-                              if (detailCarRecord.bookingStatus == 'booked') {
-                                logFirebaseEvent('Button_show_snack_bar');
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'This car is already booked by someone .however you can reserve it and book it  when its available .Check the date it will be available',
-                                      style: TextStyle(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
+                                  logFirebaseEvent('Button_backend_call');
+
+                                  await widget.productref!
+                                      .update(createCarRecordData(
+                                    bookingStatus: 'booked',
+                                    availabilityStatus:
+                                        ' Ends on : ${dateTimeFormat(
+                                      'M/d H:mm',
+                                      _model.datePicked2,
+                                      locale: FFLocalizations.of(context)
+                                          .languageCode,
+                                    )}',
+                                    numberofdays: functions.numberofdays(
+                                        _model.datePicked1, _model.datePicked2),
+                                    enddate: _model.datePicked2,
+                                  ));
+                                  logFirebaseEvent('Button_send_email');
+                                  await launchUrl(Uri(
+                                      scheme: 'mailto',
+                                      path: detailCarRecord.vendorEmail,
+                                      query: {
+                                        'subject': 'Car booking',
+                                        'body':
+                                            'Mr${valueOrDefault(currentUserDocument?.firstName, '')}has rented your car .check your inventory and contact the rentee immediately and send them the aggrement form which was sent to your email by rentx inc.',
+                                      }
+                                          .entries
+                                          .map((MapEntry<String, String> e) =>
+                                              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                          .join('&')));
+                                  logFirebaseEvent('Button_backend_call');
+
+                                  await PaymentRecord.collection
+                                      .doc()
+                                      .set(createPaymentRecordData(
+                                        amount: functions.totalcost(
+                                            functions.subtotal(
+                                                functions.numberofdays(
+                                                    _model.datePicked1,
+                                                    _model.datePicked2),
+                                                detailCarRecord.costPerDay),
+                                            1.8),
+                                        carName: detailCarRecord.carName,
+                                        createdAt: getCurrentTimestamp,
+                                        renteePhoneNumber: currentPhoneNumber,
+                                        status: 'pending',
+                                        vendorEmail:
+                                            detailCarRecord.vendorEmail,
+                                        vendorName: detailCarRecord.vendorName,
+                                        vendorPhoneNumber:
+                                            detailCarRecord.vendorPhoneNumber,
+                                        vendorPhoto:
+                                            detailCarRecord.vendorPhoto,
+                                        renteePhoto: currentUserPhoto,
+                                        reenteeName:
+                                            '${valueOrDefault(currentUserDocument?.firstName, '')}  ${valueOrDefault(currentUserDocument?.lastName, '')}',
+                                      ));
+                                  logFirebaseEvent(
+                                      'Button_trigger_push_notification');
+                                  triggerPushNotification(
+                                    notificationTitle: 'Booking',
+                                    notificationText:
+                                        'Your car has been booked .Head to your dashboad and message the rentee .',
+                                    notificationImageUrl:
+                                        detailCarRecord.carPhotos.first,
+                                    notificationSound: 'default',
+                                    userRefs: [detailCarRecord.uid!],
+                                    initialPageName: 'Hostinventory',
+                                    parameterData: {},
+                                  );
+                                  logFirebaseEvent('Button_bottom_sheet');
+                                  await showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    enableDrag: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return GestureDetector(
+                                        onTap: () => FocusScope.of(context)
+                                            .requestFocus(_model.unfocusNode),
+                                        child: Padding(
+                                          padding:
+                                              MediaQuery.viewInsetsOf(context),
+                                          child: PayokWidget(),
+                                        ),
+                                      );
+                                    },
+                                  ).then((value) => setState(() {}));
+                                } else {
+                                  if (detailCarRecord.bookingStatus ==
+                                      'booked') {
+                                    logFirebaseEvent('Button_show_snack_bar');
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'This car is already booked by someone .however you can reserve it and book it  when its available .Check the date it will be available',
+                                          style: TextStyle(
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                          ),
+                                        ),
+                                        duration: Duration(milliseconds: 4000),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .secondary,
+                                        action: SnackBarAction(
+                                          label: 'Go back',
+                                          textColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryText,
+                                          onPressed: () async {
+                                            context.goNamed(
+                                              'Detail',
+                                              queryParameters: {
+                                                'productref': serializeParam(
+                                                  widget.productref,
+                                                  ParamType.DocumentReference,
+                                                ),
+                                              }.withoutNulls,
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                    duration: Duration(milliseconds: 4000),
-                                    backgroundColor:
-                                        FlutterFlowTheme.of(context).secondary,
-                                    action: SnackBarAction(
-                                      label: 'Go back',
-                                      textColor: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      onPressed: () async {
-                                        context.goNamed(
-                                          'Detail',
-                                          queryParameters: {
-                                            'productref': serializeParam(
-                                              widget.productref,
-                                              ParamType.DocumentReference,
+                                    );
+                                  } else {
+                                    logFirebaseEvent('Button_alert_dialog');
+                                    await showDialog(
+                                      context: context,
+                                      builder: (alertDialogContext) {
+                                        return AlertDialog(
+                                          title: Text('Action required'),
+                                          content: Text(
+                                              'You are not authorised to perform this action.'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                  alertDialogContext),
+                                              child: Text('Ok'),
                                             ),
-                                          }.withoutNulls,
+                                          ],
                                         );
                                       },
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                logFirebaseEvent('Button_alert_dialog');
-                                await showDialog(
-                                  context: context,
-                                  builder: (alertDialogContext) {
-                                    return AlertDialog(
-                                      title: Text('Action required'),
-                                      content: Text(
-                                          'You are not authorised to perform this action.'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(alertDialogContext),
-                                          child: Text('Ok'),
-                                        ),
-                                      ],
                                     );
-                                  },
-                                );
-                              }
-                            }
-                          },
-                          text: 'Book now',
-                          options: FFButtonOptions(
-                            height: 40.0,
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                24.0, 0.0, 24.0, 0.0),
-                            iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color: FlutterFlowTheme.of(context).primary,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                                  fontFamily: 'Open Sans',
-                                  color: Colors.white,
+                                  }
+                                }
+                              },
+                              text: 'Book now',
+                              options: FFButtonOptions(
+                                height: 40.0,
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    24.0, 0.0, 24.0, 0.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                color: FlutterFlowTheme.of(context).primary,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      fontFamily: 'Open Sans',
+                                      color: Colors.white,
+                                    ),
+                                elevation: 3.0,
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  width: 1.0,
                                 ),
-                            elevation: 3.0,
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).primary,
-                              width: 1.0,
+                                borderRadius: BorderRadius.circular(50.0),
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(50.0),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),

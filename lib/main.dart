@@ -68,6 +68,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
     userStream = rentzFirebaseUserStream()
@@ -179,8 +180,8 @@ class _NavBarPageState extends State<NavBarPage> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.car,
+            icon: Icon(
+              Icons.car_rental,
               size: 24.0,
             ),
             label: 'Activities',

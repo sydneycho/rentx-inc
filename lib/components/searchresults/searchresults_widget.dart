@@ -189,7 +189,7 @@ class _SearchresultsWidgetState extends State<SearchresultsWidget> {
                     text: '',
                     icon: Icon(
                       Icons.search,
-                      size: 20.0,
+                      size: 18.0,
                     ),
                     options: FFButtonOptions(
                       width: 35.0,
@@ -279,7 +279,7 @@ class _SearchresultsWidgetState extends State<SearchresultsWidget> {
           ),
           Expanded(
             child: Align(
-              alignment: AlignmentDirectional(0.0, 0.0),
+              alignment: AlignmentDirectional(0.00, 0.00),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -427,6 +427,9 @@ class _SearchresultsWidgetState extends State<SearchresultsWidget> {
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 4.0, 0.0, 8.0),
                                               child: RichText(
+                                                textScaleFactor:
+                                                    MediaQuery.of(context)
+                                                        .textScaleFactor,
                                                 text: TextSpan(
                                                   children: [
                                                     TextSpan(
@@ -464,6 +467,9 @@ class _SearchresultsWidgetState extends State<SearchresultsWidget> {
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 4.0, 0.0, 8.0),
                                               child: RichText(
+                                                textScaleFactor:
+                                                    MediaQuery.of(context)
+                                                        .textScaleFactor,
                                                 text: TextSpan(
                                                   children: [
                                                     TextSpan(

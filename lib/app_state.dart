@@ -7,13 +7,17 @@ import 'package:synchronized/synchronized.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 
 class FFAppState extends ChangeNotifier {
-  static final FFAppState _instance = FFAppState._internal();
+  static FFAppState _instance = FFAppState._internal();
 
   factory FFAppState() {
     return _instance;
   }
 
   FFAppState._internal();
+
+  static void reset() {
+    _instance = FFAppState._internal();
+  }
 
   Future initializePersistedState() async {
     secureStorage = FlutterSecureStorage();
@@ -126,6 +130,11 @@ class FFAppState extends ChangeNotifier {
     secureStorage.setStringList('ff_cart', _cart.map((x) => x.path).toList());
   }
 
+  void insertAtIndexInCart(int _index, DocumentReference _value) {
+    _cart.insert(_index, _value);
+    secureStorage.setStringList('ff_cart', _cart.map((x) => x.path).toList());
+  }
+
   List<DocumentReference> _favorite = [];
   List<DocumentReference> get favorite => _favorite;
   set favorite(List<DocumentReference> _value) {
@@ -161,6 +170,12 @@ class FFAppState extends ChangeNotifier {
     DocumentReference Function(DocumentReference) updateFn,
   ) {
     _favorite[_index] = updateFn(_favorite[_index]);
+    secureStorage.setStringList(
+        'ff_favorite', _favorite.map((x) => x.path).toList());
+  }
+
+  void insertAtIndexInFavorite(int _index, DocumentReference _value) {
+    _favorite.insert(_index, _value);
     secureStorage.setStringList(
         'ff_favorite', _favorite.map((x) => x.path).toList());
   }
@@ -206,6 +221,12 @@ class FFAppState extends ChangeNotifier {
     DocumentReference Function(DocumentReference) updateFn,
   ) {
     _notification[_index] = updateFn(_notification[_index]);
+    secureStorage.setStringList(
+        'ff_notification', _notification.map((x) => x.path).toList());
+  }
+
+  void insertAtIndexInNotification(int _index, DocumentReference _value) {
+    _notification.insert(_index, _value);
     secureStorage.setStringList(
         'ff_notification', _notification.map((x) => x.path).toList());
   }
@@ -291,6 +312,51 @@ class FFAppState extends ChangeNotifier {
   void clearCarsCache() => _carsManager.clear();
   void clearCarsCacheKey(String? uniqueKey) =>
       _carsManager.clearRequest(uniqueKey);
+
+  final _carDetailsManager = StreamRequestManager<CarRecord>();
+  Stream<CarRecord> carDetails({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Stream<CarRecord> Function() requestFn,
+  }) =>
+      _carDetailsManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearCarDetailsCache() => _carDetailsManager.clear();
+  void clearCarDetailsCacheKey(String? uniqueKey) =>
+      _carDetailsManager.clearRequest(uniqueKey);
+
+  final _tripsManager = FutureRequestManager<int>();
+  Future<int> trips({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<int> Function() requestFn,
+  }) =>
+      _tripsManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearTripsCache() => _tripsManager.clear();
+  void clearTripsCacheKey(String? uniqueKey) =>
+      _tripsManager.clearRequest(uniqueKey);
+
+  final _reviewsManager = StreamRequestManager<List<RatingRecord>>();
+  Stream<List<RatingRecord>> reviews({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Stream<List<RatingRecord>> Function() requestFn,
+  }) =>
+      _reviewsManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearReviewsCache() => _reviewsManager.clear();
+  void clearReviewsCacheKey(String? uniqueKey) =>
+      _reviewsManager.clearRequest(uniqueKey);
 }
 
 LatLng? _latLngFromString(String? val) {

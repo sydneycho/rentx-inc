@@ -1,12 +1,16 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/account/account_widget.dart';
 import '/components/empty/empty_widget.dart';
+import '/components/loader/loader_widget.dart';
 import '/components/notification/notification_widget.dart';
 import '/components/searchresults/searchresults_widget.dart';
+import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/permissions_util.dart';
 import '/flutter_flow/request_manager.dart';
@@ -20,6 +24,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,12 +45,20 @@ class HomeModel extends FlutterFlowModel {
   // State field(s) for MouseRegion widget.
   bool mouseRegionHovered4 = false;
   // State field(s) for PageView widget.
-  PageController? pageViewController;
+  PageController? pageViewController1;
 
-  int get pageViewCurrentIndex => pageViewController != null &&
-          pageViewController!.hasClients &&
-          pageViewController!.page != null
-      ? pageViewController!.page!.round()
+  int get pageViewCurrentIndex1 => pageViewController1 != null &&
+          pageViewController1!.hasClients &&
+          pageViewController1!.page != null
+      ? pageViewController1!.page!.round()
+      : 0;
+  // State field(s) for PageView widget.
+  PageController? pageViewController2;
+
+  int get pageViewCurrentIndex2 => pageViewController2 != null &&
+          pageViewController2!.hasClients &&
+          pageViewController2!.page != null
+      ? pageViewController2!.page!.round()
       : 0;
   // State field(s) for ChoiceChips widget.
   String? choiceChipsValue;

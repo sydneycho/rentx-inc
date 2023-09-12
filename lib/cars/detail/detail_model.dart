@@ -3,6 +3,7 @@ import '/backend/backend.dart';
 import '/backend/push_notifications/push_notifications_util.dart';
 import '/backend/stripe/payment_manager.dart';
 import '/components/empty/empty_widget.dart';
+import '/components/loader/loader_widget.dart';
 import '/components/noreviews/noreviews_widget.dart';
 import '/components/payok/payok_widget.dart';
 import '/components/ratingbar/ratingbar_widget.dart';

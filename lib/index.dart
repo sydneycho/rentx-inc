@@ -10,7 +10,7 @@ export '/authentication/editprofile/editprofile_widget.dart'
 export '/main/wallet/wallet_widget.dart' show WalletWidget;
 export '/cars/hostinventory/hostinventory_widget.dart' show HostinventoryWidget;
 export '/main/help/help_widget.dart' show HelpWidget;
-export '/main/about_rentz/about_rentz_widget.dart' show AboutRentzWidget;
+export '/main/about/about_widget.dart' show AboutWidget;
 export '/main/policy/policy_widget.dart' show PolicyWidget;
 export '/main/terms/terms_widget.dart' show TermsWidget;
 export '/authentication/host_registration/host_registration_widget.dart'

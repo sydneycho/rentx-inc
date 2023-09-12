@@ -75,7 +75,7 @@ class _ContactWidgetState extends State<ContactWidget> {
             key: _model.formKey,
             autovalidateMode: AutovalidateMode.disabled,
             child: Align(
-              alignment: AlignmentDirectional(0.0, -1.0),
+              alignment: AlignmentDirectional(0.00, -1.00),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -325,7 +325,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                       ),
                     ),
                     Align(
-                      alignment: AlignmentDirectional(0.0, 0.05),
+                      alignment: AlignmentDirectional(0.00, 0.05),
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
                             0.0, 24.0, 0.0, 30.0),
@@ -399,7 +399,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                         ),
                       ),
                     ),
-                  ],
+                  ].divide(SizedBox(height: 6.0)).around(SizedBox(height: 6.0)),
                 ),
               ),
             ),

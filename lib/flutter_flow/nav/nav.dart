@@ -144,10 +144,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => HelpWidget(),
             ),
             FFRoute(
-              name: 'About_rentz',
-              path: 'aboutRentz',
+              name: 'About',
+              path: 'about',
               requireAuth: true,
-              builder: (context, params) => AboutRentzWidget(),
+              builder: (context, params) => AboutWidget(),
             ),
             FFRoute(
               name: 'Policy',
@@ -440,7 +440,7 @@ class FFRoute {
               ? Container(
                   color: Colors.transparent,
                   child: Image.asset(
-                    'assets/images/RENTZ_(2).png',
+                    'assets/images/RENTZ_(3).png',
                     fit: BoxFit.cover,
                   ),
                 )

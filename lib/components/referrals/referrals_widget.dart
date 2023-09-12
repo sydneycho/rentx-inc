@@ -41,7 +41,7 @@ class _ReferralsWidgetState extends State<ReferralsWidget> {
     context.watch<FFAppState>();
 
     return Align(
-      alignment: AlignmentDirectional(0.0, 0.0),
+      alignment: AlignmentDirectional(0.00, 0.00),
       child: Container(
         width: MediaQuery.sizeOf(context).width * 1.0,
         decoration: BoxDecoration(
@@ -59,7 +59,7 @@ class _ReferralsWidgetState extends State<ReferralsWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
               child: Text(
-                'Opps !  you have no active referrals',
+                '  You have no referrals',
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).headlineSmall.override(
                       fontFamily: 'Open Sans',

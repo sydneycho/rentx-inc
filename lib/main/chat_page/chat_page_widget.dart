@@ -1,12 +1,15 @@
 import '/backend/backend.dart';
+import '/components/delete/delete_widget.dart';
 import '/flutter_flow/chat/index.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'chat_page_model.dart';
@@ -107,7 +110,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
         title: Stack(
           children: [
             Text(
-              '${widget.chatUser?.firstName} ${widget.chatUser?.lastName}',
+              '${widget.chatUser?.firstName} ',
               style: FlutterFlowTheme.of(context).bodyMedium.override(
                     fontFamily: 'Lexend Deca',
                     color: FlutterFlowTheme.of(context).primaryBackground,
@@ -117,7 +120,40 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
             ),
           ],
         ),
-        actions: [],
+        actions: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+            child: FlutterFlowIconButton(
+              borderColor: FlutterFlowTheme.of(context).primary,
+              borderRadius: 20.0,
+              borderWidth: 1.0,
+              buttonSize: 40.0,
+              icon: FaIcon(
+                FontAwesomeIcons.ellipsisV,
+                color: FlutterFlowTheme.of(context).primaryBackground,
+                size: 24.0,
+              ),
+              onPressed: () async {
+                logFirebaseEvent('CHAT_PAGE_PAGE_ellipsisV_ICN_ON_TAP');
+                logFirebaseEvent('IconButton_bottom_sheet');
+                await showModalBottomSheet(
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  enableDrag: false,
+                  context: context,
+                  builder: (context) {
+                    return Padding(
+                      padding: MediaQuery.viewInsetsOf(context),
+                      child: DeleteWidget(
+                        chat: widget.chatRef!,
+                      ),
+                    );
+                  },
+                ).then((value) => setState(() {}));
+              },
+            ),
+          ),
+        ],
         centerTitle: false,
         elevation: 2.0,
       ),

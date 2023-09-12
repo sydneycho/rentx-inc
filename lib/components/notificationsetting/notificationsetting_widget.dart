@@ -48,7 +48,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
     context.watch<FFAppState>();
 
     return Align(
-      alignment: AlignmentDirectional(0.0, 1.0),
+      alignment: AlignmentDirectional(0.00, 1.00),
       child: Container(
         width: MediaQuery.sizeOf(context).width * 1.0,
         decoration: BoxDecoration(
@@ -56,8 +56,8 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(0.0),
             bottomRight: Radius.circular(0.0),
-            topLeft: Radius.circular(12.0),
-            topRight: Radius.circular(12.0),
+            topLeft: Radius.circular(30.0),
+            topRight: Radius.circular(30.0),
           ),
         ),
         child: Padding(
@@ -84,8 +84,8 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                           Navigator.pop(context);
                         },
                         child: Icon(
-                          Icons.arrow_back,
-                          color: FlutterFlowTheme.of(context).secondaryText,
+                          Icons.cancel_outlined,
+                          color: FlutterFlowTheme.of(context).primary,
                           size: 24.0,
                         ),
                       ),
@@ -109,7 +109,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(5.0, 10.0, 5.0, 10.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,7 +127,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                                   .bodyMedium
                                   .override(
                                     fontFamily: 'Open Sans',
-                                    fontSize: 20.0,
+                                    fontSize: 18.0,
                                   ),
                             ),
                             Text(
@@ -181,7 +181,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(5.0, 10.0, 5.0, 10.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -199,7 +199,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                                   .bodyMedium
                                   .override(
                                     fontFamily: 'Open Sans',
-                                    fontSize: 20.0,
+                                    fontSize: 18.0,
                                   ),
                             ),
                             Text(
@@ -252,7 +252,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(5.0, 10.0, 5.0, 10.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -270,7 +270,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                                   .bodyMedium
                                   .override(
                                     fontFamily: 'Open Sans',
-                                    fontSize: 20.0,
+                                    fontSize: 18.0,
                                   ),
                             ),
                             Text(

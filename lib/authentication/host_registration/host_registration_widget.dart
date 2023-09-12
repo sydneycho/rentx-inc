@@ -87,7 +87,7 @@ class _HostRegistrationWidgetState extends State<HostRegistrationWidget> {
           key: _model.formKey,
           autovalidateMode: AutovalidateMode.disabled,
           child: Align(
-            alignment: AlignmentDirectional(0.0, 0.0),
+            alignment: AlignmentDirectional(0.00, 0.00),
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 20.0),
               child: SingleChildScrollView(
@@ -572,7 +572,7 @@ class _HostRegistrationWidgetState extends State<HostRegistrationWidget> {
                       ),
                     ),
                     Align(
-                      alignment: AlignmentDirectional(0.0, 0.05),
+                      alignment: AlignmentDirectional(0.00, 0.05),
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
                             0.0, 24.0, 0.0, 24.0),
@@ -702,7 +702,7 @@ class _HostRegistrationWidgetState extends State<HostRegistrationWidget> {
                                 },
                               ).then((value) => setState(() {}));
                             },
-                            text: 'Save Changes',
+                            text: 'Continue',
                             options: FFButtonOptions(
                               width: 180.0,
                               height: 40.0,
@@ -724,7 +724,7 @@ class _HostRegistrationWidgetState extends State<HostRegistrationWidget> {
                                 color: Colors.transparent,
                                 width: 1.0,
                               ),
-                              borderRadius: BorderRadius.circular(6.0),
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
                           ),
                         ),

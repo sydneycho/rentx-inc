@@ -81,7 +81,7 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
       ? Container(
           color: Colors.transparent,
           child: Image.asset(
-            'assets/images/RENTZ_(2).png',
+            'assets/images/RENTZ_(3).png',
             fit: BoxFit.cover,
           ),
         )
@@ -121,7 +121,7 @@ final parametersBuilderMap =
   'Wallet': ParameterData.none(),
   'Hostinventory': ParameterData.none(),
   'Help': ParameterData.none(),
-  'About_rentz': ParameterData.none(),
+  'About': ParameterData.none(),
   'Policy': ParameterData.none(),
   'Terms': ParameterData.none(),
   'Host_registration': ParameterData.none(),

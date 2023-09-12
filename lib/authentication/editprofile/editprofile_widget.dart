@@ -80,7 +80,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
           },
         ),
         title: Text(
-          'edit Profile',
+          'Edit Profile',
           style: FlutterFlowTheme.of(context).headlineMedium.override(
                 fontFamily: 'Open Sans',
                 color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -102,78 +102,121 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(2.0, 20.0, 2.0, 20.0),
-                    child: AuthUserStreamWidget(
-                      builder: (context) => Semantics(
-                        label: 'Profile photo',
-                        child: Container(
-                          width: MediaQuery.sizeOf(context).width * 0.35,
-                          height: MediaQuery.sizeOf(context).width * 0.35,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: CachedNetworkImage(
-                            fadeInDuration: Duration(milliseconds: 500),
-                            fadeOutDuration: Duration(milliseconds: 500),
-                            imageUrl: currentUserPhoto,
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
+                  Container(
+                    width: MediaQuery.sizeOf(context).width * 1.0,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).primary,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30.0),
+                        bottomRight: Radius.circular(30.0),
+                        topLeft: Radius.circular(0.0),
+                        topRight: Radius.circular(0.0),
+                      ),
+                      border: Border.all(
+                        color: FlutterFlowTheme.of(context).primary,
+                        width: 1.0,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 15.0),
-                    child: Semantics(
-                      label: 'Upload  profile photo button',
-                      child: FFButtonWidget(
-                        onPressed: () async {
-                          logFirebaseEvent(
-                              'EDITPROFILE_PAGE_UPLOAD_BTN_ON_TAP');
-                          logFirebaseEvent('Button_bottom_sheet');
-                          await showModalBottomSheet(
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            enableDrag: false,
-                            context: context,
-                            builder: (context) {
-                              return Padding(
-                                padding: MediaQuery.viewInsetsOf(context),
-                                child: PhotouploadWidget(),
-                              );
-                            },
-                          ).then((value) => setState(() {}));
-                        },
-                        text: 'Upload',
-                        options: FFButtonOptions(
-                          height: 30.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              24.0, 0.0, 24.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
-                                    fontFamily: 'Open Sans',
-                                    color: Colors.white,
+                    child: Card(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      color: FlutterFlowTheme.of(context).primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30.0),
+                          bottomRight: Radius.circular(30.0),
+                          topLeft: Radius.circular(0.0),
+                          topRight: Radius.circular(0.0),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            10.0, 20.0, 10.0, 20.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  2.0, 30.0, 2.0, 30.0),
+                              child: AuthUserStreamWidget(
+                                builder: (context) => Semantics(
+                                  label: 'Profile photo',
+                                  child: Container(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.4,
+                                    height:
+                                        MediaQuery.sizeOf(context).width * 0.4,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: CachedNetworkImage(
+                                      fadeInDuration:
+                                          Duration(milliseconds: 500),
+                                      fadeOutDuration:
+                                          Duration(milliseconds: 500),
+                                      imageUrl: currentUserPhoto,
+                                      fit: BoxFit.fitWidth,
+                                    ),
                                   ),
-                          elevation: 3.0,
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(2.0),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 15.0),
+                              child: Semantics(
+                                label: 'Upload  profile photo button',
+                                child: FFButtonWidget(
+                                  onPressed: () async {
+                                    logFirebaseEvent(
+                                        'EDITPROFILE_PAGE_UPLOAD_BTN_ON_TAP');
+                                    logFirebaseEvent('Button_bottom_sheet');
+                                    await showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      enableDrag: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return Padding(
+                                          padding:
+                                              MediaQuery.viewInsetsOf(context),
+                                          child: PhotouploadWidget(),
+                                        );
+                                      },
+                                    ).then((value) => setState(() {}));
+                                  },
+                                  text: 'Upload',
+                                  options: FFButtonOptions(
+                                    height: 30.0,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        24.0, 0.0, 24.0, 0.0),
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          fontFamily: 'Open Sans',
+                                          color: Colors.white,
+                                        ),
+                                    elevation: 4.0,
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 16.0),
+                        EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 16.0),
                     child: AuthUserStreamWidget(
                       builder: (context) => Semantics(
                         label: 'First name field',
@@ -723,7 +766,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                     ),
                   ),
                   Align(
-                    alignment: AlignmentDirectional(0.0, 0.05),
+                    alignment: AlignmentDirectional(0.00, 0.05),
                     child: Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
@@ -732,7 +775,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                         child: FFButtonWidget(
                           onPressed: () async {
                             logFirebaseEvent(
-                                'EDITPROFILE_PAGE_SAVE_CHANGES_BTN_ON_TAP');
+                                'EDITPROFILE_PAGE_SAVE_BTN_ON_TAP');
                             logFirebaseEvent('Button_backend_call');
 
                             await currentUserReference!
@@ -784,7 +827,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                               },
                             );
                           },
-                          text: 'Save Changes',
+                          text: 'Save ',
                           options: FFButtonOptions(
                             width: 180.0,
                             height: 40.0,
@@ -806,7 +849,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                               color: Colors.transparent,
                               width: 1.0,
                             ),
-                            borderRadius: BorderRadius.circular(2.0),
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
                       ),

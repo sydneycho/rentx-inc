@@ -89,13 +89,13 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                                 borderRadius: 30.0,
                                 buttonSize: 50.0,
                                 icon: Icon(
-                                  Icons.close_rounded,
+                                  Icons.cancel_outlined,
                                   color: FlutterFlowTheme.of(context).primary,
                                   size: 24.0,
                                 ),
                                 onPressed: () async {
                                   logFirebaseEvent(
-                                      'ADD_CAR_PAGE_close_rounded_ICN_ON_TAP');
+                                      'ADD_CAR_PAGE_cancel_outlined_ICN_ON_TAP');
                                   logFirebaseEvent('IconButton_navigate_to');
 
                                   context.pushNamed(

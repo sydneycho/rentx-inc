@@ -11,10 +11,11 @@ import '../../flutter_flow/flutter_flow_util.dart';
 import '../../flutter_flow/flutter_flow_widgets.dart';
 import '../cloud_functions/cloud_functions.dart';
 
-final _isProd = false;
+final _isProd = true;
 
 // Stripe Credentials
-const _kProdStripePublishableKey = '';
+const _kProdStripePublishableKey =
+    'pk_live_51NoS8pJHwltzPqhR8wJ4UVX0PHzd1MiZhEIktRdd9zZIL1beCC9YPjpUW9iHXIIEUTR1m5f9M7PXpke9y400tjc900isQrIjq0';
 const _kTestStripePublishableKey =
     'pk_test_51NRzDiGpK3NbODxhCcUOAOEwJs3Pwk5BGYNKxTlcotWDo6PIvWPqxyp3HZm23XNtQHzegL6JBP6qovGFu1rpAIzo00FsUxhk4X';
 const _kAppleMerchantId = '';
@@ -91,7 +92,7 @@ Future<StripePaymentResponse> processStripePayment(
         paymentIntentClientSecret: response['paymentIntent'],
         customerEphemeralKeySecret: response['ephemeralKey'],
         customerId: response['customer'],
-        merchantDisplayName: 'Rentz inc',
+        merchantDisplayName: 'Rentz Inc',
         googlePay: allowGooglePay
             ? PaymentSheetGooglePay(
                 merchantCountryCode: 'US',
