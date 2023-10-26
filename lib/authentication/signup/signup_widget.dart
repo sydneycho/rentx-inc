@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -69,8 +70,11 @@ class _SignupWidgetState extends State<SignupWidget>
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'signup'});
     _model.emailAddressController ??= TextEditingController();
+    _model.emailAddressFocusNode ??= FocusNode();
     _model.passwordController ??= TextEditingController();
+    _model.passwordFocusNode ??= FocusNode();
     _model.confirmpasswordController ??= TextEditingController();
+    _model.confirmpasswordFocusNode ??= FocusNode();
   }
 
   @override
@@ -82,10 +86,21 @@ class _SignupWidgetState extends State<SignupWidget>
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+      onTap: () => _model.unfocusNode.canRequestFocus
+          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+          : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -192,6 +207,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .secondaryText,
+                                                fontSize: 12.0,
                                               ),
                                         ),
                                       ),
@@ -205,6 +221,8 @@ class _SignupWidgetState extends State<SignupWidget>
                                             child: TextFormField(
                                               controller:
                                                   _model.emailAddressController,
+                                              focusNode:
+                                                  _model.emailAddressFocusNode,
                                               autofillHints: [
                                                 AutofillHints.email
                                               ],
@@ -292,6 +310,8 @@ class _SignupWidgetState extends State<SignupWidget>
                                             child: TextFormField(
                                               controller:
                                                   _model.passwordController,
+                                              focusNode:
+                                                  _model.passwordFocusNode,
                                               obscureText:
                                                   !_model.passwordVisibility,
                                               decoration: InputDecoration(
@@ -396,6 +416,8 @@ class _SignupWidgetState extends State<SignupWidget>
                                             child: TextFormField(
                                               controller: _model
                                                   .confirmpasswordController,
+                                              focusNode: _model
+                                                  .confirmpasswordFocusNode,
                                               obscureText: !_model
                                                   .confirmpasswordVisibility,
                                               decoration: InputDecoration(
@@ -543,9 +565,14 @@ class _SignupWidgetState extends State<SignupWidget>
                                                   'Button_backend_call');
 
                                               await widget.userRef!.update({
-                                                'user_refs':
-                                                    FieldValue.arrayUnion(
-                                                        [currentUserReference]),
+                                                ...mapToFirestore(
+                                                  {
+                                                    'user_refs':
+                                                        FieldValue.arrayUnion([
+                                                      currentUserReference
+                                                    ]),
+                                                  },
+                                                ),
                                               });
                                               logFirebaseEvent(
                                                   'Button_navigate_to');
@@ -561,7 +588,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                                         PageTransitionType
                                                             .rightToLeft,
                                                     duration: Duration(
-                                                        milliseconds: 300),
+                                                        milliseconds: 250),
                                                   ),
                                                 },
                                               );
@@ -601,7 +628,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                       ),
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 0.0, 16.0, 24.0),
+                                            16.0, 0.0, 16.0, 20.0),
                                         child: Text(
                                           'Or sign up with',
                                           textAlign: TextAlign.center,
@@ -645,7 +672,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                             text: 'Continue with Google',
                                             icon: FaIcon(
                                               FontAwesomeIcons.google,
-                                              size: 20.0,
+                                              size: 18.0,
                                             ),
                                             options: FFButtonOptions(
                                               width: double.infinity,
@@ -666,6 +693,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .primaryText,
+                                                        fontSize: 14.0,
                                                       ),
                                               elevation: 0.0,
                                               borderSide: BorderSide(
@@ -760,6 +788,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .primaryText,
+                                                        fontSize: 14.0,
                                                       ),
                                                   elevation: 0.0,
                                                   borderSide: BorderSide(
@@ -783,7 +812,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                       // You will have to add an action on this rich text to go to your login page.
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            12.0, 12.0, 12.0, 12.0),
+                                            10.0, 10.0, 10.0, 10.0),
                                         child: Semantics(
                                           label:
                                               'go to to login page if you already have an account',
@@ -806,11 +835,9 @@ class _SignupWidgetState extends State<SignupWidget>
                                                     hasTransition: true,
                                                     transitionType:
                                                         PageTransitionType
-                                                            .scale,
-                                                    alignment:
-                                                        Alignment.bottomCenter,
+                                                            .leftToRight,
                                                     duration: Duration(
-                                                        milliseconds: 200),
+                                                        milliseconds: 250),
                                                   ),
                                                 },
                                               );
@@ -844,7 +871,12 @@ class _SignupWidgetState extends State<SignupWidget>
                                                 ],
                                                 style:
                                                     FlutterFlowTheme.of(context)
-                                                        .bodyMedium,
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Open Sans',
+                                                          fontSize: 10.0,
+                                                        ),
                                               ),
                                             ),
                                           ),

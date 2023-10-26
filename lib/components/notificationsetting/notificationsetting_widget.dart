@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/permissions_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
@@ -56,8 +57,8 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(0.0),
             bottomRight: Radius.circular(0.0),
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
           ),
         ),
         child: Padding(
@@ -71,6 +72,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                       EdgeInsetsDirectional.fromSTEB(20.0, 30.0, 20.0, 0.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       InkWell(
                         splashColor: Colors.transparent,
@@ -102,7 +104,11 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                             EdgeInsetsDirectional.fromSTEB(0.0, 15.0, 0.0, 0.0),
                         child: Text(
                           'Choose what notifcations you want to recieve\n below and we will update the settings.',
-                          style: FlutterFlowTheme.of(context).bodySmall,
+                          style:
+                              FlutterFlowTheme.of(context).bodySmall.override(
+                                    fontFamily: 'Open Sans',
+                                    fontSize: 12.0,
+                                  ),
                         ),
                       ),
                     ],
@@ -121,14 +127,21 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Push Notifications',
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Open Sans',
-                                    fontSize: 18.0,
-                                  ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 5.0),
+                              child: Text(
+                                'Push Notifications',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Open Sans',
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
                             ),
                             Text(
                               'Receive Push notifications from our \napplication on a semi regular basis.',
@@ -138,7 +151,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                                     fontFamily: 'Open Sans',
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryText,
-                                    fontSize: 14.0,
+                                    fontSize: 12.0,
                                     fontWeight: FontWeight.normal,
                                   ),
                             ),
@@ -199,7 +212,10 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                                   .bodyMedium
                                   .override(
                                     fontFamily: 'Open Sans',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
                                     fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
                                   ),
                             ),
                             Text(
@@ -210,7 +226,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                                     fontFamily: 'Open Sans',
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryText,
-                                    fontSize: 14.0,
+                                    fontSize: 12.0,
                                     fontWeight: FontWeight.normal,
                                   ),
                             ),
@@ -270,7 +286,10 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                                   .bodyMedium
                                   .override(
                                     fontFamily: 'Open Sans',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
                                     fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
                                   ),
                             ),
                             Text(
@@ -281,7 +300,7 @@ class _NotificationsettingWidgetState extends State<NotificationsettingWidget> {
                                     fontFamily: 'Open Sans',
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryText,
-                                    fontSize: 14.0,
+                                    fontSize: 12.0,
                                     fontWeight: FontWeight.normal,
                                   ),
                             ),

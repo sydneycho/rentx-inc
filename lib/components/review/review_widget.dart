@@ -40,6 +40,7 @@ class _ReviewWidgetState extends State<ReviewWidget> {
     _model = createModel(context, () => ReviewModel());
 
     _model.revieController ??= TextEditingController();
+    _model.revieFocusNode ??= FocusNode();
   }
 
   @override
@@ -163,6 +164,7 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                               4.0, 4.0, 4.0, 4.0),
                           child: TextFormField(
                             controller: _model.revieController,
+                            focusNode: _model.revieFocusNode,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelStyle:

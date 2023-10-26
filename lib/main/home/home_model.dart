@@ -15,6 +15,7 @@ import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/permissions_util.dart';
 import '/flutter_flow/request_manager.dart';
 
+import 'home_widget.dart' show HomeWidget;
 import 'package:badges/badges.dart' as badges;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
@@ -32,7 +33,7 @@ import 'package:provider/provider.dart';
 import 'package:shake/shake.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomeModel extends FlutterFlowModel {
+class HomeModel extends FlutterFlowModel<HomeWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();

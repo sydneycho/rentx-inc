@@ -43,10 +43,21 @@ class _ReferralWidgetState extends State<ReferralWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+      onTap: () => _model.unfocusNode.canRequestFocus
+          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+          : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -172,7 +183,7 @@ class _ReferralWidgetState extends State<ReferralWidget> {
                                     await currentUserReference!
                                         .update(createUserRecordData(
                                       referralLink:
-                                          'https://play.google.com/store/apps/details?id=com.Rentx.client?userRef=${currentUserUid}',
+                                          'https://play.google.com/store/apps/details?id=com.Rentx.client',
                                     ));
                                   },
                                   text: 'Generate Link',

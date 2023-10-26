@@ -10,6 +10,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -76,10 +77,21 @@ class _WalletWidgetState extends State<WalletWidget>
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+      onTap: () => _model.unfocusNode.canRequestFocus
+          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+          : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -218,8 +230,9 @@ class _WalletWidgetState extends State<WalletWidget>
                                               queryPaidAdvertsRecord(
                                             queryBuilder: (paidAdvertsRecord) =>
                                                 paidAdvertsRecord.where(
-                                                    'on_sale',
-                                                    isEqualTo: true),
+                                              'on_sale',
+                                              isEqualTo: true,
+                                            ),
                                           ),
                                         ),
                                         builder: (context, snapshot) {
@@ -621,8 +634,10 @@ class _WalletWidgetState extends State<WalletWidget>
                                   child: StreamBuilder<List<CardDetailsRecord>>(
                                     stream: queryCardDetailsRecord(
                                       queryBuilder: (cardDetailsRecord) =>
-                                          cardDetailsRecord.where('uid',
-                                              isEqualTo: currentUserReference),
+                                          cardDetailsRecord.where(
+                                        'uid',
+                                        isEqualTo: currentUserReference,
+                                      ),
                                       singleRecord: true,
                                     ),
                                     builder: (context, snapshot) {
@@ -729,9 +744,14 @@ class _WalletWidgetState extends State<WalletWidget>
                                                     .fromSTEB(
                                                         0.0, 10.0, 0.0, 0.0),
                                                 child: Text(
-                                                  creditCardCardDetailsRecord!
-                                                      .cvv
-                                                      .toString(),
+                                                  formatNumber(
+                                                    creditCardCardDetailsRecord!
+                                                        .cardNo,
+                                                    formatType:
+                                                        FormatType.custom,
+                                                    format: '0000',
+                                                    locale: '',
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .displaySmall
@@ -890,10 +910,13 @@ class _WalletWidgetState extends State<WalletWidget>
                                           context: context,
                                           builder: (context) {
                                             return GestureDetector(
-                                              onTap: () =>
-                                                  FocusScope.of(context)
+                                              onTap: () => _model.unfocusNode
+                                                      .canRequestFocus
+                                                  ? FocusScope.of(context)
                                                       .requestFocus(
-                                                          _model.unfocusNode),
+                                                          _model.unfocusNode)
+                                                  : FocusScope.of(context)
+                                                      .unfocus(),
                                               child: Padding(
                                                 padding:
                                                     MediaQuery.viewInsetsOf(
@@ -902,7 +925,7 @@ class _WalletWidgetState extends State<WalletWidget>
                                               ),
                                             );
                                           },
-                                        ).then((value) => setState(() {}));
+                                        ).then((value) => safeSetState(() {}));
                                       },
                                       text: 'Add payment ',
                                       options: FFButtonOptions(

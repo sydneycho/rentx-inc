@@ -1,11 +1,13 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'noreviews_widget.dart' show NoreviewsWidget;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class NoreviewsModel extends FlutterFlowModel {
+class NoreviewsModel extends FlutterFlowModel<NoreviewsWidget> {
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {}

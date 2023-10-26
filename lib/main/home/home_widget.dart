@@ -170,6 +170,15 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return StreamBuilder<List<CarRecord>>(
@@ -186,7 +195,9 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
         }
         List<CarRecord> homeCarRecordList = snapshot.data!;
         return GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -280,8 +291,8 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                 BorderRadius.circular(100.0),
                                             child: Image.network(
                                               currentUserPhoto,
-                                              width: 100.0,
-                                              height: 100.0,
+                                              width: 95.0,
+                                              height: 95.0,
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -289,7 +300,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                         Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 10.0, 0.0, 5.0),
+                                                  0.0, 5.0, 0.0, 5.0),
                                           child: AuthUserStreamWidget(
                                             builder: (context) => Text(
                                               '${valueOrDefault(currentUserDocument?.firstName, '')}  ${valueOrDefault(currentUserDocument?.lastName, '')}',
@@ -839,10 +850,14 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                 context: context,
                                                 builder: (context) {
                                                   return GestureDetector(
-                                                    onTap: () => FocusScope.of(
-                                                            context)
-                                                        .requestFocus(
-                                                            _model.unfocusNode),
+                                                    onTap: () => _model
+                                                            .unfocusNode
+                                                            .canRequestFocus
+                                                        ? FocusScope.of(context)
+                                                            .requestFocus(_model
+                                                                .unfocusNode)
+                                                        : FocusScope.of(context)
+                                                            .unfocus(),
                                                     child: Padding(
                                                       padding: MediaQuery
                                                           .viewInsetsOf(
@@ -851,8 +866,8 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                     ),
                                                   );
                                                 },
-                                              ).then(
-                                                  (value) => setState(() {}));
+                                              ).then((value) =>
+                                                  safeSetState(() {}));
                                             },
                                             child: AnimatedContainer(
                                               duration:
@@ -947,7 +962,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                             ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 30.0, 16.0, 20.0),
+                                  20.0, 20.0, 16.0, 20.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
@@ -1012,12 +1027,12 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                         borderWidth: 1.0,
                         buttonSize: 40.0,
                         icon: Icon(
-                          FFIcons.kmenuOutline,
+                          FFIcons.kmenu2,
                           color: FlutterFlowTheme.of(context).primaryBackground,
-                          size: 22.0,
+                          size: 24.0,
                         ),
                         onPressed: () async {
-                          logFirebaseEvent('HOME_PAGE_menuOutline_ICN_ON_TAP');
+                          logFirebaseEvent('HOME_PAGE_menu2_ICN_ON_TAP');
                           logFirebaseEvent('IconButton_drawer');
                           scaffoldKey.currentState!.openDrawer();
                         },
@@ -1036,11 +1051,15 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                               requestFn: () => queryNotificationRecordCount(
                                 queryBuilder: (notificationRecord) =>
                                     notificationRecord
-                                        .where('notification_status',
-                                            isEqualTo: 'new')
-                                        .where('created_at',
-                                            isGreaterThanOrEqualTo:
-                                                currentUserDocument?.time),
+                                        .where(
+                                          'notification_status',
+                                          isEqualTo: 'new',
+                                        )
+                                        .where(
+                                          'created_at',
+                                          isGreaterThanOrEqualTo:
+                                              currentUserDocument?.time,
+                                        ),
                               ),
                             ),
                             builder: (context, snapshot) {
@@ -1075,8 +1094,12 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                     context: context,
                                     builder: (context) {
                                       return GestureDetector(
-                                        onTap: () => FocusScope.of(context)
-                                            .requestFocus(_model.unfocusNode),
+                                        onTap: () => _model
+                                                .unfocusNode.canRequestFocus
+                                            ? FocusScope.of(context)
+                                                .requestFocus(
+                                                    _model.unfocusNode)
+                                            : FocusScope.of(context).unfocus(),
                                         child: Padding(
                                           padding:
                                               MediaQuery.viewInsetsOf(context),
@@ -1084,7 +1107,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                         ),
                                       );
                                     },
-                                  ).then((value) => setState(() {}));
+                                  ).then((value) => safeSetState(() {}));
                                 },
                                 child: badges.Badge(
                                   badgeContent: Text(
@@ -1257,10 +1280,17 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                         context: context,
                                                         builder: (context) {
                                                           return GestureDetector(
-                                                            onTap: () => FocusScope
-                                                                    .of(context)
-                                                                .requestFocus(_model
-                                                                    .unfocusNode),
+                                                            onTap: () => _model
+                                                                    .unfocusNode
+                                                                    .canRequestFocus
+                                                                ? FocusScope.of(
+                                                                        context)
+                                                                    .requestFocus(
+                                                                        _model
+                                                                            .unfocusNode)
+                                                                : FocusScope.of(
+                                                                        context)
+                                                                    .unfocus(),
                                                             child: Padding(
                                                               padding: MediaQuery
                                                                   .viewInsetsOf(
@@ -1271,7 +1301,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                           );
                                                         },
                                                       ).then((value) =>
-                                                          setState(() {}));
+                                                          safeSetState(() {}));
                                                     },
                                                     child: Icon(
                                                       Icons.search_rounded,
@@ -1750,8 +1780,10 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                           List<PaidAdvertsRecord>>(
                                         stream: queryPaidAdvertsRecord(
                                           queryBuilder: (paidAdvertsRecord) =>
-                                              paidAdvertsRecord.where('on_sale',
-                                                  isEqualTo: true),
+                                              paidAdvertsRecord.where(
+                                            'on_sale',
+                                            isEqualTo: true,
+                                          ),
                                         ),
                                         builder: (context, snapshot) {
                                           // Customize what your widget looks like when it's loading.
@@ -1973,7 +2005,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                 6.0,
                                                                                 0.0,
                                                                                 6.0,
-                                                                                5.0),
+                                                                                8.0),
                                                                             child:
                                                                                 Semantics(
                                                                               label: 'contact number\n',
@@ -2135,10 +2167,14 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                       stream: FFAppState().cars(
                                         requestFn: () => queryCarRecord(
                                           queryBuilder: (carRecord) => carRecord
-                                              .where('car_status',
-                                                  isEqualTo: 'approved')
-                                              .where('listing_status',
-                                                  isEqualTo: 'latest'),
+                                              .where(
+                                                'car_status',
+                                                isEqualTo: 'approved',
+                                              )
+                                              .where(
+                                                'listing_status',
+                                                isEqualTo: 'latest',
+                                              ),
                                         ),
                                       ),
                                       builder: (context, snapshot) {
@@ -2961,12 +2997,15 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                   queryBuilder: (carRecord) =>
                                                       carRecord
                                                           .where(
-                                                              'car_status',
-                                                              isEqualTo:
-                                                                  'approved')
-                                                          .where('brand_name',
-                                                              isEqualTo: _model
-                                                                  .choiceChipsValue),
+                                                            'car_status',
+                                                            isEqualTo:
+                                                                'approved',
+                                                          )
+                                                          .where(
+                                                            'brand_name',
+                                                            isEqualTo: _model
+                                                                .choiceChipsValue,
+                                                          ),
                                                 ),
                                               ),
                                               builder: (context, snapshot) {

@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,15 @@ class _AboutWidgetState extends State<AboutWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return Scaffold(
@@ -139,7 +149,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 300.0, 0.0, 0.0),
                                       child: Container(
-                                        width: 380.0,
+                                        width: 350.0,
                                         height: 170.0,
                                         constraints: BoxConstraints(
                                           minWidth: 350.0,
@@ -207,7 +217,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .primaryBackground,
-                                                          fontSize: 14.0,
+                                                          fontSize: 12.0,
                                                         ),
                                               ),
                                             ),

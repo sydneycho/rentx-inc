@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +43,15 @@ class _AllChatsPageWidgetState extends State<AllChatsPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return Scaffold(
@@ -77,7 +87,10 @@ class _AllChatsPageWidgetState extends State<AllChatsPageWidget> {
                 child: StreamBuilder<List<ChatsRecord>>(
                   stream: queryChatsRecord(
                     queryBuilder: (chatsRecord) => chatsRecord
-                        .where('users', arrayContains: currentUserReference)
+                        .where(
+                          'users',
+                          arrayContains: currentUserReference,
+                        )
                         .orderBy('last_message_time', descending: true),
                   ),
                   builder: (context, snapshot) {

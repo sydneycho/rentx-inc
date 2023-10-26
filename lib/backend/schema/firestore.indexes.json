@@ -37,6 +37,24 @@
       ]
     },
     {
+      "collectionGroup": "reserved",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "uid",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "booking_status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "enddate",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "Notification",
       "queryScope": "COLLECTION",
       "fields": [
@@ -97,16 +115,6 @@
     {
       "collectionGroup": "fcm_tokens",
       "fieldPath": "fcm_token",
-      "indexes": [
-        {
-          "order": "ASCENDING",
-          "queryScope": "COLLECTION_GROUP"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "reserved",
-      "fieldPath": "booking_status",
       "indexes": [
         {
           "order": "ASCENDING",

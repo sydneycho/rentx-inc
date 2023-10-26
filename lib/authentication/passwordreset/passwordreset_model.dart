@@ -3,16 +3,19 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'passwordreset_widget.dart' show PasswordresetWidget;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class PasswordresetModel extends FlutterFlowModel {
+class PasswordresetModel extends FlutterFlowModel<PasswordresetWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
   // State field(s) for email widget.
+  FocusNode? emailFocusNode;
   TextEditingController? emailController;
   String? Function(BuildContext, String?)? emailControllerValidator;
 
@@ -22,6 +25,7 @@ class PasswordresetModel extends FlutterFlowModel {
 
   void dispose() {
     unfocusNode.dispose();
+    emailFocusNode?.dispose();
     emailController?.dispose();
   }
 

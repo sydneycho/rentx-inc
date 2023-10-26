@@ -156,6 +156,16 @@ final parametersBuilderMap =
         },
       ),
   'Add_car': ParameterData.none(),
+  'Reviews': (data) async => ParameterData(
+        allParams: {
+          'carrefreview': getParameter<DocumentReference>(data, 'carrefreview'),
+        },
+      ),
+  'payments': (data) async => ParameterData(
+        allParams: {
+          'carpay': getParameter<DocumentReference>(data, 'carpay'),
+        },
+      ),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

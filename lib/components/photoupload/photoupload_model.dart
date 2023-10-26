@@ -6,13 +6,15 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import '/flutter_flow/permissions_util.dart';
+import 'photoupload_widget.dart' show PhotouploadWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class PhotouploadModel extends FlutterFlowModel {
+class PhotouploadModel extends FlutterFlowModel<PhotouploadWidget> {
   ///  State fields for stateful widgets in this component.
 
   bool isDataUploading = false;

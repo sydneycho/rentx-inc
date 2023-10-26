@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:from_css_color/from_css_color.dart';
+import '/backend/algolia/serialization_util.dart';
 import '/backend/algolia/algolia_manager.dart';
 import 'package:collection/collection.dart';
 
@@ -211,7 +212,11 @@ class CarRecord extends FirestoreRecord {
           'car_name': snapshot.data['car_name'],
           'car_video': snapshot.data['car_video'],
           'car_status': snapshot.data['car_status'],
-          'cost_per_day': snapshot.data['cost_per_day']?.toDouble(),
+          'cost_per_day': convertAlgoliaParam(
+            snapshot.data['cost_per_day'],
+            ParamType.double,
+            false,
+          ),
           'description': snapshot.data['description'],
           'fuel_type': snapshot.data['fuel_type'],
           'listing_status': snapshot.data['listing_status'],
@@ -223,26 +228,37 @@ class CarRecord extends FirestoreRecord {
           'plate_number': snapshot.data['plate_number'],
           'brand_name': snapshot.data['brand_name'],
           'district': snapshot.data['district'],
-          'car_color': safeGet(
-            () => fromCssColor(snapshot.data['car_color']),
+          'car_color': convertAlgoliaParam(
+            snapshot.data['car_color'],
+            ParamType.Color,
+            false,
           ),
           'booking_status': snapshot.data['booking_status'],
-          'uid': safeGet(
-            () => toRef(snapshot.data['uid']),
+          'uid': convertAlgoliaParam(
+            snapshot.data['uid'],
+            ParamType.DocumentReference,
+            false,
           ),
           'vendor_phone_number': snapshot.data['vendor_phone_number'],
-          'enddate': safeGet(
-            () => DateTime.fromMillisecondsSinceEpoch(snapshot.data['enddate']),
+          'enddate': convertAlgoliaParam(
+            snapshot.data['enddate'],
+            ParamType.DateTime,
+            false,
           ),
-          'numberofdays': snapshot.data['numberofdays']?.round(),
+          'numberofdays': convertAlgoliaParam(
+            snapshot.data['numberofdays'],
+            ParamType.int,
+            false,
+          ),
           'vendor_description': snapshot.data['vendor_description'],
           'car_photos': safeGet(
             () => snapshot.data['car_photos'].toList(),
           ),
           'note': snapshot.data['note'],
-          'created_time': safeGet(
-            () => DateTime.fromMillisecondsSinceEpoch(
-                snapshot.data['created_time']),
+          'created_time': convertAlgoliaParam(
+            snapshot.data['created_time'],
+            ParamType.DateTime,
+            false,
           ),
         },
         CarRecord.collection.doc(snapshot.objectID),

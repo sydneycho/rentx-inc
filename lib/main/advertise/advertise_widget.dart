@@ -8,6 +8,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -33,10 +34,15 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'Advertise'});
     _model.nameController ??= TextEditingController();
+    _model.nameFocusNode ??= FocusNode();
     _model.sellernameController ??= TextEditingController();
+    _model.sellernameFocusNode ??= FocusNode();
     _model.sellerphonenumberController ??= TextEditingController();
+    _model.sellerphonenumberFocusNode ??= FocusNode();
     _model.selleremailController ??= TextEditingController();
+    _model.selleremailFocusNode ??= FocusNode();
     _model.priceController ??= TextEditingController();
+    _model.priceFocusNode ??= FocusNode();
   }
 
   @override
@@ -48,10 +54,21 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+      onTap: () => _model.unfocusNode.canRequestFocus
+          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+          : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -139,7 +156,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryText,
-                                              fontSize: 14.0,
+                                              fontSize: 12.0,
                                             ),
                                       ),
                                     ),
@@ -154,6 +171,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                 width: MediaQuery.sizeOf(context).width * 0.9,
                                 child: TextFormField(
                                   controller: _model.nameController,
+                                  focusNode: _model.nameFocusNode,
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     labelText: 'Title',
@@ -210,12 +228,14 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                         .secondaryBackground,
                                     contentPadding:
                                         EdgeInsetsDirectional.fromSTEB(
-                                            24.0, 24.0, 20.0, 24.0),
+                                            10.0, 10.0, 20.0, 10.0),
                                   ),
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
                                         fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
                                         fontSize: 16.0,
                                       ),
                                   maxLines: null,
@@ -231,9 +251,10 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                 width: MediaQuery.sizeOf(context).width * 0.9,
                                 child: TextFormField(
                                   controller: _model.sellernameController,
+                                  focusNode: _model.sellernameFocusNode,
                                   obscureText: false,
                                   decoration: InputDecoration(
-                                    labelText: 'seller name',
+                                    labelText: 'Seller name',
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .bodySmall
                                         .override(
@@ -287,10 +308,15 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                         .secondaryBackground,
                                     contentPadding:
                                         EdgeInsetsDirectional.fromSTEB(
-                                            24.0, 24.0, 20.0, 24.0),
+                                            10.0, 10.0, 10.0, 10.0),
                                   ),
-                                  style:
-                                      FlutterFlowTheme.of(context).bodyMedium,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                      ),
                                   maxLines: null,
                                   validator: _model
                                       .sellernameControllerValidator
@@ -306,6 +332,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                 child: TextFormField(
                                   controller:
                                       _model.sellerphonenumberController,
+                                  focusNode: _model.sellerphonenumberFocusNode,
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     labelText: 'Seller phone number',
@@ -363,7 +390,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                         .secondaryBackground,
                                     contentPadding:
                                         EdgeInsetsDirectional.fromSTEB(
-                                            24.0, 24.0, 20.0, 24.0),
+                                            10.0, 10.0, 10.0, 10.0),
                                   ),
                                   style:
                                       FlutterFlowTheme.of(context).bodyMedium,
@@ -381,6 +408,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                 width: MediaQuery.sizeOf(context).width * 0.9,
                                 child: TextFormField(
                                   controller: _model.selleremailController,
+                                  focusNode: _model.selleremailFocusNode,
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     labelText: 'Seller email',
@@ -437,7 +465,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                         .secondaryBackground,
                                     contentPadding:
                                         EdgeInsetsDirectional.fromSTEB(
-                                            24.0, 24.0, 20.0, 24.0),
+                                            10.0, 10.0, 100.0, 10.0),
                                   ),
                                   style:
                                       FlutterFlowTheme.of(context).bodyMedium,
@@ -455,6 +483,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                 width: MediaQuery.sizeOf(context).width * 0.9,
                                 child: TextFormField(
                                   controller: _model.priceController,
+                                  focusNode: _model.priceFocusNode,
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     labelText: 'Price',
@@ -511,7 +540,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                         .secondaryBackground,
                                     contentPadding:
                                         EdgeInsetsDirectional.fromSTEB(
-                                            24.0, 24.0, 20.0, 24.0),
+                                            10.0, 10.0, 10.0, 10.0),
                                   ),
                                   style:
                                       FlutterFlowTheme.of(context).bodyMedium,

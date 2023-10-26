@@ -1,12 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/backend/push_notifications/push_notifications_util.dart';
-import '/backend/stripe/payment_manager.dart';
 import '/components/empty/empty_widget.dart';
 import '/components/loader/loader_widget.dart';
-import '/components/noreviews/noreviews_widget.dart';
-import '/components/payok/payok_widget.dart';
-import '/components/ratingbar/ratingbar_widget.dart';
 import '/components/vendor/vendor_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -22,11 +17,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'detail_model.dart';
 export 'detail_model.dart';
 
@@ -116,6 +111,18 @@ class _DetailWidgetState extends State<DetailWidget>
         ),
       ],
     ),
+    'rowOnPageLoadAnimation4': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      effects: [
+        MoveEffect(
+          curve: Curves.elasticOut,
+          delay: 0.ms,
+          duration: 1220.ms,
+          begin: Offset(-57.0, 0.0),
+          end: Offset(0.0, 0.0),
+        ),
+      ],
+    ),
     'containerOnPageLoadAnimation3': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
       effects: [
@@ -136,25 +143,6 @@ class _DetailWidgetState extends State<DetailWidget>
       ],
     ),
     'containerOnPageLoadAnimation4': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      effects: [
-        FadeEffect(
-          curve: Curves.easeInOut,
-          delay: 0.ms,
-          duration: 600.ms,
-          begin: 0.0,
-          end: 1.0,
-        ),
-        MoveEffect(
-          curve: Curves.easeInOut,
-          delay: 0.ms,
-          duration: 600.ms,
-          begin: Offset(0.0, 30.0),
-          end: Offset(0.0, 0.0),
-        ),
-      ],
-    ),
-    'containerOnPageLoadAnimation6': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
       effects: [
         FadeEffect(
@@ -192,6 +180,15 @@ class _DetailWidgetState extends State<DetailWidget>
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return StreamBuilder<CarRecord>(
@@ -208,7 +205,9 @@ class _DetailWidgetState extends State<DetailWidget>
         }
         final detailCarRecord = snapshot.data!;
         return GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primary,
@@ -769,8 +768,13 @@ class _DetailWidgetState extends State<DetailWidget>
                                       context: context,
                                       builder: (context) {
                                         return GestureDetector(
-                                          onTap: () => FocusScope.of(context)
-                                              .requestFocus(_model.unfocusNode),
+                                          onTap: () => _model
+                                                  .unfocusNode.canRequestFocus
+                                              ? FocusScope.of(context)
+                                                  .requestFocus(
+                                                      _model.unfocusNode)
+                                              : FocusScope.of(context)
+                                                  .unfocus(),
                                           child: Padding(
                                             padding: MediaQuery.viewInsetsOf(
                                                 context),
@@ -780,7 +784,7 @@ class _DetailWidgetState extends State<DetailWidget>
                                           ),
                                         );
                                       },
-                                    ).then((value) => setState(() {}));
+                                    ).then((value) => safeSetState(() {}));
                                   },
                                   child: Container(
                                     width: double.infinity,
@@ -1038,7 +1042,7 @@ class _DetailWidgetState extends State<DetailWidget>
 
                                                         if (_datePicked1Date !=
                                                             null) {
-                                                          setState(() {
+                                                          safeSetState(() {
                                                             _model.datePicked1 =
                                                                 DateTime(
                                                               _datePicked1Date
@@ -1109,7 +1113,7 @@ class _DetailWidgetState extends State<DetailWidget>
                                                                       color: Color(
                                                                           0xFF57636C),
                                                                       fontSize:
-                                                                          14.0,
+                                                                          12.0,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .normal,
@@ -1155,7 +1159,7 @@ class _DetailWidgetState extends State<DetailWidget>
 
                                                       if (_datePicked2Date !=
                                                           null) {
-                                                        setState(() {
+                                                        safeSetState(() {
                                                           _model.datePicked2 =
                                                               DateTime(
                                                             _datePicked2Date
@@ -1222,7 +1226,7 @@ class _DetailWidgetState extends State<DetailWidget>
                                                                     color: Color(
                                                                         0xFF57636C),
                                                                     fontSize:
-                                                                        14.0,
+                                                                        12.0,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .normal,
@@ -1340,6 +1344,104 @@ class _DetailWidgetState extends State<DetailWidget>
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
+                            10.0, 10.0, 10.0, 10.0),
+                        child: Semantics(
+                          label: 'Number of past bookings',
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10.0, 0.0, 0.0, 0.0),
+                                child: Icon(
+                                  Icons.star,
+                                  color: FlutterFlowTheme.of(context).warning,
+                                  size: 24.0,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    20.0, 0.0, 0.0, 0.0),
+                                child: FutureBuilder<List<RatingRecord>>(
+                                  future: queryRatingRecordOnce(
+                                    parent: widget.productref,
+                                  ),
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 20.0,
+                                          height: 20.0,
+                                          child: CircularProgressIndicator(
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    List<RatingRecord> textRatingRecordList =
+                                        snapshot.data!;
+                                    return InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        logFirebaseEvent(
+                                            'DETAIL_PAGE_Text_6l75qxnv_ON_TAP');
+                                        logFirebaseEvent('Text_navigate_to');
+
+                                        context.pushNamed(
+                                          'Reviews',
+                                          queryParameters: {
+                                            'carrefreview': serializeParam(
+                                              widget.productref,
+                                              ParamType.DocumentReference,
+                                            ),
+                                          }.withoutNulls,
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType: PageTransitionType
+                                                  .rightToLeft,
+                                              duration:
+                                                  Duration(milliseconds: 250),
+                                            ),
+                                          },
+                                        );
+                                      },
+                                      child: Text(
+                                        '${formatNumber(
+                                          textRatingRecordList.length,
+                                          formatType: FormatType.custom,
+                                          format: '00',
+                                          locale: '',
+                                        )}',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Open Sans',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ).animateOnPageLoad(
+                            animationsMap['rowOnPageLoadAnimation4']!),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             10.0, 15.0, 10.0, 15.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -1425,412 +1527,6 @@ class _DetailWidgetState extends State<DetailWidget>
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
-                            15.0, 10.0, 15.0, 10.0),
-                        child: Semantics(
-                          label: 'Reviews from past rentees',
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Reviews',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Open Sans',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                      fontSize: 16.0,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            10.0, 15.0, 10.0, 0.0),
-                        child: Semantics(
-                          label: 'Reviews ',
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 1.0),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: MediaQuery.sizeOf(context).height *
-                                        0.25,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      border: Border.all(
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        width: 0.0,
-                                      ),
-                                    ),
-                                    child: StreamBuilder<List<RatingRecord>>(
-                                      stream: FFAppState().reviews(
-                                        requestFn: () => queryRatingRecord(
-                                          parent: detailCarRecord.reference,
-                                        ),
-                                      ),
-                                      builder: (context, snapshot) {
-                                        // Customize what your widget looks like when it's loading.
-                                        if (!snapshot.hasData) {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 20.0,
-                                              height: 20.0,
-                                              child: CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color>(
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                        List<RatingRecord>
-                                            listViewRatingRecordList =
-                                            snapshot.data!;
-                                        if (listViewRatingRecordList.isEmpty) {
-                                          return Center(
-                                            child: NoreviewsWidget(),
-                                          );
-                                        }
-                                        return ListView.builder(
-                                          padding: EdgeInsets.zero,
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount:
-                                              listViewRatingRecordList.length,
-                                          itemBuilder:
-                                              (context, listViewIndex) {
-                                            final listViewRatingRecord =
-                                                listViewRatingRecordList[
-                                                    listViewIndex];
-                                            return Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 0.0, 8.0, 0.0),
-                                              child: Container(
-                                                width: 340.0,
-                                                height: 100.0,
-                                                constraints: BoxConstraints(
-                                                  maxWidth: 1270.0,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryBackground,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                  border: Border.all(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .accent3,
-                                                    width: 1.0,
-                                                  ),
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          10.0, 8.0, 10.0, 8.0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      if (responsiveVisibility(
-                                                        context: context,
-                                                        phone: false,
-                                                        tablet: false,
-                                                      ))
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      16.0,
-                                                                      0.0),
-                                                          child: Container(
-                                                            width: 100.0,
-                                                            height: 100.7,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: Color(
-                                                                  0xFFF1F4F8),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          12.0),
-                                                            ),
-                                                            child: Visibility(
-                                                              visible:
-                                                                  responsiveVisibility(
-                                                                context:
-                                                                    context,
-                                                                phone: false,
-                                                                tablet: false,
-                                                              ),
-                                                              child: Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            4.0,
-                                                                            4.0,
-                                                                            4.0,
-                                                                            4.0),
-                                                                child:
-                                                                    ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10.0),
-                                                                  child:
-                                                                      CachedNetworkImage(
-                                                                    fadeInDuration:
-                                                                        Duration(
-                                                                            milliseconds:
-                                                                                500),
-                                                                    fadeOutDuration:
-                                                                        Duration(
-                                                                            milliseconds:
-                                                                                500),
-                                                                    imageUrl:
-                                                                        'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjJ8fHByb2ZpbGV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60',
-                                                                    width: 90.0,
-                                                                    height:
-                                                                        90.0,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      Expanded(
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          4.0),
-                                                              child: Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Expanded(
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          12.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          Text(
-                                                                        'Rating',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .headlineSmall
-                                                                            .override(
-                                                                              fontFamily: 'Outfit',
-                                                                              color: FlutterFlowTheme.of(context).secondaryText,
-                                                                              fontSize: 20.0,
-                                                                              fontWeight: FontWeight.w500,
-                                                                            ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            5.0,
-                                                                            0.0),
-                                                                    child:
-                                                                        RatingbarWidget(
-                                                                      key: Key(
-                                                                          'Keyi9r_${listViewIndex}_of_${listViewRatingRecordList.length}'),
-                                                                      parameter1:
-                                                                          listViewRatingRecord
-                                                                              .rating,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          4.0,
-                                                                          0.0,
-                                                                          4.0),
-                                                              child: Text(
-                                                                listViewRatingRecord
-                                                                    .review,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelLarge
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Readex Pro',
-                                                                      color: Color(
-                                                                          0xFF57636C),
-                                                                      fontSize:
-                                                                          16.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          12.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
-                                                                  if (responsiveVisibility(
-                                                                    context:
-                                                                        context,
-                                                                    tabletLandscape:
-                                                                        false,
-                                                                    desktop:
-                                                                        false,
-                                                                  ))
-                                                                    Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          12.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8.0),
-                                                                        child: Image
-                                                                            .network(
-                                                                          listViewRatingRecord
-                                                                              .reviewPhoto,
-                                                                          width:
-                                                                              40.0,
-                                                                          height:
-                                                                              40.0,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            8.0,
-                                                                            0.0),
-                                                                    child: Text(
-                                                                      listViewRatingRecord
-                                                                          .reviewName,
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Readex Pro',
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).primaryText,
-                                                                            fontSize:
-                                                                                14.0,
-                                                                            fontWeight:
-                                                                                FontWeight.normal,
-                                                                          ),
-                                                                    ),
-                                                                  ),
-                                                                  Text(
-                                                                    dateTimeFormat(
-                                                                      'MMMMEEEEd',
-                                                                      listViewRatingRecord
-                                                                          .createdTime!,
-                                                                      locale: FFLocalizations.of(
-                                                                              context)
-                                                                          .languageCode,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelSmall
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Readex Pro',
-                                                                          color:
-                                                                              Color(0xFF57636C),
-                                                                          fontSize:
-                                                                              12.0,
-                                                                          fontWeight:
-                                                                              FontWeight.normal,
-                                                                        ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ).animateOnPageLoad(animationsMap[
-                                      'containerOnPageLoadAnimation4']!),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
                             10.0, 15.0, 10.0, 0.0),
                         child: Semantics(
                           label:
@@ -1845,7 +1541,7 @@ class _DetailWidgetState extends State<DetailWidget>
                                   child: Container(
                                     width: double.infinity,
                                     height: MediaQuery.sizeOf(context).height *
-                                        0.27,
+                                        0.32,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(0.0),
                                     ),
@@ -1877,24 +1573,30 @@ class _DetailWidgetState extends State<DetailWidget>
                                             future: _model.recommedations(
                                               requestFn: () =>
                                                   queryCarRecordOnce(
-                                                queryBuilder: (carRecord) => carRecord
-                                                    .where('car_status',
-                                                        isEqualTo: 'approved')
-                                                    .where('district',
-                                                        isEqualTo: detailCarRecord
-                                                                    .district !=
-                                                                ''
-                                                            ? detailCarRecord
-                                                                .district
-                                                            : null)
-                                                    .where('car_name',
-                                                        isNotEqualTo:
-                                                            detailCarRecord
-                                                                        .carName !=
-                                                                    ''
-                                                                ? detailCarRecord
-                                                                    .carName
-                                                                : null),
+                                                queryBuilder: (carRecord) =>
+                                                    carRecord
+                                                        .where(
+                                                          'car_status',
+                                                          isEqualTo: 'approved',
+                                                        )
+                                                        .where(
+                                                          'district',
+                                                          isEqualTo: detailCarRecord
+                                                                      .district !=
+                                                                  ''
+                                                              ? detailCarRecord
+                                                                  .district
+                                                              : null,
+                                                        )
+                                                        .where(
+                                                          'car_name',
+                                                          isNotEqualTo: detailCarRecord
+                                                                      .carName !=
+                                                                  ''
+                                                              ? detailCarRecord
+                                                                  .carName
+                                                              : null,
+                                                        ),
                                               ),
                                             ),
                                             builder: (context, snapshot) {
@@ -1969,38 +1671,47 @@ class _DetailWidgetState extends State<DetailWidget>
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .only(
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        0.0),
-                                                                bottomRight: Radius
-                                                                    .circular(
-                                                                        0.0),
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        6.0),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        6.0),
-                                                              ),
-                                                              child:
-                                                                  Image.network(
-                                                                detailCarRecord
-                                                                    .carPhotos
-                                                                    .first,
-                                                                width: MediaQuery.sizeOf(
-                                                                            context)
-                                                                        .width *
-                                                                    1.0,
-                                                                height: MediaQuery.sizeOf(
-                                                                            context)
-                                                                        .height *
-                                                                    0.15,
-                                                                fit: BoxFit
-                                                                    .cover,
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          2.0),
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .only(
+                                                                  bottomLeft: Radius
+                                                                      .circular(
+                                                                          0.0),
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          0.0),
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          6.0),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          6.0),
+                                                                ),
+                                                                child: Image
+                                                                    .network(
+                                                                  detailCarRecord
+                                                                      .carPhotos
+                                                                      .first,
+                                                                  width: MediaQuery.sizeOf(
+                                                                              context)
+                                                                          .width *
+                                                                      1.0,
+                                                                  height: MediaQuery.sizeOf(
+                                                                              context)
+                                                                          .height *
+                                                                      0.15,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                ),
                                                               ),
                                                             ),
                                                             Padding(
@@ -2075,7 +1786,7 @@ class _DetailWidgetState extends State<DetailWidget>
                                                       ),
                                                     ).animateOnPageLoad(
                                                         animationsMap[
-                                                            'containerOnPageLoadAnimation6']!),
+                                                            'containerOnPageLoadAnimation4']!),
                                                   );
                                                 },
                                               );
@@ -2199,7 +1910,7 @@ class _DetailWidgetState extends State<DetailWidget>
                                                                     'Outfit',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .primaryText,
+                                                                    .primaryBackground,
                                                                 fontSize: 18.0,
                                                                 fontWeight:
                                                                     FontWeight
@@ -2763,189 +2474,49 @@ class _DetailWidgetState extends State<DetailWidget>
                                             false) ==
                                         false)) {
                                   logFirebaseEvent('Button_stripe_payment');
-                                  final paymentResponse =
-                                      await processStripePayment(
-                                    context,
-                                    amount: valueOrDefault<int>(
-                                      (valueOrDefault<double>(
-                                                functions.totalcost(
-                                                        functions.subtotal(
-                                                            functions.numberofdays(
-                                                                _model
-                                                                    .datePicked1,
-                                                                _model
-                                                                    .datePicked2),
-                                                            detailCarRecord
-                                                                .costPerDay),
-                                                        1.8)! *
-                                                    100,
-                                                00.0,
-                                              ) /
-                                              17)
-                                          .round(),
-                                      00,
-                                    ),
-                                    currency: 'USD',
-                                    customerEmail: currentUserEmail,
-                                    customerName:
-                                        '${valueOrDefault(currentUserDocument?.firstName, '')} ${valueOrDefault(currentUserDocument?.lastName, '')}',
-                                    description:
-                                        'Your booking for  ${detailCarRecord.carName} has been recieved  and you will recieve a message from the vendor who will send you  the pickup location of the vehicle.Thank you for trusting us. Rentz inc',
-                                    allowGooglePay: false,
-                                    allowApplePay: false,
-                                    themeStyle: ThemeMode.system,
-                                    buttonColor:
-                                        FlutterFlowTheme.of(context).primary,
-                                    buttonTextColor:
-                                        FlutterFlowTheme.of(context)
-                                            .primaryBackground,
-                                  );
-                                  if (paymentResponse.paymentId == null) {
-                                    if (paymentResponse.errorMessage != null) {
-                                      showSnackbar(
-                                        context,
-                                        'Payment failed',
-                                      );
-                                    }
-                                    return;
-                                  }
-                                  final stripePaymentId =
-                                      paymentResponse.paymentId!;
-
-                                  logFirebaseEvent('Button_backend_call');
-
-                                  await BookingRecord.createDoc(
-                                          widget.productref!)
-                                      .set(createBookingRecordData(
-                                    bookingStatus: 'booked',
-                                    subtotal: functions.subtotal(
-                                        functions.numberofdays(
-                                            _model.datePicked1,
-                                            _model.datePicked2),
-                                        detailCarRecord.costPerDay),
-                                    startdate: _model.datePicked1,
-                                    enddate: _model.datePicked2,
-                                    totalcost: functions.totalcost(
-                                        functions.subtotal(
-                                            functions.numberofdays(
-                                                _model.datePicked1,
-                                                _model.datePicked2),
-                                            detailCarRecord.costPerDay),
-                                        1.8),
-                                    numberofdays: functions.numberofdays(
-                                        _model.datePicked1, _model.datePicked2),
-                                    uid: currentUserReference,
-                                    renteeName:
-                                        '${valueOrDefault(currentUserDocument?.firstName, '')}    ${valueOrDefault(currentUserDocument?.lastName, '')}',
-                                    renteeEmail: currentUserEmail,
-                                    renteePhoneNumber: currentPhoneNumber,
-                                    renteePhoto: currentUserPhoto,
-                                  ));
-                                  logFirebaseEvent('Button_show_snack_bar');
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Your car is booked successfully .',
-                                        style: FlutterFlowTheme.of(context)
-                                            .titleMedium
-                                            .override(
-                                              fontFamily: 'Open Sans',
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                      duration: Duration(milliseconds: 10000),
-                                      backgroundColor:
-                                          FlutterFlowTheme.of(context)
-                                              .primaryBackground,
-                                    ),
-                                  );
-                                  logFirebaseEvent('Button_backend_call');
-
-                                  await widget.productref!
-                                      .update(createCarRecordData(
-                                    bookingStatus: 'booked',
-                                    availabilityStatus:
-                                        ' Ends on : ${dateTimeFormat(
-                                      'M/d H:mm',
-                                      _model.datePicked2,
-                                      locale: FFLocalizations.of(context)
-                                          .languageCode,
-                                    )}',
-                                    numberofdays: functions.numberofdays(
-                                        _model.datePicked1, _model.datePicked2),
-                                    enddate: _model.datePicked2,
-                                  ));
-                                  logFirebaseEvent('Button_send_email');
-                                  await launchUrl(Uri(
-                                      scheme: 'mailto',
-                                      path: detailCarRecord.vendorEmail,
-                                      query: {
-                                        'subject': 'Car booking',
-                                        'body':
-                                            'Mr${valueOrDefault(currentUserDocument?.firstName, '')}has rented your car .check your inventory and contact the rentee immediately and send them the aggrement form which was sent to your email by rentx inc.',
-                                      }
-                                          .entries
-                                          .map((MapEntry<String, String> e) =>
-                                              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-                                          .join('&')));
-                                  logFirebaseEvent('Button_backend_call');
-
-                                  await PaymentRecord.collection
-                                      .doc()
-                                      .set(createPaymentRecordData(
-                                        amount: functions.totalcost(
-                                            functions.subtotal(
-                                                functions.numberofdays(
-                                                    _model.datePicked1,
-                                                    _model.datePicked2),
-                                                detailCarRecord.costPerDay),
-                                            1.8),
-                                        carName: detailCarRecord.carName,
-                                        createdAt: getCurrentTimestamp,
-                                        renteePhoneNumber: currentPhoneNumber,
-                                        status: 'pending',
-                                        vendorEmail:
-                                            detailCarRecord.vendorEmail,
-                                        vendorName: detailCarRecord.vendorName,
-                                        vendorPhoneNumber:
-                                            detailCarRecord.vendorPhoneNumber,
-                                        vendorPhoto:
-                                            detailCarRecord.vendorPhoto,
-                                        renteePhoto: currentUserPhoto,
-                                        reenteeName:
-                                            '${valueOrDefault(currentUserDocument?.firstName, '')}  ${valueOrDefault(currentUserDocument?.lastName, '')}',
-                                      ));
-                                  logFirebaseEvent(
-                                      'Button_trigger_push_notification');
-                                  triggerPushNotification(
-                                    notificationTitle: 'Booking',
-                                    notificationText:
-                                        'Your car has been booked .Head to your dashboad and message the rentee .',
-                                    notificationImageUrl:
-                                        detailCarRecord.carPhotos.first,
-                                    notificationSound: 'default',
-                                    userRefs: [detailCarRecord.uid!],
-                                    initialPageName: 'Hostinventory',
-                                    parameterData: {},
-                                  );
-                                  logFirebaseEvent('Button_bottom_sheet');
-                                  await showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    enableDrag: false,
+                                  logFirebaseEvent('Button_alert_dialog');
+                                  await showDialog(
                                     context: context,
-                                    builder: (context) {
-                                      return GestureDetector(
-                                        onTap: () => FocusScope.of(context)
-                                            .requestFocus(_model.unfocusNode),
-                                        child: Padding(
-                                          padding:
-                                              MediaQuery.viewInsetsOf(context),
-                                          child: PayokWidget(),
-                                        ),
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: Text('Alert'),
+                                        content: Text(
+                                            'Only click proceed in the payment page after the payment is successful,ohterwise your booking will not be successful.After the payment take a screenshot.'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: Text('Ok'),
+                                          ),
+                                        ],
                                       );
                                     },
-                                  ).then((value) => setState(() {}));
+                                  );
+                                  logFirebaseEvent('Button_update_app_state');
+                                  FFAppState().subtotal = functions.subtotal(
+                                      functions.numberofdays(_model.datePicked1,
+                                          _model.datePicked2),
+                                      detailCarRecord.costPerDay)!;
+                                  FFAppState().Totalcost = functions.totalcost(
+                                      functions.subtotal(
+                                          functions.numberofdays(
+                                              _model.datePicked1,
+                                              _model.datePicked2),
+                                          detailCarRecord.costPerDay),
+                                      0.03)!;
+                                  FFAppState().startend = _model.datePicked1;
+                                  FFAppState().enddate = _model.datePicked2;
+                                  logFirebaseEvent('Button_navigate_to');
+
+                                  context.pushNamed(
+                                    'payments',
+                                    queryParameters: {
+                                      'carpay': serializeParam(
+                                        widget.productref,
+                                        ParamType.DocumentReference,
+                                      ),
+                                    }.withoutNulls,
+                                  );
                                 } else {
                                   if (detailCarRecord.bookingStatus ==
                                       'booked') {

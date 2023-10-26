@@ -10,6 +10,7 @@ import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -35,13 +36,21 @@ class _AddCarWidgetState extends State<AddCarWidget> {
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'Add_car'});
     _model.carnameController ??= TextEditingController();
+    _model.carnameFocusNode ??= FocusNode();
     _model.brandnameController ??= TextEditingController();
+    _model.brandnameFocusNode ??= FocusNode();
     _model.textController3 ??= TextEditingController();
+    _model.textFieldFocusNode1 ??= FocusNode();
     _model.phonenumberController ??= TextEditingController();
+    _model.phonenumberFocusNode ??= FocusNode();
     _model.carcolorController ??= TextEditingController();
+    _model.carcolorFocusNode ??= FocusNode();
     _model.textController6 ??= TextEditingController();
+    _model.textFieldFocusNode2 ??= FocusNode();
     _model.descriptionController ??= TextEditingController();
+    _model.descriptionFocusNode ??= FocusNode();
     _model.notesController ??= TextEditingController();
+    _model.notesFocusNode ??= FocusNode();
   }
 
   @override
@@ -53,10 +62,21 @@ class _AddCarWidgetState extends State<AddCarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+      onTap: () => _model.unfocusNode.canRequestFocus
+          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+          : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -116,6 +136,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                         ),
                         TextFormField(
                           controller: _model.carnameController,
+                          focusNode: _model.carnameFocusNode,
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'Car Name',
@@ -179,6 +200,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               0.0, 16.0, 0.0, 0.0),
                           child: TextFormField(
                             controller: _model.brandnameController,
+                            focusNode: _model.brandnameFocusNode,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Brand Name',
@@ -244,6 +266,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               0.0, 16.0, 0.0, 0.0),
                           child: TextFormField(
                             controller: _model.textController3,
+                            focusNode: _model.textFieldFocusNode1,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Cost per Day',
@@ -309,6 +332,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               0.0, 16.0, 0.0, 0.0),
                           child: TextFormField(
                             controller: _model.phonenumberController,
+                            focusNode: _model.phonenumberFocusNode,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Plate Number',
@@ -374,6 +398,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               0.0, 16.0, 0.0, 0.0),
                           child: TextFormField(
                             controller: _model.carcolorController,
+                            focusNode: _model.carcolorFocusNode,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Car Color',
@@ -439,6 +464,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               0.0, 16.0, 0.0, 0.0),
                           child: TextFormField(
                             controller: _model.textController6,
+                            focusNode: _model.textFieldFocusNode2,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Address',
@@ -750,6 +776,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               0.0, 16.0, 0.0, 0.0),
                           child: TextFormField(
                             controller: _model.descriptionController,
+                            focusNode: _model.descriptionFocusNode,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Description',
@@ -816,6 +843,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                               0.0, 16.0, 0.0, 0.0),
                           child: TextFormField(
                             controller: _model.notesController,
+                            focusNode: _model.notesFocusNode,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Notes',
@@ -1027,7 +1055,11 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                                   note: _model.notesController.text,
                                   createdTime: getCurrentTimestamp,
                                 ),
-                                'car_photos': _model.uploadedFileUrls,
+                                ...mapToFirestore(
+                                  {
+                                    'car_photos': _model.uploadedFileUrls,
+                                  },
+                                ),
                               });
                               logFirebaseEvent('Button_alert_dialog');
                               await showDialog(

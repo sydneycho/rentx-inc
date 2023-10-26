@@ -12,6 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
@@ -60,10 +61,15 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
     });
 
     _model.firstnameController ??= TextEditingController();
+    _model.firstnameFocusNode ??= FocusNode();
     _model.lastNameController ??= TextEditingController();
+    _model.lastNameFocusNode ??= FocusNode();
     _model.numberController ??= TextEditingController();
+    _model.numberFocusNode ??= FocusNode();
     _model.addressController ??= TextEditingController();
+    _model.addressFocusNode ??= FocusNode();
     _model.myBioController ??= TextEditingController();
+    _model.myBioFocusNode ??= FocusNode();
   }
 
   @override
@@ -75,10 +81,21 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+      onTap: () => _model.unfocusNode.canRequestFocus
+          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+          : FocusScope.of(context).unfocus(),
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
@@ -224,10 +241,14 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                                 context: context,
                                                 builder: (context) {
                                                   return GestureDetector(
-                                                    onTap: () => FocusScope.of(
-                                                            context)
-                                                        .requestFocus(
-                                                            _model.unfocusNode),
+                                                    onTap: () => _model
+                                                            .unfocusNode
+                                                            .canRequestFocus
+                                                        ? FocusScope.of(context)
+                                                            .requestFocus(_model
+                                                                .unfocusNode)
+                                                        : FocusScope.of(context)
+                                                            .unfocus(),
                                                     child: Padding(
                                                       padding: MediaQuery
                                                           .viewInsetsOf(
@@ -237,8 +258,8 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                                     ),
                                                   );
                                                 },
-                                              ).then(
-                                                  (value) => setState(() {}));
+                                              ).then((value) =>
+                                                  safeSetState(() {}));
                                             },
                                             text: 'Upload',
                                             options: FFButtonOptions(
@@ -281,6 +302,7 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                 label: 'First name field',
                                 child: TextFormField(
                                   controller: _model.firstnameController,
+                                  focusNode: _model.firstnameFocusNode,
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     labelText: 'First Name',
@@ -348,6 +370,7 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                 label: 'Last name field',
                                 child: TextFormField(
                                   controller: _model.lastNameController,
+                                  focusNode: _model.lastNameFocusNode,
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     labelText: 'Last Name',
@@ -415,6 +438,7 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                 label: 'Mobile number field',
                                 child: TextFormField(
                                   controller: _model.numberController,
+                                  focusNode: _model.numberFocusNode,
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     labelText: 'Mobile No',
@@ -482,6 +506,7 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                 label: 'Address field',
                                 child: TextFormField(
                                   controller: _model.addressController,
+                                  focusNode: _model.addressFocusNode,
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     labelText: 'Street address',
@@ -605,7 +630,7 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                             );
 
                                             if (_datePickedDate != null) {
-                                              setState(() {
+                                              safeSetState(() {
                                                 _model.datePicked = DateTime(
                                                   _datePickedDate.year,
                                                   _datePickedDate.month,
@@ -639,6 +664,7 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                 label: 'About field',
                                 child: TextFormField(
                                   controller: _model.myBioController,
+                                  focusNode: _model.myBioFocusNode,
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     labelText: 'bio',
@@ -927,10 +953,9 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                           context: context,
                                           builder: (alertDialogContext) {
                                             return AlertDialog(
-                                              title:
-                                                  Text('Created successfully'),
+                                              title: Text('Account'),
                                               content: Text(
-                                                  'Your  account has been created succeffully.Navigate to the home page now'),
+                                                  'Your  account has been created successfully.Navigate to the home page now.'),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
@@ -949,9 +974,8 @@ class _CreateuserWidgetState extends State<CreateuserWidget> {
                                           extra: <String, dynamic>{
                                             kTransitionInfoKey: TransitionInfo(
                                               hasTransition: true,
-                                              transitionType:
-                                                  PageTransitionType.scale,
-                                              alignment: Alignment.bottomCenter,
+                                              transitionType: PageTransitionType
+                                                  .rightToLeft,
                                               duration:
                                                   Duration(milliseconds: 250),
                                             ),

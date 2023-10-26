@@ -22,16 +22,7 @@ class FFAppState extends ChangeNotifier {
   Future initializePersistedState() async {
     secureStorage = FlutterSecureStorage();
     await _safeInitAsync(() async {
-      _cartsum = await secureStorage.getDouble('ff_cartsum') ?? _cartsum;
-    });
-    await _safeInitAsync(() async {
       _color = await secureStorage.getString('ff_color') ?? _color;
-    });
-    await _safeInitAsync(() async {
-      _cart = (await secureStorage.getStringList('ff_cart'))
-              ?.map((path) => path.ref)
-              .toList() ??
-          _cart;
     });
     await _safeInitAsync(() async {
       _favorite = (await secureStorage.getStringList('ff_favorite'))
@@ -62,17 +53,6 @@ class FFAppState extends ChangeNotifier {
 
   late FlutterSecureStorage secureStorage;
 
-  double _cartsum = 0;
-  double get cartsum => _cartsum;
-  set cartsum(double _value) {
-    _cartsum = _value;
-    secureStorage.setDouble('ff_cartsum', _value);
-  }
-
-  void deleteCartsum() {
-    secureStorage.delete(key: 'ff_cartsum');
-  }
-
   int _size = 0;
   int get size => _size;
   set size(int _value) {
@@ -94,45 +74,6 @@ class FFAppState extends ChangeNotifier {
   bool get searchonof => _searchonof;
   set searchonof(bool _value) {
     _searchonof = _value;
-  }
-
-  List<DocumentReference> _cart = [];
-  List<DocumentReference> get cart => _cart;
-  set cart(List<DocumentReference> _value) {
-    _cart = _value;
-    secureStorage.setStringList('ff_cart', _value.map((x) => x.path).toList());
-  }
-
-  void deleteCart() {
-    secureStorage.delete(key: 'ff_cart');
-  }
-
-  void addToCart(DocumentReference _value) {
-    _cart.add(_value);
-    secureStorage.setStringList('ff_cart', _cart.map((x) => x.path).toList());
-  }
-
-  void removeFromCart(DocumentReference _value) {
-    _cart.remove(_value);
-    secureStorage.setStringList('ff_cart', _cart.map((x) => x.path).toList());
-  }
-
-  void removeAtIndexFromCart(int _index) {
-    _cart.removeAt(_index);
-    secureStorage.setStringList('ff_cart', _cart.map((x) => x.path).toList());
-  }
-
-  void updateCartAtIndex(
-    int _index,
-    DocumentReference Function(DocumentReference) updateFn,
-  ) {
-    _cart[_index] = updateFn(_cart[_index]);
-    secureStorage.setStringList('ff_cart', _cart.map((x) => x.path).toList());
-  }
-
-  void insertAtIndexInCart(int _index, DocumentReference _value) {
-    _cart.insert(_index, _value);
-    secureStorage.setStringList('ff_cart', _cart.map((x) => x.path).toList());
   }
 
   List<DocumentReference> _favorite = [];
@@ -283,6 +224,30 @@ class FFAppState extends ChangeNotifier {
     secureStorage.delete(key: 'ff_notifications');
   }
 
+  double _subtotal = 0.0;
+  double get subtotal => _subtotal;
+  set subtotal(double _value) {
+    _subtotal = _value;
+  }
+
+  double _Totalcost = 0.0;
+  double get Totalcost => _Totalcost;
+  set Totalcost(double _value) {
+    _Totalcost = _value;
+  }
+
+  DateTime? _enddate = DateTime.fromMillisecondsSinceEpoch(1698312360000);
+  DateTime? get enddate => _enddate;
+  set enddate(DateTime? _value) {
+    _enddate = _value;
+  }
+
+  DateTime? _startend = DateTime.fromMillisecondsSinceEpoch(1698312360000);
+  DateTime? get startend => _startend;
+  set startend(DateTime? _value) {
+    _startend = _value;
+  }
+
   final _paidadvertsManager = StreamRequestManager<List<PaidAdvertsRecord>>();
   Stream<List<PaidAdvertsRecord>> paidadverts({
     String? uniqueQueryKey,
@@ -342,21 +307,6 @@ class FFAppState extends ChangeNotifier {
   void clearTripsCache() => _tripsManager.clear();
   void clearTripsCacheKey(String? uniqueKey) =>
       _tripsManager.clearRequest(uniqueKey);
-
-  final _reviewsManager = StreamRequestManager<List<RatingRecord>>();
-  Stream<List<RatingRecord>> reviews({
-    String? uniqueQueryKey,
-    bool? overrideCache,
-    required Stream<List<RatingRecord>> Function() requestFn,
-  }) =>
-      _reviewsManager.performRequest(
-        uniqueQueryKey: uniqueQueryKey,
-        overrideCache: overrideCache,
-        requestFn: requestFn,
-      );
-  void clearReviewsCache() => _reviewsManager.clear();
-  void clearReviewsCacheKey(String? uniqueKey) =>
-      _reviewsManager.clearRequest(uniqueKey);
 }
 
 LatLng? _latLngFromString(String? val) {

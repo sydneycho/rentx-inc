@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -67,7 +68,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                   style: FlutterFlowTheme.of(context).headlineSmall.override(
                         fontFamily: 'Open Sans',
                         color: FlutterFlowTheme.of(context).primaryText,
-                        fontSize: 18.0,
+                        fontSize: 16.0,
                       ),
                 ),
               ),

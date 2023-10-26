@@ -30,3 +30,5 @@ export '/main/all_chats_page/all_chats_page_widget.dart'
     show AllChatsPageWidget;
 export '/cars/edit_car/edit_car_widget.dart' show EditCarWidget;
 export '/cars/add_car/add_car_widget.dart' show AddCarWidget;
+export '/cars/reviews/reviews_widget.dart' show ReviewsWidget;
+export '/main/payments/payments_widget.dart' show PaymentsWidget;

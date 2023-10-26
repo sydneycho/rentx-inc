@@ -11,6 +11,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -37,13 +38,18 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'Editprofile'});
     _model.firstnameController ??= TextEditingController(
         text: valueOrDefault(currentUserDocument?.firstName, ''));
+    _model.firstnameFocusNode ??= FocusNode();
     _model.lastNameController ??= TextEditingController(
         text: valueOrDefault(currentUserDocument?.lastName, ''));
+    _model.lastNameFocusNode ??= FocusNode();
     _model.numberController ??= TextEditingController(text: currentPhoneNumber);
+    _model.numberFocusNode ??= FocusNode();
     _model.addressController ??= TextEditingController(
         text: valueOrDefault(currentUserDocument?.address, ''));
+    _model.addressFocusNode ??= FocusNode();
     _model.myBioController ??= TextEditingController(
         text: valueOrDefault(currentUserDocument?.bio, ''));
+    _model.myBioFocusNode ??= FocusNode();
   }
 
   @override
@@ -55,6 +61,15 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return Scaffold(
@@ -183,7 +198,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                           child: PhotouploadWidget(),
                                         );
                                       },
-                                    ).then((value) => setState(() {}));
+                                    ).then((value) => safeSetState(() {}));
                                   },
                                   text: 'Upload',
                                   options: FFButtonOptions(
@@ -222,6 +237,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                         label: 'First name field',
                         child: TextFormField(
                           controller: _model.firstnameController,
+                          focusNode: _model.firstnameFocusNode,
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'First Name',
@@ -267,7 +283,13 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                             contentPadding: EdgeInsetsDirectional.fromSTEB(
                                 20.0, 24.0, 0.0, 24.0),
                           ),
-                          style: FlutterFlowTheme.of(context).bodyMedium,
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: 'Open Sans',
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                              ),
                           maxLines: null,
                           validator: _model.firstnameControllerValidator
                               .asValidator(context),
@@ -283,6 +305,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                         label: 'Last name field',
                         child: TextFormField(
                           controller: _model.lastNameController,
+                          focusNode: _model.lastNameFocusNode,
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'Last Name',
@@ -328,7 +351,13 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                             contentPadding: EdgeInsetsDirectional.fromSTEB(
                                 20.0, 24.0, 0.0, 24.0),
                           ),
-                          style: FlutterFlowTheme.of(context).bodyMedium,
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: 'Open Sans',
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                              ),
                           maxLines: null,
                           validator: _model.lastNameControllerValidator
                               .asValidator(context),
@@ -344,6 +373,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                         label: ' Mobile number field',
                         child: TextFormField(
                           controller: _model.numberController,
+                          focusNode: _model.numberFocusNode,
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'Mobile no',
@@ -389,7 +419,13 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                             contentPadding: EdgeInsetsDirectional.fromSTEB(
                                 20.0, 24.0, 0.0, 24.0),
                           ),
-                          style: FlutterFlowTheme.of(context).bodyMedium,
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: 'Open Sans',
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                              ),
                           maxLines: null,
                           validator: _model.numberControllerValidator
                               .asValidator(context),
@@ -405,6 +441,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                         label: 'Enter your address',
                         child: TextFormField(
                           controller: _model.addressController,
+                          focusNode: _model.addressFocusNode,
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'Street address',
@@ -450,7 +487,13 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                             contentPadding: EdgeInsetsDirectional.fromSTEB(
                                 20.0, 24.0, 0.0, 24.0),
                           ),
-                          style: FlutterFlowTheme.of(context).bodyMedium,
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: 'Open Sans',
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                              ),
                           maxLines: null,
                           validator: _model.addressControllerValidator
                               .asValidator(context),
@@ -514,7 +557,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                   );
 
                                   if (_datePickedDate != null) {
-                                    setState(() {
+                                    safeSetState(() {
                                       _model.datePicked = DateTime(
                                         _datePickedDate.year,
                                         _datePickedDate.month,
@@ -676,8 +719,16 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                               () => _model.districtselectionValue = val),
                           width: double.infinity,
                           height: 56.0,
-                          searchHintTextStyle: TextStyle(),
-                          textStyle: FlutterFlowTheme.of(context).bodyMedium,
+                          searchHintTextStyle: TextStyle(
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                          ),
+                          textStyle: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: 'Open Sans',
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                              ),
                           hintText: 'Select district',
                           searchHintText: 'Search here',
                           searchCursorColor:
@@ -710,6 +761,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                         label: 'Enter your about',
                         child: TextFormField(
                           controller: _model.myBioController,
+                          focusNode: _model.myBioFocusNode,
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'bio',
@@ -755,7 +807,13 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                             contentPadding: EdgeInsetsDirectional.fromSTEB(
                                 20.0, 24.0, 0.0, 24.0),
                           ),
-                          style: FlutterFlowTheme.of(context).bodyMedium,
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: 'Open Sans',
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                              ),
                           textAlign: TextAlign.start,
                           maxLines: 10,
                           minLines: 3,

@@ -10,14 +10,16 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/request_manager.dart';
 
+import 'hostinventory_widget.dart' show HostinventoryWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class HostinventoryModel extends FlutterFlowModel {
+class HostinventoryModel extends FlutterFlowModel<HostinventoryWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();

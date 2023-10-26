@@ -76,6 +76,11 @@ class BookingRecord extends FirestoreRecord {
   DocumentReference? get hostRef => _hostRef;
   bool hasHostRef() => _hostRef != null;
 
+  // "is_delivered" field.
+  bool? _isDelivered;
+  bool get isDelivered => _isDelivered ?? false;
+  bool hasIsDelivered() => _isDelivered != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -91,6 +96,7 @@ class BookingRecord extends FirestoreRecord {
     _renteePhoneNumber = snapshotData['rentee_phone_number'] as String?;
     _renteePhoto = snapshotData['rentee_photo'] as String?;
     _hostRef = snapshotData['hostRef'] as DocumentReference?;
+    _isDelivered = snapshotData['is_delivered'] as bool?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -145,6 +151,7 @@ Map<String, dynamic> createBookingRecordData({
   String? renteePhoneNumber,
   String? renteePhoto,
   DocumentReference? hostRef,
+  bool? isDelivered,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -160,6 +167,7 @@ Map<String, dynamic> createBookingRecordData({
       'rentee_phone_number': renteePhoneNumber,
       'rentee_photo': renteePhoto,
       'hostRef': hostRef,
+      'is_delivered': isDelivered,
     }.withoutNulls,
   );
 
@@ -182,7 +190,8 @@ class BookingRecordDocumentEquality implements Equality<BookingRecord> {
         e1?.renteeEmail == e2?.renteeEmail &&
         e1?.renteePhoneNumber == e2?.renteePhoneNumber &&
         e1?.renteePhoto == e2?.renteePhoto &&
-        e1?.hostRef == e2?.hostRef;
+        e1?.hostRef == e2?.hostRef &&
+        e1?.isDelivered == e2?.isDelivered;
   }
 
   @override
@@ -198,7 +207,8 @@ class BookingRecordDocumentEquality implements Equality<BookingRecord> {
         e?.renteeEmail,
         e?.renteePhoneNumber,
         e?.renteePhoto,
-        e?.hostRef
+        e?.hostRef,
+        e?.isDelivered
       ]);
 
   @override

@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,7 @@ class _PasswordresetWidgetState extends State<PasswordresetWidget> {
     logFirebaseEvent('screen_view',
         parameters: {'screen_name': 'passwordreset'});
     _model.emailController ??= TextEditingController();
+    _model.emailFocusNode ??= FocusNode();
   }
 
   @override
@@ -41,10 +43,21 @@ class _PasswordresetWidgetState extends State<PasswordresetWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+      onTap: () => _model.unfocusNode.canRequestFocus
+          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+          : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -101,8 +114,8 @@ class _PasswordresetWidgetState extends State<PasswordresetWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(
                             0.0, 10.0, 0.0, 10.0),
                         child: Text(
-                          '\" Your security is our top priority, and creating a strong\n password is the first line of defense against unauthorized \naccess to your account. Here are some essential tips \nto ensure your credentials remain safe and sound \"',
-                          textAlign: TextAlign.center,
+                          '\" Your security is our top priority, and creating a strong password is the first line of defense against unauthorized access to your account. Here are some essential tips to ensure your credentials remain safe and sound \"',
+                          textAlign: TextAlign.justify,
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .override(
@@ -110,6 +123,7 @@ class _PasswordresetWidgetState extends State<PasswordresetWidget> {
                                 color:
                                     FlutterFlowTheme.of(context).secondaryText,
                                 fontSize: 12.0,
+                                fontStyle: FontStyle.italic,
                               ),
                         ),
                       ),
@@ -129,6 +143,7 @@ class _PasswordresetWidgetState extends State<PasswordresetWidget> {
                           width: MediaQuery.sizeOf(context).width * 0.9,
                           child: TextFormField(
                             controller: _model.emailController,
+                            focusNode: _model.emailFocusNode,
                             autofillHints: [AutofillHints.email],
                             obscureText: false,
                             decoration: InputDecoration(

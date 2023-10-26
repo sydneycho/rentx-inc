@@ -10,6 +10,7 @@ import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,22 @@ class _EditCarWidgetState extends State<EditCarWidget> {
     _model = createModel(context, () => EditCarModel());
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'Edit_car'});
+
+    _model.textFieldFocusNode1 ??= FocusNode();
+
+    _model.textFieldFocusNode2 ??= FocusNode();
+
+    _model.textFieldFocusNode3 ??= FocusNode();
+
+    _model.textFieldFocusNode4 ??= FocusNode();
     _model.textController5 ??= TextEditingController();
+    _model.textFieldFocusNode5 ??= FocusNode();
+
+    _model.textFieldFocusNode6 ??= FocusNode();
+
+    _model.textFieldFocusNode7 ??= FocusNode();
+
+    _model.textFieldFocusNode8 ??= FocusNode();
   }
 
   @override
@@ -51,6 +67,15 @@ class _EditCarWidgetState extends State<EditCarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
+
     context.watch<FFAppState>();
 
     return StreamBuilder<CarRecord>(
@@ -74,7 +99,9 @@ class _EditCarWidgetState extends State<EditCarWidget> {
         }
         final editCarCarRecord = snapshot.data!;
         return GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -150,6 +177,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                     TextEditingController(
                                   text: editCarCarRecord.brandName,
                                 ),
+                                focusNode: _model.textFieldFocusNode1,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Brand Name',
@@ -224,6 +252,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                     TextEditingController(
                                   text: editCarCarRecord.carName,
                                 ),
+                                focusNode: _model.textFieldFocusNode2,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Car Name',
@@ -304,6 +333,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                     locale: '',
                                   ),
                                 ),
+                                focusNode: _model.textFieldFocusNode3,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Cost per Day',
@@ -378,6 +408,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                     TextEditingController(
                                   text: editCarCarRecord.plateNumber,
                                 ),
+                                focusNode: _model.textFieldFocusNode4,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Plate Number',
@@ -449,6 +480,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                   0.0, 16.0, 0.0, 0.0),
                               child: TextFormField(
                                 controller: _model.textController5,
+                                focusNode: _model.textFieldFocusNode5,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Car Color',
@@ -515,6 +547,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                     TextEditingController(
                                   text: editCarCarRecord.location,
                                 ),
+                                focusNode: _model.textFieldFocusNode6,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Address',
@@ -850,6 +883,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                     TextEditingController(
                                   text: editCarCarRecord.description,
                                 ),
+                                focusNode: _model.textFieldFocusNode7,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Description',
@@ -917,6 +951,7 @@ class _EditCarWidgetState extends State<EditCarWidget> {
                                     TextEditingController(
                                   text: editCarCarRecord.note,
                                 ),
+                                focusNode: _model.textFieldFocusNode8,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Notes',

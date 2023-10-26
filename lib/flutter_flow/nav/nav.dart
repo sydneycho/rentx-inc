@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import '/backend/backend.dart';
 
-import '../../auth/base_auth_user_provider.dart';
-import '../../backend/push_notifications/push_notifications_handler.dart'
+import '/auth/base_auth_user_provider.dart';
+
+import '/backend/push_notifications/push_notifications_handler.dart'
     show PushNotificationsHandler;
 import '/index.dart';
 import '/main.dart';
@@ -108,7 +110,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             FFRoute(
               name: 'passwordreset',
               path: 'passwordreset',
-              requireAuth: true,
               builder: (context, params) => PasswordresetWidget(),
             ),
             FFRoute(
@@ -256,6 +257,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'addCar',
               requireAuth: true,
               builder: (context, params) => AddCarWidget(),
+            ),
+            FFRoute(
+              name: 'Reviews',
+              path: 'reviews',
+              requireAuth: true,
+              builder: (context, params) => ReviewsWidget(
+                carrefreview: params.getParam('carrefreview',
+                    ParamType.DocumentReference, false, ['Car']),
+              ),
+            ),
+            FFRoute(
+              name: 'payments',
+              path: 'payments',
+              requireAuth: true,
+              builder: (context, params) => PaymentsWidget(
+                carpay: params.getParam(
+                    'carpay', ParamType.DocumentReference, false, ['Car']),
+              ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
@@ -483,5 +502,25 @@ class TransitionInfo {
         hasTransition: true,
         transitionType: PageTransitionType.rightToLeft,
         duration: Duration(milliseconds: 300),
+      );
+}
+
+class RootPageContext {
+  const RootPageContext(this.isRootPage, [this.errorRoute]);
+  final bool isRootPage;
+  final String? errorRoute;
+
+  static bool isInactiveRootPage(BuildContext context) {
+    final rootPageContext = context.read<RootPageContext?>();
+    final isRootPage = rootPageContext?.isRootPage ?? false;
+    final location = GoRouter.of(context).location;
+    return isRootPage &&
+        location != '/' &&
+        location != rootPageContext?.errorRoute;
+  }
+
+  static Widget wrap(Widget child, {String? errorRoute}) => Provider.value(
+        value: RootPageContext(true, errorRoute),
+        child: child,
       );
 }

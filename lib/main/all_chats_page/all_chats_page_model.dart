@@ -5,12 +5,14 @@ import '/flutter_flow/chat/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'all_chats_page_widget.dart' show AllChatsPageWidget;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class AllChatsPageModel extends FlutterFlowModel {
+class AllChatsPageModel extends FlutterFlowModel<AllChatsPageWidget> {
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {}
